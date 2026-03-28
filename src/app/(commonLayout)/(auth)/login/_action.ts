@@ -34,25 +34,19 @@ export const loginAction = async (
     );
 
     const { accessToken, refreshToken, token, user } = response.data;
+    console.log(user);
     const { role, emailVerified, needPasswordChange, email } = user;
     await setTokenInCookies('accessToken', accessToken);
     await setTokenInCookies('refreshToken', refreshToken);
     await setTokenInCookies('better-auth.session_token', token, 24 * 60 * 60);
-
-    // if(!emailVerified){
-    //     redirect("/verify-email");
-    // }else // in the catch block
-
-    if (needPasswordChange) {
-      //TODO : refactoring
-      redirect(`/reset-password?email=${email}`);
+    if (!emailVerified) {
+      redirect('/verify-email');
     } else {
-      // redirect(redirectPath || "/dashboard");
       const targetPath =
         redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)
           ? redirectPath
           : getDefaultDashboardRoute(role as UserRole);
-
+      console.log(targetPath)
       redirect(targetPath);
     }
   } catch (error: any) {
