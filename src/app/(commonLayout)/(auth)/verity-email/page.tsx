@@ -1,10 +1,7 @@
+import { redirect } from 'next/navigation';
 
-const VerifyEmailPage = () => {
-  return (
-    <div>
-      <h3>Verify email page</h3>
-    </div>
-  )
-}
+const LegacyVerityEmailPage = () => {
+  redirect('/verify-email');
+};
 
-export default VerifyEmailPage
+export default LegacyVerityEmailPage;

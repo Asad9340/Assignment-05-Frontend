@@ -1,11 +1,9 @@
 'use client';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { loginAction } from '@/app/(commonLayout)/(auth)/login/_action';
+import { registerAction } from '@/app/(commonLayout)/(auth)/register/_action';
 import AppField from '@/components/shared/form/AppField';
 import AppSubmitButton from '@/components/shared/form/AppSubmitButton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { FcGoogle } from 'react-icons/fc';
 import {
   Card,
   CardContent,
@@ -14,27 +12,27 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ILoginPayload, loginZodSchema } from '@/zod/auth.validation';
+import { IRegisterPayload, registerZodSchema } from '@/zod/auth.validation';
 import { useForm } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
-import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-interface LoginFormProps {
+interface RegisterFormProps {
   redirectPath?: string;
 }
 
-const LoginForm = ({ redirectPath }: LoginFormProps) => {
+const RegisterForm = ({ redirectPath }: RegisterFormProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (payload: ILoginPayload) => loginAction(payload, redirectPath),
+    mutationFn: (payload: IRegisterPayload) =>
+      registerAction(payload, redirectPath),
   });
 
   const form = useForm({
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
@@ -45,7 +43,7 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
         const result = (await mutateAsync(value)) as any;
 
         if (!result.success) {
-          setServerError(result.message || 'Login failed');
+          setServerError(result.message || 'Registration failed');
           return;
         }
       } catch (error: any) {
@@ -59,16 +57,23 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
           throw error;
         }
 
-        setServerError(`Login failed: ${error.message}`);
+        setServerError(
+          error?.response?.data?.message ||
+            error?.message ||
+            'Registration failed',
+        );
       }
     },
   });
+
   return (
     <Card className="w-full max-w-md mx-auto shadow-md">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
+        <CardTitle className="text-2xl font-bold">
+          Create Your Account
+        </CardTitle>
         <CardDescription>
-          Please enter your credentials to log in.
+          Register now to start managing your events.
         </CardDescription>
       </CardHeader>
 
@@ -85,8 +90,22 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
           className="space-y-4"
         >
           <form.Field
+            name="name"
+            validators={{ onChange: registerZodSchema.shape.name }}
+          >
+            {field => (
+              <AppField
+                field={field}
+                label="Full Name"
+                type="text"
+                placeholder="Enter your name"
+              />
+            )}
+          </form.Field>
+
+          <form.Field
             name="email"
-            validators={{ onChange: loginZodSchema.shape.email }}
+            validators={{ onChange: registerZodSchema.shape.email }}
           >
             {field => (
               <AppField
@@ -100,43 +119,17 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
 
           <form.Field
             name="password"
-            validators={{ onChange: loginZodSchema.shape.password }}
+            validators={{ onChange: registerZodSchema.shape.password }}
           >
             {field => (
               <AppField
                 field={field}
                 label="Password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter your password"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-                className="cursor-pointer"
-                append={
-                  <Button
-                    type="button"
-                    onClick={() => setShowPassword(value => !value)}
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-0 right-0"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="size-4" aria-hidden="true" />
-                    ) : (
-                      <Eye className="size-4" aria-hidden="true" />
-                    )}
-                  </Button>
-                }
+                type="password"
+                placeholder="Create a password"
               />
             )}
           </form.Field>
-
-          <div className="text-right">
-            <Link
-              href="/forgot-password"
-              className="text-sm text-primary hover:underline underline-offset-4"
-            >
-              Forgot password?
-            </Link>
-          </div>
 
           {serverError && (
             <Alert variant={'destructive'}>
@@ -150,47 +143,24 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
             {([canSubmit, isSubmitting]) => (
               <AppSubmitButton
                 isPending={isSubmitting || isPending}
-                pendingLabel="Logging In...."
+                pendingLabel="Creating account..."
                 disabled={!canSubmit}
               >
-                Log In
+                Register
               </AppSubmitButton>
             )}
           </form.Subscribe>
         </form>
-
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={() => {
-            const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-            window.location.href = `${baseUrl}/auth/login/google`;
-          }}
-        >
-          <FcGoogle className="w-5 h-5 mr-2" />
-          Sign in with Google
-        </Button>
       </CardContent>
 
       <CardFooter className="justify-center border-t pt-4">
         <p className="text-sm text-muted-foreground">
-          Don&apos;t have an account?{' '}
+          Already have an account?{' '}
           <Link
-            href="/register"
+            href="/login"
             className="text-primary font-medium hover:underline underline-offset-4"
           >
-            Sign Up for an account
+            Log In
           </Link>
         </p>
       </CardFooter>
@@ -198,4 +168,4 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -29,7 +29,7 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
       items: [
         {
           title: 'Change Password',
-          href: 'change-password',
+          href: '/change-password',
           icon: 'Settings',
         },
       ],
@@ -39,67 +39,65 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
 
 export const adminNavItems: NavSection[] = [
   {
-    title: 'User Management',
+    title: 'Administration',
     items: [
       {
-        title: 'Admins',
-        href: '/admin/dashboard/admins-management',
+        title: 'Admin Management',
+        href: '/admin/dashboard/admin-management',
         icon: 'Shield',
       },
       {
-        title: 'Doctors',
-        href: '/admin/dashboard/doctors-management',
-        icon: 'Stethoscope',
+        title: 'Users',
+        href: '/admin/dashboard/users',
+        icon: 'Users',
       },
       {
-        title: 'Patients',
-        href: '/admin/dashboard/patients-management',
-        icon: 'Users',
+        title: 'Reports',
+        href: '/admin/dashboard/reports',
+        icon: 'ChartColumn',
       },
     ],
   },
   {
-    title: 'Hospital Management',
+    title: 'Event Moderation',
     items: [
       {
-        title: 'Appointments',
-        href: '/admin/dashboard/appointments-management',
+        title: 'Events',
+        href: '/admin/dashboard/events',
         icon: 'Calendar',
       },
+    ],
+  },
+];
+
+export const userNavItems: NavSection[] = [
+  {
+    title: 'Event Workspace',
+    items: [
       {
-        title: 'Schedules',
-        href: '/admin/dashboard/schedules-management',
-        icon: 'Clock',
+        title: 'My Events',
+        href: '/dashboard/my-events',
+        icon: 'CalendarDays',
       },
       {
-        title: 'Specialties',
-        href: '/admin/dashboard/specialties-management',
-        icon: 'Hospital',
+        title: 'Invitations',
+        href: '/dashboard/invitations',
+        icon: 'Mail',
       },
       {
-        title: 'Doctor Schedules',
-        href: '/admin/dashboard/doctor-schedules-managament',
-        icon: 'CalendarClock',
+        title: 'Pending Invitations',
+        href: '/dashboard/pending-invitations',
+        icon: 'Clock3',
       },
       {
-        title: 'Doctor Specialties',
-        href: '/admin/dashboard/doctor-specialties-management',
-        icon: 'Stethoscope',
-      },
-      {
-        title: 'Payments',
-        href: '/admin/dashboard/payments-management',
-        icon: 'CreditCard',
-      },
-      {
-        title: 'Prescriptions',
-        href: '/admin/dashboard/prescriptions-management',
-        icon: 'FileText',
-      },
-      {
-        title: 'Reviews',
-        href: '/admin/dashboard/reviews-management',
+        title: 'My Reviews',
+        href: '/dashboard/my-reviews',
         icon: 'Star',
+      },
+      {
+        title: 'My Payments',
+        href: '/dashboard/my-payments',
+        icon: 'CreditCard',
       },
     ],
   },
@@ -113,7 +111,7 @@ export const getNavItemsByRole = (role: UserRole): NavSection[] => {
       return [...commonNavItems, ...adminNavItems];
 
     case 'USER':
-      return [...commonNavItems];
+      return [...commonNavItems, ...userNavItems];
 
     default:
       return [...commonNavItems];
