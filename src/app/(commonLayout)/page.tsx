@@ -1,8 +1,6 @@
 import HomeCategoriesSection from '@/components/modules/Home/HomeCategoriesSection';
 import HomeCtaSection from '@/components/modules/Home/HomeCtaSection';
-import HomeFooter from '@/components/modules/Home/HomeFooter';
 import HomeHeroSection from '@/components/modules/Home/HomeHeroSection';
-import HomeNavbar from '@/components/modules/Home/HomeNavbar';
 import HomeUpcomingEventsSection from '@/components/modules/Home/HomeUpcomingEventsSection';
 import { HomeEvent } from '@/components/modules/Home/home-data';
 import { extractArrayPayload, mapEvent } from '@/lib/apiMappers';
@@ -38,14 +36,12 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen bg-[#090f20]">
-      <HomeNavbar />
       <HomeHeroSection event={featured} />
       <HomeUpcomingEventsSection
         events={upcoming.length > 0 ? upcoming : undefined}
       />
       <HomeCategoriesSection />
       <HomeCtaSection />
-      <HomeFooter />
     </main>
   );
 }

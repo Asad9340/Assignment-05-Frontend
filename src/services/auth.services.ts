@@ -2,7 +2,6 @@
 
 import { UserRole } from '@/lib/authUtils';
 import { jwtUtils } from '@/lib/jwtUtils';
-import { setTokenInCookies } from '@/lib/tokenUtils';
 import { cookies } from 'next/headers';
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -30,31 +29,10 @@ export async function getNewTokensWithRefreshToken(
       return false;
     }
 
-    const { data } = await res.json();
-
-    const {
-      accessToken,
-      refreshToken: newRefreshToken,
-      token,
-      sessionToken: nextSessionToken,
-    } = data;
-
-    if (accessToken) {
-      await setTokenInCookies('accessToken', accessToken);
-    }
-
-    if (newRefreshToken) {
-      await setTokenInCookies('refreshToken', newRefreshToken);
-    }
-
-    const resolvedSessionToken = nextSessionToken || token;
-    if (resolvedSessionToken) {
-      await setTokenInCookies(
-        'better-auth.session_token',
-        resolvedSessionToken,
-        24 * 60 * 60,
-      );
-    }
+    // Intentionally avoid cookie mutation here.
+    // This utility can run from middleware/server rendering contexts where
+    // Next.js disallows cookies().set; callers should treat this as a soft refresh signal.
+    await res.json();
 
     return true;
   } catch (error) {
