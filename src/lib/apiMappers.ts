@@ -30,6 +30,29 @@ const pickNumber = (value: unknown, fallback = 0): number => {
   return fallback;
 };
 
+const getDateTimeParts = (value: string) => {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return {
+      date: value || 'TBD',
+      time: '',
+    };
+  }
+
+  return {
+    date: parsed.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    }),
+    time: parsed.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    }),
+  };
+};
+
 export const extractArrayPayload = (data: unknown): unknown[] => {
   if (Array.isArray(data)) {
     return data;
@@ -55,21 +78,28 @@ export const extractArrayPayload = (data: unknown): unknown[] => {
 export const mapEvent = (input: unknown): EventViewModel => {
   const item = asRecord(input);
   const organizer = asRecord(item.organizer);
+  const owner = asRecord(item.owner);
   const host = asRecord(item.host);
   const createdBy = asRecord(item.createdBy);
+  const dateTimeSource =
+    pickString(item.eventDateTime) ||
+    pickString(item.eventDate) ||
+    pickString(item.date);
+  const dateTimeParts = getDateTimeParts(dateTimeSource);
 
   return {
     id: pickString(item.id, pickString(item._id, '')),
     title: pickString(item.title, 'Untitled event'),
     description: pickString(item.description, 'No description available.'),
-    eventDate: pickString(item.eventDate, pickString(item.date, 'TBD')),
-    eventTime: pickString(item.eventTime, pickString(item.time, '')),
+    eventDate: dateTimeParts.date,
+    eventTime: pickString(item.eventTime, dateTimeParts.time),
     venue: pickString(item.venue, pickString(item.location, 'TBA')),
     visibility: pickString(item.visibility, 'PUBLIC'),
     feeType: pickString(item.feeType, 'FREE'),
     registrationFee: pickNumber(item.registrationFee, 0),
     organizerName:
       pickString(organizer.name) ||
+      pickString(owner.name) ||
       pickString(host.name) ||
       pickString(createdBy.name) ||
       pickString(item.organizerName, 'Unknown organizer'),

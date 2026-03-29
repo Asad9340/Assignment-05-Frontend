@@ -33,7 +33,6 @@ const navLinks = [
   { label: 'Events', href: '/events' },
   { label: 'About', href: '/about-us' },
   { label: 'Contact', href: '/contact-us' },
-  { label: 'Privacy', href: '/privacy-policy' },
 ];
 
 const CommonNavbarClient = ({

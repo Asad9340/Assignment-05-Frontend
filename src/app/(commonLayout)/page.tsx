@@ -1,6 +1,8 @@
 import HomeCategoriesSection from '@/components/modules/Home/HomeCategoriesSection';
 import HomeCtaSection from '@/components/modules/Home/HomeCtaSection';
+import HomeEventStatsSection from '@/components/modules/Home/HomeEventStatsSection';
 import HomeHeroSection from '@/components/modules/Home/HomeHeroSection';
+import HomeHowItWorksSection from '@/components/modules/Home/HomeHowItWorksSection';
 import HomeUpcomingEventsSection from '@/components/modules/Home/HomeUpcomingEventsSection';
 import { HomeEvent } from '@/components/modules/Home/home-data';
 import { extractArrayPayload, mapEvent } from '@/lib/apiMappers';
@@ -11,6 +13,8 @@ const toHomeEvent = (input: ReturnType<typeof mapEvent>): HomeEvent => {
     id: input.id || `event-${Date.now()}`,
     title: input.title,
     date: input.eventDate,
+    time: input.eventTime,
+    venue: input.venue,
     organizer: input.organizerName,
     visibility:
       input.visibility.toUpperCase() === 'PRIVATE' ? 'Private' : 'Public',
@@ -37,9 +41,11 @@ export default async function HomePage() {
   return (
     <main className="min-h-screen bg-[#090f20]">
       <HomeHeroSection event={featured} />
+      <HomeEventStatsSection events={upcoming} />
       <HomeUpcomingEventsSection
         events={upcoming.length > 0 ? upcoming : undefined}
       />
+      <HomeHowItWorksSection />
       <HomeCategoriesSection />
       <HomeCtaSection />
     </main>

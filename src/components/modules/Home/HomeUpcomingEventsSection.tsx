@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalendarDays, UserRound } from 'lucide-react';
+import { CalendarDays, Clock3, MapPin, UserRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { HomeEvent, upcomingPublicEvents } from './home-data';
@@ -20,7 +20,7 @@ const HomeUpcomingEventsSection = ({
               Upcoming Public Events
             </h2>
             <p className="mt-2 text-slate-600">
-              Discover 9 curated events you can join right now.
+              Discover live upcoming events fetched from backend.
             </p>
           </div>
           <Button
@@ -32,14 +32,22 @@ const HomeUpcomingEventsSection = ({
           </Button>
         </div>
 
-        <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-3">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {events.map(event => (
             <article
               key={event.id}
-              className="min-w-70 snap-start rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
-              <div className="mb-4 flex items-center justify-between">
-                <Badge className="bg-sky-100 text-sky-700">Public</Badge>
+              <div className="mb-4 flex flex-wrap items-center gap-2">
+                <Badge
+                  className={
+                    event.visibility === 'Private'
+                      ? 'bg-violet-100 text-violet-700'
+                      : 'bg-sky-100 text-sky-700'
+                  }
+                >
+                  {event.visibility}
+                </Badge>
                 <Badge
                   className={
                     event.feeType === 'Free'
@@ -51,7 +59,7 @@ const HomeUpcomingEventsSection = ({
                 </Badge>
               </div>
 
-              <h3 className="line-clamp-2 min-h-12 text-lg font-semibold text-slate-900">
+              <h3 className="line-clamp-2 min-h-12 text-lg font-bold text-slate-900">
                 {event.title}
               </h3>
 
@@ -60,6 +68,18 @@ const HomeUpcomingEventsSection = ({
                   <CalendarDays className="size-4" />
                   {event.date}
                 </p>
+                {event.time && (
+                  <p className="flex items-center gap-2">
+                    <Clock3 className="size-4" />
+                    {event.time}
+                  </p>
+                )}
+                {event.venue && (
+                  <p className="flex items-center gap-2">
+                    <MapPin className="size-4" />
+                    {event.venue}
+                  </p>
+                )}
                 <p className="flex items-center gap-2">
                   <UserRound className="size-4" />
                   {event.organizer}
@@ -73,9 +93,9 @@ const HomeUpcomingEventsSection = ({
                 <Button
                   asChild
                   size="sm"
-                  className="bg-slate-900 text-white hover:bg-slate-700"
+                  className="bg-slate-900 text-white hover:bg-slate-700 group-hover:bg-[#101b3d]"
                 >
-                  <Link href={`/events/${event.id}`}>View</Link>
+                  <Link href={`/events/${event.id}`}>View Details</Link>
                 </Button>
               </div>
             </article>
