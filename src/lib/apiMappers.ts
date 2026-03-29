@@ -1,0 +1,127 @@
+import {
+  EventViewModel,
+  InvitationViewModel,
+  ParticipationViewModel,
+  ReviewViewModel,
+} from '@/types/event.types';
+
+const asRecord = (value: unknown): Record<string, unknown> => {
+  return value && typeof value === 'object'
+    ? (value as Record<string, unknown>)
+    : {};
+};
+
+const pickString = (value: unknown, fallback = ''): string => {
+  return typeof value === 'string' ? value : fallback;
+};
+
+const pickNumber = (value: unknown, fallback = 0): number => {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return fallback;
+};
+
+export const extractArrayPayload = (data: unknown): unknown[] => {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  const record = asRecord(data);
+
+  if (Array.isArray(record.result)) {
+    return record.result;
+  }
+
+  if (Array.isArray(record.items)) {
+    return record.items;
+  }
+
+  if (Array.isArray(record.data)) {
+    return record.data;
+  }
+
+  return [];
+};
+
+export const mapEvent = (input: unknown): EventViewModel => {
+  const item = asRecord(input);
+  const organizer = asRecord(item.organizer);
+  const host = asRecord(item.host);
+  const createdBy = asRecord(item.createdBy);
+
+  return {
+    id: pickString(item.id, pickString(item._id, '')),
+    title: pickString(item.title, 'Untitled event'),
+    description: pickString(item.description, 'No description available.'),
+    eventDate: pickString(item.eventDate, pickString(item.date, 'TBD')),
+    eventTime: pickString(item.eventTime, pickString(item.time, '')),
+    venue: pickString(item.venue, pickString(item.location, 'TBA')),
+    visibility: pickString(item.visibility, 'PUBLIC'),
+    feeType: pickString(item.feeType, 'FREE'),
+    registrationFee: pickNumber(item.registrationFee, 0),
+    organizerName:
+      pickString(organizer.name) ||
+      pickString(host.name) ||
+      pickString(createdBy.name) ||
+      pickString(item.organizerName, 'Unknown organizer'),
+  };
+};
+
+export const mapReview = (input: unknown): ReviewViewModel => {
+  const item = asRecord(input);
+  const user = asRecord(item.user);
+
+  return {
+    id: pickString(item.id, pickString(item._id, '')),
+    rating: pickNumber(item.rating, 0),
+    review: pickString(item.review, ''),
+    userName: pickString(user.name, pickString(item.userName, 'Anonymous')),
+    createdAt: pickString(item.createdAt, ''),
+  };
+};
+
+export const mapInvitation = (input: unknown): InvitationViewModel => {
+  const item = asRecord(input);
+  const event = asRecord(item.event);
+
+  return {
+    id: pickString(item.id, pickString(item._id, '')),
+    status: pickString(item.status, 'PENDING'),
+    eventTitle: pickString(
+      event.title,
+      pickString(item.eventTitle, 'Untitled event'),
+    ),
+    eventId: pickString(event.id, pickString(item.eventId, '')),
+    createdAt: pickString(item.createdAt, ''),
+  };
+};
+
+export const mapParticipation = (input: unknown): ParticipationViewModel => {
+  const item = asRecord(input);
+  const event = asRecord(item.event);
+
+  return {
+    id: pickString(item.id, pickString(item._id, '')),
+    status: pickString(item.status, 'PENDING'),
+    paymentStatus: pickString(item.paymentStatus, 'UNPAID'),
+    eventTitle: pickString(
+      event.title,
+      pickString(item.eventTitle, 'Untitled event'),
+    ),
+    eventId: pickString(event.id, pickString(item.eventId, '')),
+    registrationFee: pickNumber(
+      event.registrationFee,
+      pickNumber(item.registrationFee, 0),
+    ),
+    createdAt: pickString(item.createdAt, ''),
+  };
+};

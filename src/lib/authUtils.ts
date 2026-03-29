@@ -1,4 +1,4 @@
-export type UserRole = 'ADMIN' | 'USER' | 'DOCTOR';
+export type UserRole = 'ADMIN' | 'USER';
 
 export const authRoutes = [
   '/login',
