@@ -23,8 +23,8 @@ const MyReviewsPage = async () => {
     reviews = extractArrayPayload(reviewsResponse.data).map(item =>
       mapReview(item),
     );
-    participations = extractArrayPayload(participationsResponse.data).map(item =>
-      mapParticipation(item),
+    participations = extractArrayPayload(participationsResponse.data).map(
+      item => mapParticipation(item),
     );
   } catch {
     reviews = [];
