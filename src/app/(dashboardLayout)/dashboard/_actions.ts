@@ -100,6 +100,48 @@ export const updateMyReviewAction = async (
   }
 };
 
+export const createMyReviewAction = async (
+  eventId: string,
+  payload: { rating: number; review?: string },
+): Promise<DashboardActionResult> => {
+  const rating = payload.rating;
+  const review = payload.review?.trim() || undefined;
+
+  if (!eventId) {
+    return {
+      success: false,
+      message: 'Event id is required.',
+    };
+  }
+
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return {
+      success: false,
+      message: 'Rating must be an integer between 1 and 5.',
+    };
+  }
+
+  try {
+    await serverHttpClient.post(`/reviews/events/${eventId}`, {
+      rating,
+      ...(review !== undefined ? { review } : {}),
+    });
+
+    revalidatePath('/dashboard/my-reviews');
+    revalidatePath(`/events/${eventId}`);
+
+    return {
+      success: true,
+      message: 'Review created successfully.',
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: getErrorMessage(error, 'Failed to create review.'),
+    };
+  }
+};
+
 export const deleteMyReviewAction = async (
   reviewId: string,
 ): Promise<DashboardActionResult> => {

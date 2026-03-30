@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { extractArrayPayload, mapEvent } from '@/lib/apiMappers';
 import { platformServerServices } from '@/services/platform.server.services';
+import { getUserInfo } from '@/services/auth.services';
+import EventBookingButton from '@/components/modules/Event/EventBookingButton';
 
 const filters = ['Public Free', 'Public Paid', 'Private Free', 'Private Paid'];
 
@@ -55,6 +57,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
 
   let events = [] as ReturnType<typeof mapEvent>[];
   let isError = false;
+  const user = await getUserInfo();
 
   try {
     const response = await platformServerServices.getEvents(query);
@@ -150,7 +153,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
                 <p className="text-sm font-semibold text-orange-600">
                   {event.registrationFee === 0
                     ? 'Free'
-                    : `$${event.registrationFee}`}
+                    : `BDT ${event.registrationFee}`}
                 </p>
               </div>
               <h2 className="mt-4 text-xl font-bold text-slate-900">
@@ -166,12 +169,23 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
                   {event.organizerName}
                 </p>
               </div>
-              <Button
-                asChild
-                className="mt-5 w-full bg-[#101b3d] text-white hover:bg-[#172958]"
-              >
-                <Link href={`/events/${event.id}`}>View Details</Link>
-              </Button>
+              <div className="mt-5 grid gap-2">
+                <Button
+                  asChild
+                  className="w-full bg-[#101b3d] text-white hover:bg-[#172958]"
+                >
+                  <Link href={`/events/${event.id}`}>View Details</Link>
+                </Button>
+                <EventBookingButton
+                  eventId={event.id}
+                  feeType={event.feeType}
+                  isAuthenticated={!!user}
+                  isOwner={
+                    !!user?.id && !!event.ownerId && user.id === event.ownerId
+                  }
+                  loginRedirectPath={`/events/${event.id}`}
+                />
+              </div>
             </article>
           ))}
         </div>

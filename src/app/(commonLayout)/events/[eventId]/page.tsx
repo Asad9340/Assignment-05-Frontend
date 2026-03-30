@@ -145,8 +145,8 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
               Reviews & Ratings
             </h2>
             <p className="mt-2 text-sm text-slate-600">
-              Participants can rate, write, edit, and delete reviews within the
-              review window.
+              Joined participants can submit reviews after the owner marks this
+              event as completed.
             </p>
             <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-amber-600">
               <Star className="size-4 fill-amber-500 text-amber-500" />
@@ -170,7 +170,7 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
             <p className="mt-2 text-3xl font-black">
               {event.registrationFee === 0
                 ? 'Free'
-                : `$${event.registrationFee}`}
+                : `BDT ${event.registrationFee}`}
             </p>
             <p className="mt-3 text-sm text-slate-200">
               Paid join attempts become pending until host approval.
