@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 
-import { getDefaultDashboardRoute, UserRole } from '@/lib/authUtils';
+import { logoutAction } from '@/app/(commonLayout)/(auth)/logout/_action';
 import { serverHttpClient } from '@/lib/axios/serverHttpClient';
-import { setTokenInCookies } from '@/lib/tokenUtils';
 import { ApiErrorResponse } from '@/types/api.types';
 import {
   IResendVerificationOtpPayload,
@@ -46,26 +45,13 @@ export const verifyEmailAction = async (
   }
 
   try {
-    const response = await serverHttpClient.post<VerifyEmailApiPayload>(
+    await serverHttpClient.post<VerifyEmailApiPayload>(
       '/auth/verify-email',
       parsedPayload.data,
     );
 
-    const accessToken = response.data?.accessToken;
-    const refreshToken = response.data?.refreshToken;
-
-    if (accessToken) {
-      await setTokenInCookies('accessToken', accessToken);
-    }
-
-    if (refreshToken) {
-      await setTokenInCookies('refreshToken', refreshToken);
-    }
-
-    const role = response.data?.user?.role as UserRole | undefined;
-    const targetPath = role ? getDefaultDashboardRoute(role) : '/dashboard';
-
-    redirect(targetPath);
+    await logoutAction();
+    redirect('/login?verified=1');
   } catch (error: any) {
     if (
       error &&

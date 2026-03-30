@@ -1,5 +1,4 @@
 import VerifyEmailForm from '@/components/modules/Auth/VerifyEmailForm';
-import { getDefaultDashboardRoute, UserRole } from '@/lib/authUtils';
 import { getUserInfo } from '@/services/auth.services';
 import { redirect } from 'next/navigation';
 
@@ -16,7 +15,7 @@ const VerifyEmailPage = async ({ searchParams }: VerifyEmailParams) => {
     'emailVerified' in userInfo &&
     Boolean(userInfo.emailVerified)
   ) {
-    redirect(getDefaultDashboardRoute(userInfo.role as UserRole));
+    redirect('/login?verified=1');
   }
 
   return <VerifyEmailForm initialEmail={params.email || userInfo?.email} />;
