@@ -1,6 +1,21 @@
 import { httpClient } from '@/lib/axios/httpClient';
 
 export const platformServices = {
+  getAdminStats: async () => {
+    return httpClient.get<unknown>('/admin/stats');
+  },
+
+  getAdminUsers: async (params?: Record<string, unknown>) => {
+    return httpClient.get<unknown>('/admin/users', { params });
+  },
+
+  updateAdminUser: async (
+    userId: string,
+    payload: { status?: 'ACTIVE' | 'BLOCKED' | 'DELETED' },
+  ) => {
+    return httpClient.patch<unknown>(`/admin/users/${userId}`, payload);
+  },
+
   getEvents: async (params?: Record<string, unknown>) => {
     return httpClient.get<unknown>('/events', { params });
   },
@@ -34,6 +49,32 @@ export const platformServices = {
       `/participations/events/${eventId}/join`,
       {},
     );
+  },
+
+  initiateEventPayment: async (eventId: string) => {
+    return httpClient.post<unknown>('/payments/initiate', { eventId });
+  },
+
+  getMyPayments: async (params?: Record<string, unknown>) => {
+    return httpClient.get<unknown>('/payments/me', { params });
+  },
+
+  updateMyProfile: async (payload: { name?: string; image?: string }) => {
+    return httpClient.patch<unknown>('/users/me', payload);
+  },
+
+  searchUsersForInvitation: async (params: {
+    eventId: string;
+    searchTerm?: string;
+    limit?: number;
+  }) => {
+    return httpClient.get<unknown>('/users/search', { params });
+  },
+
+  validatePaymentTransaction: async (trxId: string) => {
+    return httpClient.get<unknown>('/payments/validate', {
+      params: { trxId },
+    });
   },
 
   respondInvitation: async (

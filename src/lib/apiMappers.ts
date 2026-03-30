@@ -81,6 +81,7 @@ export const mapEvent = (input: unknown): EventViewModel => {
   const owner = asRecord(item.owner);
   const host = asRecord(item.host);
   const createdBy = asRecord(item.createdBy);
+  const aggregate = asRecord(item._count);
   const dateTimeSource =
     pickString(item.eventDateTime) ||
     pickString(item.eventDate) ||
@@ -89,13 +90,16 @@ export const mapEvent = (input: unknown): EventViewModel => {
 
   return {
     id: pickString(item.id, pickString(item._id, '')),
+    ownerId: pickString(item.ownerId, pickString(owner.id, '')),
     title: pickString(item.title, 'Untitled event'),
     description: pickString(item.description, 'No description available.'),
     eventDate: dateTimeParts.date,
     eventTime: pickString(item.eventTime, dateTimeParts.time),
     venue: pickString(item.venue, pickString(item.location, 'TBA')),
+    eventLink: pickString(item.eventLink),
     visibility: pickString(item.visibility, 'PUBLIC'),
     feeType: pickString(item.feeType, 'FREE'),
+    status: pickString(item.status, 'ACTIVE'),
     registrationFee: pickNumber(item.registrationFee, 0),
     organizerName:
       pickString(organizer.name) ||
@@ -103,18 +107,27 @@ export const mapEvent = (input: unknown): EventViewModel => {
       pickString(host.name) ||
       pickString(createdBy.name) ||
       pickString(item.organizerName, 'Unknown organizer'),
+    totalParticipants: pickNumber(aggregate.participants, 0),
+    totalReviews: pickNumber(aggregate.reviews, 0),
+    totalInvitations: pickNumber(aggregate.eventInvitations, 0),
   };
 };
 
 export const mapReview = (input: unknown): ReviewViewModel => {
   const item = asRecord(input);
   const user = asRecord(item.user);
+  const event = asRecord(item.event);
 
   return {
     id: pickString(item.id, pickString(item._id, '')),
     rating: pickNumber(item.rating, 0),
     review: pickString(item.review, ''),
     userName: pickString(user.name, pickString(item.userName, 'Anonymous')),
+    eventId: pickString(event.id, pickString(item.eventId, '')),
+    eventTitle: pickString(
+      event.title,
+      pickString(item.eventTitle, 'Untitled event'),
+    ),
     createdAt: pickString(item.createdAt, ''),
   };
 };

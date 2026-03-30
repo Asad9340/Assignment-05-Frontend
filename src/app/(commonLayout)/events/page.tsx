@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { extractArrayPayload, mapEvent } from '@/lib/apiMappers';
-import { platformServices } from '@/services/platform.services';
+import { platformServerServices } from '@/services/platform.server.services';
 
 const filters = ['Public Free', 'Public Paid', 'Private Free', 'Private Paid'];
 
@@ -46,6 +46,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
 
   const query: Record<string, unknown> = {
     ...filterQuery,
+    limit: 100,
   };
 
   if (searchTerm.trim()) {
@@ -56,7 +57,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
   let isError = false;
 
   try {
-    const response = await platformServices.getEvents(query);
+    const response = await platformServerServices.getEvents(query);
     events = extractArrayPayload(response.data).map(item => mapEvent(item));
   } catch {
     isError = true;
@@ -95,6 +96,21 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
         </header>
 
         <div className="mb-6 flex flex-wrap gap-2">
+          <Button
+            asChild
+            variant="outline"
+            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+          >
+            <Link
+              href={
+                searchTerm
+                  ? `/events?searchTerm=${encodeURIComponent(searchTerm)}`
+                  : '/events'
+              }
+            >
+              All Events
+            </Link>
+          </Button>
           {filters.map(filter => (
             <Button
               key={filter}

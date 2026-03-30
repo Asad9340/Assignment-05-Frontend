@@ -19,7 +19,7 @@ const VerifyEmailPage = async ({ searchParams }: VerifyEmailParams) => {
     redirect(getDefaultDashboardRoute(userInfo.role as UserRole));
   }
 
-  return <VerifyEmailForm initialEmail={params.email} />;
+  return <VerifyEmailForm initialEmail={params.email || userInfo?.email} />;
 };
 
 export default VerifyEmailPage;

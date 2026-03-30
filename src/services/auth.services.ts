@@ -15,7 +15,9 @@ export async function getNewTokensWithRefreshToken(
 ): Promise<boolean> {
   try {
     const cookieStore = await cookies();
-    const sessionToken = cookieStore.get('better-auth.session_token')?.value;
+    const sessionToken =
+      cookieStore.get('better-auth.session_token')?.value ||
+      cookieStore.get('better-auth.session-token')?.value;
 
     const res = await fetch(`${BASE_API_URL}/auth/refresh-token`, {
       method: 'POST',
@@ -45,7 +47,9 @@ export async function getUserInfo() {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
-    const sessionToken = cookieStore.get('better-auth.session_token')?.value;
+    const sessionToken =
+      cookieStore.get('better-auth.session_token')?.value ||
+      cookieStore.get('better-auth.session-token')?.value;
     if (!accessToken) {
       return null;
     }
@@ -67,6 +71,7 @@ export async function getUserInfo() {
           name: String(decoded.name || ''),
           email: String(decoded.email),
           role: decoded.role as UserRole,
+          emailVerified: Boolean(decoded.emailVerified),
         };
       }
 
@@ -90,6 +95,7 @@ export async function getUserInfo() {
           name: String(decoded.name || ''),
           email: String(decoded.email),
           role: decoded.role as UserRole,
+          emailVerified: Boolean(decoded.emailVerified),
         };
       }
     } catch {

@@ -18,8 +18,8 @@ export type RouteConfig = {
 };
 
 export const commonProtectedRoutes: RouteConfig = {
-  exact: ['/my-profile', '/change-password'],
-  pattern: [],
+  exact: ['/my-profile', '/change-password', '/events'],
+  pattern: [/^\/events\/.+/],
 };
 
 export const adminProtectedRoutes: RouteConfig = {

@@ -1,0 +1,96 @@
+import { serverHttpClient } from '@/lib/axios/serverHttpClient';
+
+export const platformServerServices = {
+  getDashboardSummary: async () => {
+    return serverHttpClient.get<unknown>('/dashboard/summary');
+  },
+
+  getDashboardMyEvents: async () => {
+    return serverHttpClient.get<unknown>('/events/my-events');
+  },
+
+  getMyEvents: async () => {
+    return serverHttpClient.get<unknown>('/dashboard/my-events');
+  },
+
+  getDashboardPendingApprovals: async () => {
+    return serverHttpClient.get<unknown>('/dashboard/pending-approvals');
+  },
+
+  getMyEventStatusSummary: async () => {
+    return serverHttpClient.get<unknown>('/dashboard/my-event-status-summary');
+  },
+
+  getAdminStats: async () => {
+    return serverHttpClient.get<unknown>('/admin/stats');
+  },
+
+  getAdminReportsSummary: async () => {
+    return serverHttpClient.get<unknown>('/admin/reports/summary');
+  },
+
+  getAdminUsers: async (params?: Record<string, unknown>) => {
+    return serverHttpClient.get<unknown>('/admin/users', { params });
+  },
+
+  getAdminUserById: async (userId: string) => {
+    return serverHttpClient.get<unknown>(`/admin/users/${userId}`);
+  },
+
+  updateAdminUser: async (
+    userId: string,
+    payload: { status?: 'ACTIVE' | 'BLOCKED' | 'DELETED' },
+  ) => {
+    return serverHttpClient.patch<unknown>(`/admin/users/${userId}`, payload);
+  },
+
+  getAdminEvents: async (params?: Record<string, unknown>) => {
+    return serverHttpClient.get<unknown>('/admin/events', { params });
+  },
+
+  getMyProfile: async () => {
+    return serverHttpClient.get<unknown>('/users/me');
+  },
+
+  getEvents: async (params?: Record<string, unknown>) => {
+    return serverHttpClient.get<unknown>('/events', { params });
+  },
+
+  getUpcomingEvents: async () => {
+    return serverHttpClient.get<unknown>('/events/upcoming');
+  },
+
+  getEventById: async (eventId: string) => {
+    return serverHttpClient.get<unknown>(`/events/${eventId}`);
+  },
+
+  getEventReviews: async (eventId: string) => {
+    return serverHttpClient.get<unknown>(`/reviews/events/${eventId}`);
+  },
+
+  getMyReviews: async () => {
+    return serverHttpClient.get<unknown>('/reviews/me');
+  },
+
+  getMyInvitations: async () => {
+    return serverHttpClient.get<unknown>('/invitations/me');
+  },
+
+  getMyParticipations: async () => {
+    return serverHttpClient.get<unknown>('/participations/me');
+  },
+
+  getEventParticipants: async (eventId: string) => {
+    return serverHttpClient.get<unknown>(`/participations/events/${eventId}`);
+  },
+
+  getMyPayments: async (params?: Record<string, unknown>) => {
+    return serverHttpClient.get<unknown>('/payments/me', { params });
+  },
+
+  validatePaymentTransaction: async (trxId: string) => {
+    return serverHttpClient.get<unknown>('/payments/validate', {
+      params: { trxId },
+    });
+  },
+};

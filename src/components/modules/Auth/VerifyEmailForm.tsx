@@ -1,10 +1,13 @@
 'use client';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { verifyEmailAction } from '@/app/(commonLayout)/(auth)/verify-email/_action';
+import {
+  resendVerificationOtpAction,
+  verifyEmailAction,
+} from '@/app/(commonLayout)/(auth)/verify-email/_action';
 import AppField from '@/components/shared/form/AppField';
 import AppSubmitButton from '@/components/shared/form/AppSubmitButton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -20,18 +23,46 @@ import {
 import { useForm } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface VerifyEmailFormProps {
   initialEmail?: string;
 }
 
 const VerifyEmailForm = ({ initialEmail }: VerifyEmailFormProps) => {
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: IVerifyEmailPayload) => verifyEmailAction(payload),
   });
+
+  const { mutateAsync: resendOtpMutateAsync, isPending: isResendingOtp } =
+    useMutation({
+      mutationFn: (email: string) =>
+        resendVerificationOtpAction({
+          email,
+        }),
+    });
+
+  useEffect(() => {
+    if (resendCooldown <= 0) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setResendCooldown(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
 
   const form = useForm({
     defaultValues: {
@@ -40,12 +71,11 @@ const VerifyEmailForm = ({ initialEmail }: VerifyEmailFormProps) => {
     },
 
     onSubmit: async ({ value }) => {
-      setServerError(null);
       try {
         const result = (await mutateAsync(value)) as any;
 
         if (result && !result.success) {
-          setServerError(result.message || 'Email verification failed');
+          toast.error(result.message || 'Email verification failed');
           return;
         }
       } catch (error: any) {
@@ -59,7 +89,7 @@ const VerifyEmailForm = ({ initialEmail }: VerifyEmailFormProps) => {
           throw error;
         }
 
-        setServerError(
+        toast.error(
           error?.response?.data?.message ||
             error?.message ||
             'Email verification failed',
@@ -67,6 +97,33 @@ const VerifyEmailForm = ({ initialEmail }: VerifyEmailFormProps) => {
       }
     },
   });
+
+  const emailValue = form.state.values.email;
+
+  const handleResendOtp = async () => {
+    if (!emailValue) {
+      toast.error('Email is required to resend OTP');
+      return;
+    }
+
+    try {
+      const result = await resendOtpMutateAsync(emailValue);
+
+      if (!result.success) {
+        toast.error(result.message || 'Failed to resend OTP');
+        return;
+      }
+
+      toast.success(result.message || 'OTP sent successfully');
+      setResendCooldown(30);
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          'Failed to resend OTP',
+      );
+    }
+  };
 
   return (
     <Card className="w-full max-w-md mx-auto shadow-md">
@@ -117,12 +174,6 @@ const VerifyEmailForm = ({ initialEmail }: VerifyEmailFormProps) => {
             )}
           </form.Field>
 
-          {serverError && (
-            <Alert variant={'destructive'}>
-              <AlertDescription>{serverError}</AlertDescription>
-            </Alert>
-          )}
-
           <form.Subscribe
             selector={s => [s.canSubmit, s.isSubmitting] as const}
           >
@@ -140,15 +191,28 @@ const VerifyEmailForm = ({ initialEmail }: VerifyEmailFormProps) => {
       </CardContent>
 
       <CardFooter className="justify-center border-t pt-4">
-        <p className="text-sm text-muted-foreground">
-          Did not get OTP? Try signing in again to resend.{' '}
+        <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <span>Did not get OTP?</span>
+            <Button
+              type="button"
+              variant="link"
+              className="h-auto p-0"
+              disabled={isResendingOtp || resendCooldown > 0}
+              onClick={handleResendOtp}
+            >
+              {resendCooldown > 0
+                ? `Resend in ${resendCooldown}s`
+                : 'Resend OTP'}
+            </Button>
+          </div>
           <Link
             href="/login"
             className="text-primary font-medium hover:underline underline-offset-4"
           >
             Back to login
           </Link>
-        </p>
+        </div>
       </CardFooter>
     </Card>
   );

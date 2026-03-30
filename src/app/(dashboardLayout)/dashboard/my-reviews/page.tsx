@@ -1,12 +1,15 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import MyReviewCard from '@/components/modules/Dashboard/MyReviewCard';
 import StaticPageShell from '@/components/modules/Dashboard/StaticPageShell';
 import { extractArrayPayload, mapReview } from '@/lib/apiMappers';
-import { platformServices } from '@/services/platform.services';
+import { platformServerServices } from '@/services/platform.server.services';
 
 const MyReviewsPage = async () => {
   let reviews = [] as ReturnType<typeof mapReview>[];
 
   try {
-    const response = await platformServices.getMyReviews();
+    const response = await platformServerServices.getMyReviews();
     reviews = extractArrayPayload(response.data).map(item => mapReview(item));
   } catch {
     reviews = [];
@@ -30,21 +33,23 @@ const MyReviewsPage = async () => {
               : '0.0',
         },
       ]}
-      primaryAction="Write New Review"
     >
       <div className="space-y-3">
-        {reviews.slice(0, 6).map(review => (
-          <div
+        <div className="flex flex-wrap justify-end">
+          <Button asChild variant="outline">
+            <Link href="/events">Browse Events to Review</Link>
+          </Button>
+        </div>
+
+        {reviews.map(review => (
+          <MyReviewCard
             key={review.id}
-            className="rounded-xl border border-slate-200 bg-slate-50 p-4"
-          >
-            <p className="text-sm font-semibold text-slate-900">
-              {review.rating}/5 rating
-            </p>
-            <p className="mt-1 text-sm text-slate-600">
-              {review.review || 'No review text provided.'}
-            </p>
-          </div>
+            reviewId={review.id}
+            rating={review.rating}
+            reviewText={review.review}
+            eventTitle={review.eventTitle}
+            createdAt={review.createdAt}
+          />
         ))}
         {reviews.length === 0 ? (
           <p className="text-sm text-slate-500">No reviews found yet.</p>

@@ -48,6 +48,12 @@ export async function proxy(request: NextRequest) {
       userRole = decodedAccessToken.role as UserRole;
     }
 
+    const isEmailVerifiedFromToken = Boolean(decodedAccessToken?.emailVerified);
+    const userEmailFromToken =
+      typeof decodedAccessToken?.email === 'string'
+        ? decodedAccessToken.email
+        : '';
+
     const routerOwner = getRouteOwner(pathname);
     const isAuth = isAuthRoute(pathname);
 
@@ -78,6 +84,18 @@ export async function proxy(request: NextRequest) {
     }
 
     if (isAuth && isValidAccessToken) {
+      if (!isEmailVerifiedFromToken) {
+        if (pathname === '/verify-email') {
+          return NextResponse.next();
+        }
+
+        const verifyEmailUrl = new URL('/verify-email', request.url);
+        if (userEmailFromToken) {
+          verifyEmailUrl.searchParams.set('email', userEmailFromToken);
+        }
+        return NextResponse.redirect(verifyEmailUrl);
+      }
+
       return NextResponse.redirect(
         new URL(getDefaultDashboardRoute(userRole as UserRole), request.url),
       );

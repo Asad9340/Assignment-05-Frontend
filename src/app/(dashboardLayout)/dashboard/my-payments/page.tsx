@@ -1,11 +1,11 @@
 import { extractArrayPayload, mapParticipation } from '@/lib/apiMappers';
-import { platformServices } from '@/services/platform.services';
+import { platformServerServices } from '@/services/platform.server.services';
 
 const MyPaymentsPage = async () => {
   let paymentRows = [] as ReturnType<typeof mapParticipation>[];
 
   try {
-    const response = await platformServices.getMyParticipations();
+    const response = await platformServerServices.getMyParticipations();
     paymentRows = extractArrayPayload(response.data).map(item =>
       mapParticipation(item),
     );

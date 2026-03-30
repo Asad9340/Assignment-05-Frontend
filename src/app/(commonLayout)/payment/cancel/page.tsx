@@ -1,8 +1,41 @@
 import Link from 'next/link';
 import { CircleOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { getUserInfo } from '@/services/auth.services';
+import { platformServerServices } from '@/services/platform.server.services';
 
-const PaymentCancelPage = () => {
+type PaymentCancelPageProps = {
+  searchParams: Promise<{ trxId?: string }>;
+};
+
+const asRecord = (value: unknown): Record<string, unknown> => {
+  return value && typeof value === 'object'
+    ? (value as Record<string, unknown>)
+    : {};
+};
+
+const getText = (value: unknown, fallback = '') =>
+  typeof value === 'string' ? value : fallback;
+
+const PaymentCancelPage = async ({ searchParams }: PaymentCancelPageProps) => {
+  const { trxId = '' } = await searchParams;
+  const user = await getUserInfo();
+
+  let eventId = '';
+
+  if (trxId && user) {
+    try {
+      const response =
+        await platformServerServices.validatePaymentTransaction(trxId);
+      const transaction = asRecord(response.data);
+      const event = asRecord(transaction.event);
+
+      eventId = getText(event.id);
+    } catch {
+      // Keep page usable without blocking on validation lookup.
+    }
+  }
+
   return (
     <main className="grid min-h-screen place-items-center bg-linear-to-br from-slate-100 via-white to-slate-200 px-4 py-10">
       <section className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg sm:p-10">
@@ -14,12 +47,17 @@ const PaymentCancelPage = () => {
           You cancelled the payment process. No charge was made and your event
           request was not submitted.
         </p>
+        {trxId ? (
+          <p className="mt-2 text-sm text-slate-500">Transaction: {trxId}</p>
+        ) : null}
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Button
             asChild
             className="bg-slate-900 text-white hover:bg-slate-700"
           >
-            <Link href="/events">Return to Events</Link>
+            <Link href={eventId ? `/events/${eventId}` : '/events'}>
+              Return to Events
+            </Link>
           </Button>
           <Button
             asChild

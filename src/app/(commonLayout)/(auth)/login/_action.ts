@@ -6,7 +6,7 @@ import {
   isValidRedirectForRole,
   UserRole,
 } from '@/lib/authUtils';
-import { httpClient } from '@/lib/axios/httpClient';
+import { serverHttpClient } from '@/lib/axios/serverHttpClient';
 import { setTokenInCookies } from '@/lib/tokenUtils';
 import { ApiErrorResponse } from '@/types/api.types';
 import { ILoginResponse } from '@/types/auth.types';
@@ -27,7 +27,7 @@ export const loginAction = async (
     };
   }
   try {
-    const response = await httpClient.post<ILoginResponse>(
+    const response = await serverHttpClient.post<ILoginResponse>(
       '/auth/login',
       parsedPayload.data,
     );
@@ -39,7 +39,7 @@ export const loginAction = async (
     await setTokenInCookies('better-auth.session_token', token, 24 * 60 * 60);
 
     if (!emailVerified) {
-      redirect('/verify-email');
+      redirect(`/verify-email?email=${encodeURIComponent(user.email)}`);
     } else {
       const targetPath =
         redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)

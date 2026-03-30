@@ -6,7 +6,7 @@ import {
   isValidRedirectForRole,
   UserRole,
 } from '@/lib/authUtils';
-import { httpClient } from '@/lib/axios/httpClient';
+import { serverHttpClient } from '@/lib/axios/serverHttpClient';
 import { setTokenInCookies } from '@/lib/tokenUtils';
 import { ApiErrorResponse } from '@/types/api.types';
 import { ILoginResponse } from '@/types/auth.types';
@@ -28,7 +28,7 @@ export const registerAction = async (
   }
 
   try {
-    const response = await httpClient.post<ILoginResponse>(
+    const response = await serverHttpClient.post<ILoginResponse>(
       '/auth/register',
       parsedPayload.data,
     );

@@ -3,7 +3,6 @@
 import { registerAction } from '@/app/(commonLayout)/(auth)/register/_action';
 import AppField from '@/components/shared/form/AppField';
 import AppSubmitButton from '@/components/shared/form/AppSubmitButton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Card,
   CardContent,
@@ -16,15 +15,13 @@ import { IRegisterPayload, registerZodSchema } from '@/zod/auth.validation';
 import { useForm } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface RegisterFormProps {
   redirectPath?: string;
 }
 
 const RegisterForm = ({ redirectPath }: RegisterFormProps) => {
-  const [serverError, setServerError] = useState<string | null>(null);
-
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: IRegisterPayload) =>
       registerAction(payload, redirectPath),
@@ -38,12 +35,11 @@ const RegisterForm = ({ redirectPath }: RegisterFormProps) => {
     },
 
     onSubmit: async ({ value }) => {
-      setServerError(null);
       try {
         const result = (await mutateAsync(value)) as any;
 
         if (!result.success) {
-          setServerError(result.message || 'Registration failed');
+          toast.error(result.message || 'Registration failed');
           return;
         }
       } catch (error: any) {
@@ -57,7 +53,7 @@ const RegisterForm = ({ redirectPath }: RegisterFormProps) => {
           throw error;
         }
 
-        setServerError(
+        toast.error(
           error?.response?.data?.message ||
             error?.message ||
             'Registration failed',
@@ -130,12 +126,6 @@ const RegisterForm = ({ redirectPath }: RegisterFormProps) => {
               />
             )}
           </form.Field>
-
-          {serverError && (
-            <Alert variant={'destructive'}>
-              <AlertDescription>{serverError}</AlertDescription>
-            </Alert>
-          )}
 
           <form.Subscribe
             selector={s => [s.canSubmit, s.isSubmitting] as const}

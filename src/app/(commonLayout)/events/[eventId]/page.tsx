@@ -1,8 +1,11 @@
 import { CalendarDays, Clock3, Link2, MapPin, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { getUserInfo } from '@/services/auth.services';
+import EventParticipationActions from '@/components/modules/Event/EventParticipationActions';
 import { extractArrayPayload, mapEvent, mapReview } from '@/lib/apiMappers';
-import { platformServices } from '@/services/platform.services';
+import { platformServerServices } from '@/services/platform.server.services';
+import { Button } from '@/components/ui/button';
 
 type EventDetailsPageProps = {
   params: Promise<{ eventId: string }>;
@@ -10,6 +13,7 @@ type EventDetailsPageProps = {
 
 const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
   const { eventId } = await params;
+  const user = await getUserInfo();
 
   let event = mapEvent({});
   let reviews = [] as ReturnType<typeof mapReview>[];
@@ -17,8 +21,8 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
 
   try {
     const [eventResponse, reviewsResponse] = await Promise.all([
-      platformServices.getEventById(eventId),
-      platformServices.getEventReviews(eventId),
+      platformServerServices.getEventById(eventId),
+      platformServerServices.getEventReviews(eventId),
     ]);
 
     event = mapEvent(eventResponse.data);
@@ -37,25 +41,37 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
         ).toFixed(1)
       : '0.0';
 
-  const actionLabel =
-    event.visibility.toUpperCase() === 'PRIVATE'
-      ? event.feeType.toUpperCase() === 'PAID'
-        ? 'Pay & Request'
-        : 'Request to Join'
-      : event.feeType.toUpperCase() === 'PAID'
-        ? 'Pay & Join'
-        : 'Join';
+  const isOwner = !!user?.id && !!event.ownerId && user.id === event.ownerId;
+
+  if (isError || !event.id) {
+    return (
+      <main className="grid min-h-screen place-items-center bg-[#f7f8fc] px-4 py-14">
+        <section className="w-full max-w-xl rounded-3xl border border-rose-200 bg-white p-8 text-center shadow-sm">
+          <h1 className="text-2xl font-black text-slate-900">
+            Event Details Unavailable
+          </h1>
+          <p className="mt-3 text-slate-600">
+            We could not load this event right now. It may have been removed or
+            you may not have access.
+          </p>
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <Button
+              asChild
+              className="bg-slate-900 text-white hover:bg-slate-700"
+            >
+              <Link href="/events">Back to Events</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/dashboard">Go to Dashboard</Link>
+            </Button>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#f7f8fc] py-14 sm:py-20">
-      {isError ? (
-        <section className="mx-auto mb-5 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-rose-700">
-            Unable to load event details at this moment.
-          </div>
-        </section>
-      ) : null}
-
       <section className="mx-auto grid w-full max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
         <article className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
           <div className="flex flex-wrap items-center gap-2">
@@ -94,6 +110,34 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
               <Link2 className="size-4" />
               Organizer: {event.organizerName}
             </p>
+            <p className="flex items-center gap-2 rounded-xl bg-slate-50 p-3 sm:col-span-2">
+              <Link2 className="size-4" />
+              Event Link:{' '}
+              {event.eventLink ? (
+                <a
+                  href={event.eventLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-sky-700 hover:text-sky-600"
+                >
+                  Open Event Link
+                </a>
+              ) : (
+                'N/A'
+              )}
+            </p>
+          </div>
+
+          <div className="mt-4 grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
+            <p className="rounded-xl bg-slate-50 p-3">
+              Participants: {event.totalParticipants ?? 0}
+            </p>
+            <p className="rounded-xl bg-slate-50 p-3">
+              Reviews: {event.totalReviews ?? reviews.length}
+            </p>
+            <p className="rounded-xl bg-slate-50 p-3">
+              Invitations: {event.totalInvitations ?? 0}
+            </p>
           </div>
 
           <div className="mt-8 rounded-2xl border border-slate-200 p-5">
@@ -131,17 +175,15 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
             <p className="mt-3 text-sm text-slate-200">
               Paid join attempts become pending until host approval.
             </p>
-            <div className="mt-6 grid gap-2">
-              <Button className="bg-orange-500 text-white hover:bg-orange-400">
-                {actionLabel}
-              </Button>
-              <Button
-                variant="outline"
-                className="border-slate-400 bg-transparent text-slate-100 hover:bg-slate-800"
-              >
-                View Participation Rules
-              </Button>
-            </div>
+            <EventParticipationActions
+              eventId={event.id}
+              visibility={event.visibility}
+              feeType={event.feeType}
+              registrationFee={event.registrationFee}
+              isOwner={isOwner}
+              isAuthenticated={!!user}
+              loginRedirectPath={`/events/${event.id}`}
+            />
           </div>
 
           <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">

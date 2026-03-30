@@ -6,7 +6,7 @@ import HomeHowItWorksSection from '@/components/modules/Home/HomeHowItWorksSecti
 import HomeUpcomingEventsSection from '@/components/modules/Home/HomeUpcomingEventsSection';
 import { HomeEvent } from '@/components/modules/Home/home-data';
 import { extractArrayPayload, mapEvent } from '@/lib/apiMappers';
-import { platformServices } from '@/services/platform.services';
+import { platformServerServices } from '@/services/platform.server.services';
 
 const toHomeEvent = (input: ReturnType<typeof mapEvent>): HomeEvent => {
   return {
@@ -27,7 +27,7 @@ export default async function HomePage() {
   let dynamicEvents: HomeEvent[] = [];
 
   try {
-    const response = await platformServices.getUpcomingEvents();
+    const response = await platformServerServices.getUpcomingEvents();
     dynamicEvents = extractArrayPayload(response.data).map(item =>
       toHomeEvent(mapEvent(item)),
     );

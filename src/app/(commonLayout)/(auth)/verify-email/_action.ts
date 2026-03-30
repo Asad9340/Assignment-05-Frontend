@@ -2,11 +2,13 @@
 'use server';
 
 import { getDefaultDashboardRoute, UserRole } from '@/lib/authUtils';
-import { httpClient } from '@/lib/axios/httpClient';
+import { serverHttpClient } from '@/lib/axios/serverHttpClient';
+import { setTokenInCookies } from '@/lib/tokenUtils';
 import { ApiErrorResponse } from '@/types/api.types';
-import { getUserInfo } from '@/services/auth.services';
 import {
+  IResendVerificationOtpPayload,
   IVerifyEmailPayload,
+  resendVerificationOtpZodSchema,
   verifyEmailZodSchema,
 } from '@/zod/auth.validation';
 import { redirect } from 'next/navigation';
@@ -14,6 +16,19 @@ import { redirect } from 'next/navigation';
 interface VerifyEmailResponse {
   success: boolean;
   message: string;
+}
+
+interface ResendVerificationOtpResponse {
+  success: boolean;
+  message: string;
+}
+
+interface VerifyEmailApiPayload {
+  user?: {
+    role?: string;
+  };
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 export const verifyEmailAction = async (
@@ -31,10 +46,23 @@ export const verifyEmailAction = async (
   }
 
   try {
-    await httpClient.post<null>('/auth/verify-email', parsedPayload.data);
+    const response = await serverHttpClient.post<VerifyEmailApiPayload>(
+      '/auth/verify-email',
+      parsedPayload.data,
+    );
 
-    const userInfo = await getUserInfo();
-    const role = userInfo?.role as UserRole | undefined;
+    const accessToken = response.data?.accessToken;
+    const refreshToken = response.data?.refreshToken;
+
+    if (accessToken) {
+      await setTokenInCookies('accessToken', accessToken);
+    }
+
+    if (refreshToken) {
+      await setTokenInCookies('refreshToken', refreshToken);
+    }
+
+    const role = response.data?.user?.role as UserRole | undefined;
     const targetPath = role ? getDefaultDashboardRoute(role) : '/dashboard';
 
     redirect(targetPath);
@@ -55,6 +83,41 @@ export const verifyEmailAction = async (
         error?.response?.data?.message ||
         error?.message ||
         'Email verification failed',
+    };
+  }
+};
+
+export const resendVerificationOtpAction = async (
+  payload: IResendVerificationOtpPayload,
+): Promise<ResendVerificationOtpResponse | ApiErrorResponse> => {
+  const parsedPayload = resendVerificationOtpZodSchema.safeParse(payload);
+
+  if (!parsedPayload.success) {
+    const firstError =
+      parsedPayload.error.issues[0]?.message || 'Invalid input';
+    return {
+      success: false,
+      message: firstError,
+    };
+  }
+
+  try {
+    await serverHttpClient.post<null>(
+      '/auth/resend-verification-otp',
+      parsedPayload.data,
+    );
+
+    return {
+      success: true,
+      message: 'Verification OTP sent. Please check your email.',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message:
+        error?.response?.data?.message ||
+        error?.message ||
+        'Failed to resend verification OTP',
     };
   }
 };

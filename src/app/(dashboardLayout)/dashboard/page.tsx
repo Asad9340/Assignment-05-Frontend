@@ -1,6 +1,29 @@
 import Link from 'next/link';
 import { CalendarDays, CreditCard, Mail, Sparkles, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { platformServerServices } from '@/services/platform.server.services';
+import { getUserInfo } from '@/services/auth.services';
+
+const asRecord = (value: unknown): Record<string, unknown> => {
+  return value && typeof value === 'object'
+    ? (value as Record<string, unknown>)
+    : {};
+};
+
+const pickNumber = (value: unknown, fallback = 0): number => {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return fallback;
+};
 
 const quickActions = [
   {
@@ -29,14 +52,39 @@ const quickActions = [
   },
 ];
 
-const stats = [
-  { label: 'Joined Events', value: '12' },
-  { label: 'Hosted Events', value: '5' },
-  { label: 'Pending Approvals', value: '3' },
-  { label: 'Reviews Given', value: '8' },
-];
+export default async function UserDashboardPage() {
+  const user = await getUserInfo();
 
-export default function UserDashboardPage() {
+  let summary = {
+    myEventsCount: 0,
+    myRequestsCount: 0,
+    pendingInvitationsCount: 0,
+    myReviewsCount: 0,
+    pendingApprovalsCount: 0,
+  };
+
+  try {
+    const response = await platformServerServices.getDashboardSummary();
+    const payload = asRecord(response.data);
+
+    summary = {
+      myEventsCount: pickNumber(payload.myEventsCount),
+      myRequestsCount: pickNumber(payload.myRequestsCount),
+      pendingInvitationsCount: pickNumber(payload.pendingInvitationsCount),
+      myReviewsCount: pickNumber(payload.myReviewsCount),
+      pendingApprovalsCount: pickNumber(payload.pendingApprovalsCount),
+    };
+  } catch {
+    // Keep fallback values so dashboard still renders.
+  }
+
+  const stats = [
+    { label: 'Hosted Events', value: summary.myEventsCount },
+    { label: 'My Join Requests', value: summary.myRequestsCount },
+    { label: 'Pending Invitations', value: summary.pendingInvitationsCount },
+    { label: 'Reviews Given', value: summary.myReviewsCount },
+  ];
+
   return (
     <main className="space-y-6">
       <section className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
@@ -44,7 +92,7 @@ export default function UserDashboardPage() {
           Planora Workspace
         </p>
         <h1 className="mt-2 text-3xl font-black sm:text-4xl">
-          Welcome to Your Dashboard
+          Welcome back{user?.name ? `, ${user.name}` : ''}
         </h1>
         <p className="mt-3 max-w-3xl text-slate-200">
           Manage event creation, invitations, participation requests, reviews,
@@ -79,6 +127,10 @@ export default function UserDashboardPage() {
             </p>
           </article>
         ))}
+      </section>
+
+      <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        Pending approvals on your events: {summary.pendingApprovalsCount}
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">

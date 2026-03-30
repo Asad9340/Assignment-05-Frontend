@@ -1,25 +1,126 @@
-import { Activity, CreditCard, Users } from 'lucide-react';
+import { Activity, CalendarDays, Users } from 'lucide-react';
+import { platformServerServices } from '@/services/platform.server.services';
 
-const stats = [
-  { title: 'Total Events', value: '1,284', delta: '+12.6%', icon: Activity },
-  { title: 'Active Users', value: '9,402', delta: '+8.1%', icon: Users },
-  {
-    title: 'Payment Volume',
-    value: '$52,300',
-    delta: '+16.2%',
-    icon: CreditCard,
-  },
-];
+const asRecord = (value: unknown): Record<string, unknown> => {
+  return value && typeof value === 'object'
+    ? (value as Record<string, unknown>)
+    : {};
+};
 
-const ReportsPage = () => {
+const pickNumber = (value: unknown, fallback = 0): number => {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return fallback;
+};
+
+const ReportsPage = async () => {
+  let usersSummary = {
+    totalUsers: 0,
+    activeUsers: 0,
+    blockedUsers: 0,
+    deletedUsers: 0,
+  };
+
+  let eventsSummary = {
+    totalEvents: 0,
+    privateEvents: 0,
+    publicEvents: 0,
+    paidEvents: 0,
+    freeEvents: 0,
+  };
+
+  let engagementSummary = {
+    totalReviews: 0,
+    totalParticipants: 0,
+  };
+
+  try {
+    const summaryResponse =
+      await platformServerServices.getAdminReportsSummary();
+    const summaryPayload = asRecord(summaryResponse.data);
+    const usersPayload = asRecord(summaryPayload.users);
+    const eventsPayload = asRecord(summaryPayload.events);
+    const engagementPayload = asRecord(summaryPayload.engagement);
+
+    usersSummary = {
+      totalUsers: pickNumber(usersPayload.totalUsers),
+      activeUsers: pickNumber(usersPayload.activeUsers),
+      blockedUsers: pickNumber(usersPayload.blockedUsers),
+      deletedUsers: pickNumber(usersPayload.deletedUsers),
+    };
+
+    eventsSummary = {
+      totalEvents: pickNumber(eventsPayload.totalEvents),
+      privateEvents: pickNumber(eventsPayload.privateEvents),
+      publicEvents: pickNumber(eventsPayload.publicEvents),
+      paidEvents: pickNumber(eventsPayload.paidEvents),
+      freeEvents: pickNumber(eventsPayload.freeEvents),
+    };
+
+    engagementSummary = {
+      totalReviews: pickNumber(engagementPayload.totalReviews),
+      totalParticipants: pickNumber(engagementPayload.totalParticipants),
+    };
+  } catch {
+    usersSummary = {
+      totalUsers: 0,
+      activeUsers: 0,
+      blockedUsers: 0,
+      deletedUsers: 0,
+    };
+
+    eventsSummary = {
+      totalEvents: 0,
+      privateEvents: 0,
+      publicEvents: 0,
+      paidEvents: 0,
+      freeEvents: 0,
+    };
+
+    engagementSummary = {
+      totalReviews: 0,
+      totalParticipants: 0,
+    };
+  }
+
+  const stats = [
+    {
+      title: 'Total Events',
+      value: String(eventsSummary.totalEvents),
+      delta: `Public/Private: ${eventsSummary.publicEvents}/${eventsSummary.privateEvents}`,
+      icon: CalendarDays,
+    },
+    {
+      title: 'Total Users',
+      value: String(usersSummary.totalUsers),
+      delta: `Active/Blocked: ${usersSummary.activeUsers}/${usersSummary.blockedUsers}`,
+      icon: Users,
+    },
+    {
+      title: 'Reviews and Participation',
+      value: `${engagementSummary.totalReviews} / ${engagementSummary.totalParticipants}`,
+      delta: `Paid/Free events: ${eventsSummary.paidEvents}/${eventsSummary.freeEvents}`,
+      icon: Activity,
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
         <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
           <h1 className="text-3xl font-black sm:text-4xl">Admin Reports</h1>
           <p className="mt-2 text-slate-200">
-            Monitor platform events, users, and payment trends from a single
-            control center.
+            API-backed moderation and growth metrics for users, events, and
+            engagement.
           </p>
         </header>
 
@@ -43,7 +144,7 @@ const ReportsPage = () => {
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm font-semibold text-emerald-600">
-                  {stat.delta} this month
+                  {stat.delta}
                 </p>
               </article>
             );
@@ -65,19 +166,36 @@ const ReportsPage = () => {
               </thead>
               <tbody className="text-slate-700">
                 <tr className="border-t border-slate-100">
-                  <td className="py-3">Pending Join Requests</td>
-                  <td className="py-3">64</td>
-                  <td className="py-3 text-amber-600">Needs review</td>
+                  <td className="py-3">Total Participants</td>
+                  <td className="py-3">
+                    {engagementSummary.totalParticipants}
+                  </td>
+                  <td className="py-3 text-amber-600">
+                    Track approvals in event workspace
+                  </td>
                 </tr>
                 <tr className="border-t border-slate-100">
-                  <td className="py-3">Flagged Events</td>
-                  <td className="py-3">11</td>
-                  <td className="py-3 text-rose-600">Urgent</td>
+                  <td className="py-3">Blocked Users</td>
+                  <td className="py-3">{usersSummary.blockedUsers}</td>
+                  <td className="py-3 text-rose-600">
+                    Monitor for abuse patterns
+                  </td>
                 </tr>
                 <tr className="border-t border-slate-100">
-                  <td className="py-3">Resolved Reports</td>
-                  <td className="py-3">97</td>
-                  <td className="py-3 text-emerald-600">Completed</td>
+                  <td className="py-3">Private/Paid Events</td>
+                  <td className="py-3">
+                    {eventsSummary.privateEvents} / {eventsSummary.paidEvents}
+                  </td>
+                  <td className="py-3 text-emerald-600">
+                    Visibility and monetization mix
+                  </td>
+                </tr>
+                <tr className="border-t border-slate-100">
+                  <td className="py-3">Deleted Users</td>
+                  <td className="py-3">{usersSummary.deletedUsers}</td>
+                  <td className="py-3 text-slate-500">
+                    Historical moderation count
+                  </td>
                 </tr>
               </tbody>
             </table>

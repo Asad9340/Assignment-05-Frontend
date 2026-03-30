@@ -37,3 +37,37 @@ export const verifyEmailZodSchema = z.object({
 });
 
 export type IVerifyEmailPayload = z.infer<typeof verifyEmailZodSchema>;
+
+export const resendVerificationOtpZodSchema = z.object({
+  email: z.email('Invalid email address'),
+});
+
+export type IResendVerificationOtpPayload = z.infer<
+  typeof resendVerificationOtpZodSchema
+>;
+
+export const changePasswordZodSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(6, 'Current password must be at least 6 characters')
+      .max(100, 'Current password must be at most 100 characters'),
+    newPassword: z
+      .string()
+      .min(6, 'New password must be at least 6 characters')
+      .max(100, 'New password must be at most 100 characters'),
+    confirmPassword: z
+      .string()
+      .min(6, 'Confirm password must be at least 6 characters')
+      .max(100, 'Confirm password must be at most 100 characters'),
+  })
+  .refine(data => data.newPassword === data.confirmPassword, {
+    message: 'New password and confirm password do not match',
+    path: ['confirmPassword'],
+  })
+  .refine(data => data.currentPassword !== data.newPassword, {
+    message: 'New password must be different from current password',
+    path: ['newPassword'],
+  });
+
+export type IChangePasswordPayload = z.infer<typeof changePasswordZodSchema>;

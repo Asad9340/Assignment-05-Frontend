@@ -1,17 +1,24 @@
 export type EventVisibility = 'PUBLIC' | 'PRIVATE' | string;
 export type EventFeeType = 'FREE' | 'PAID' | string;
+export type EventStatus = 'ACTIVE' | 'COMPLETED' | 'CANCELLED' | string;
 
 export interface EventViewModel {
   id: string;
+  ownerId?: string;
   title: string;
   description: string;
   eventDate: string;
   eventTime: string;
   venue: string;
+  eventLink?: string;
   visibility: EventVisibility;
   feeType: EventFeeType;
+  status?: EventStatus;
   registrationFee: number;
   organizerName: string;
+  totalParticipants?: number;
+  totalReviews?: number;
+  totalInvitations?: number;
 }
 
 export interface ReviewViewModel {
@@ -19,6 +26,8 @@ export interface ReviewViewModel {
   rating: number;
   review: string;
   userName: string;
+  eventId?: string;
+  eventTitle?: string;
   createdAt: string;
 }
 
