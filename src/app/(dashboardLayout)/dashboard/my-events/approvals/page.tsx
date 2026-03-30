@@ -18,9 +18,30 @@ const MyEventApprovalsPage = async () => {
   let approvals = [] as unknown[];
 
   try {
-    const response =
-      await platformServerServices.getDashboardPendingApprovals();
-    approvals = extractArrayPayload(response.data);
+    const [approvalsResponse, dashboardFallbackResponse] =
+      await Promise.allSettled([
+        platformServerServices.getMyPendingApprovals(),
+        platformServerServices.getDashboardPendingApprovals(),
+      ]);
+
+    if (approvalsResponse.status === 'fulfilled') {
+      approvals = extractArrayPayload(approvalsResponse.value.data);
+    } else if (dashboardFallbackResponse.status === 'fulfilled') {
+      approvals = extractArrayPayload(dashboardFallbackResponse.value.data);
+    }
+
+    const seenIds = new Set<string>();
+    approvals = approvals.filter(item => {
+      const participant = asRecord(item);
+      const id = pickString(participant.id);
+
+      if (!id || seenIds.has(id)) {
+        return false;
+      }
+
+      seenIds.add(id);
+      return true;
+    });
   } catch {
     approvals = [];
   }

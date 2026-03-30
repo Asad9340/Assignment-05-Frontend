@@ -17,6 +17,10 @@ export const platformServerServices = {
     return serverHttpClient.get<unknown>('/dashboard/pending-approvals');
   },
 
+  getMyPendingApprovals: async () => {
+    return serverHttpClient.get<unknown>('/participations/approvals/me');
+  },
+
   getMyEventStatusSummary: async () => {
     return serverHttpClient.get<unknown>('/dashboard/my-event-status-summary');
   },
@@ -76,8 +80,8 @@ export const platformServerServices = {
     return serverHttpClient.get<unknown>('/invitations/me');
   },
 
-  getMyParticipations: async () => {
-    return serverHttpClient.get<unknown>('/participations/me');
+  getMyParticipations: async (params?: Record<string, unknown>) => {
+    return serverHttpClient.get<unknown>('/participations/me', { params });
   },
 
   getEventParticipants: async (eventId: string) => {

@@ -8,7 +8,6 @@ import { UserInfo } from '@/types/user.types';
 import { Menu, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import DashboardMobileSidebar from './DashboardMobileSidebar';
-import NotificationDropdown from './NotificationDropdown';
 import UserDropdown from './UserDropdown';
 
 interface DashboardNavbarProps {
@@ -67,9 +66,6 @@ const DashboardNavbarContent = ({
 
       {/* Right Side Actions */}
       <div className="flex items-center gap-2">
-        {/* Notification */}
-        <NotificationDropdown />
-
         {/* User Dropdown  */}
         <UserDropdown userInfo={userInfo} />
       </div>

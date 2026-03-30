@@ -40,8 +40,8 @@ export const platformServices = {
     return httpClient.get<unknown>('/invitations/me');
   },
 
-  getMyParticipations: async () => {
-    return httpClient.get<unknown>('/participations/me');
+  getMyParticipations: async (params?: Record<string, unknown>) => {
+    return httpClient.get<unknown>('/participations/me', { params });
   },
 
   joinEvent: async (eventId: string) => {

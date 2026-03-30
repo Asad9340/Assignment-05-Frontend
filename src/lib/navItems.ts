@@ -85,6 +85,11 @@ export const userNavItems: NavSection[] = [
         icon: 'Clock3',
       },
       {
+        title: 'Joined Events',
+        href: '/dashboard/joined-events',
+        icon: 'CalendarDays',
+      },
+      {
         title: 'My Reviews',
         href: '/dashboard/my-reviews',
         icon: 'Star',

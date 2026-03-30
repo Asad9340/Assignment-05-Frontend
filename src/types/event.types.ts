@@ -45,6 +45,7 @@ export interface ParticipationViewModel {
   paymentStatus: string;
   eventTitle: string;
   eventId: string;
+  eventStatus?: string;
   registrationFee: number;
   createdAt: string;
 }

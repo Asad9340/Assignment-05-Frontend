@@ -58,7 +58,7 @@ const EventParticipationActions = ({
       ? 'This is a private event. Your request must be approved by the host.'
       : 'This is a public event. Your request will still need host approval.',
     normalizedFeeType === 'PAID'
-      ? `This event requires a payment of $${registrationFee} before approval.`
+      ? `This event requires a payment of BDT ${registrationFee} before approval.`
       : 'This event is free. No payment is required.',
     'Event owner and admins can approve, reject, or ban participants.',
     'Only joined participants can fully participate in the event.',

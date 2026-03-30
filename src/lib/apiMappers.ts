@@ -161,6 +161,7 @@ export const mapParticipation = (input: unknown): ParticipationViewModel => {
       pickString(item.eventTitle, 'Untitled event'),
     ),
     eventId: pickString(event.id, pickString(item.eventId, '')),
+    eventStatus: pickString(event.status, 'ACTIVE'),
     registrationFee: pickNumber(
       event.registrationFee,
       pickNumber(item.registrationFee, 0),

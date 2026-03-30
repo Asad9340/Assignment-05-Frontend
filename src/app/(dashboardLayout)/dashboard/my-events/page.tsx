@@ -285,32 +285,51 @@ const MyEventsPage = async () => {
             </Button>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             {events.map(event => (
               <article
                 key={event.id}
-                className="rounded-2xl border border-slate-200 p-4"
+                className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50/60 to-sky-50/50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               >
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900">
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400" />
+
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold tracking-wide text-white">
+                        {event.status || 'ACTIVE'}
+                      </span>
+                      <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700">
+                        {event.visibility}
+                      </span>
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                          event.feeType.toUpperCase() === 'PAID'
+                            ? 'bg-amber-100 text-amber-700'
+                            : 'bg-emerald-100 text-emerald-700'
+                        }`}
+                      >
+                        {event.feeType}
+                      </span>
+                    </div>
+
+                    <h3 className="truncate text-2xl font-semibold text-slate-900">
                       {event.title}
                     </h3>
-                    <p className="mt-1 text-sm text-slate-600">
+
+                    <p className="mt-2 text-sm font-medium text-slate-700">
                       {event.eventDate} at {event.eventTime || 'TBD'}
                     </p>
+
                     <p className="mt-1 text-sm text-slate-500">
-                      Status: {event.status || 'ACTIVE'}
-                    </p>
-                    <p className="mt-1 text-sm text-slate-500">
-                      {event.visibility} {event.feeType}{' '}
+                      Fee:{' '}
                       {event.registrationFee > 0
-                        ? `- $${event.registrationFee}`
-                        : '- Free'}
+                        ? `BDT ${event.registrationFee}`
+                        : 'Free'}
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 sm:justify-end">
                     <UpdateMyEventStatusButtons
                       eventId={event.id}
                       currentStatus={event.status}
@@ -341,9 +360,19 @@ const MyEventsPage = async () => {
             ))}
 
             {events.length === 0 ? (
-              <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
-                You have not created any event yet.
-              </p>
+              <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+                <p className="text-sm text-slate-600">
+                  You have not created any event yet.
+                </p>
+                <Button
+                  asChild
+                  className="mt-4 bg-[#101b3d] text-white hover:bg-[#172958]"
+                >
+                  <Link href="/dashboard/my-events/create-event">
+                    Create Your First Event
+                  </Link>
+                </Button>
+              </div>
             ) : null}
           </div>
         </section>

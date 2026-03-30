@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-  useTransition,
-} from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -27,8 +21,11 @@ type EventInvitationFormProps = {
 };
 
 const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
-  const [isPending, startTransition] = useTransition();
   const [isSearching, setIsSearching] = useState(false);
+  const [invitingCandidateId, setInvitingCandidateId] = useState<string | null>(
+    null,
+  );
+  const [isManualInvitePending, setIsManualInvitePending] = useState(false);
   const [userId, setUserId] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [candidates, setCandidates] = useState<InviteCandidate[]>([]);
@@ -76,29 +73,44 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
     loadCandidates();
   }, [loadCandidates]);
 
-  const inviteUser = (targetUserId: string) => {
+  const inviteUser = async (targetUserId: string) => {
     setFeedback(null);
 
-    startTransition(async () => {
-      const result = await inviteUserToEventAction(
-        eventId,
-        targetUserId.trim(),
-      );
-      setFeedback({
-        type: result.success ? 'success' : 'error',
-        message: result.message,
-      });
-
-      if (result.success) {
-        setUserId('');
-        await loadCandidates(searchTerm.trim());
-      }
+    const result = await inviteUserToEventAction(eventId, targetUserId.trim());
+    setFeedback({
+      type: result.success ? 'success' : 'error',
+      message: result.message,
     });
+
+    if (result.success) {
+      setUserId('');
+      await loadCandidates(searchTerm.trim());
+    }
+  };
+
+  const inviteCandidate = async (targetUserId: string) => {
+    setInvitingCandidateId(targetUserId);
+
+    try {
+      await inviteUser(targetUserId);
+    } finally {
+      setInvitingCandidateId(null);
+    }
+  };
+
+  const inviteManual = async () => {
+    setIsManualInvitePending(true);
+
+    try {
+      await inviteUser(userId);
+    } finally {
+      setIsManualInvitePending(false);
+    }
   };
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    inviteUser(userId);
+    inviteManual();
   };
 
   return (
@@ -114,13 +126,13 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
             value={searchTerm}
             onChange={event => setSearchTerm(event.target.value)}
             placeholder="Search by name or email"
-            disabled={isPending || isSearching}
+            disabled={isSearching || isManualInvitePending}
             className="h-11"
           />
           <Button
             type="button"
             variant="outline"
-            disabled={isPending || isSearching}
+            disabled={isSearching || isManualInvitePending}
             onClick={async () => {
               setFeedback(null);
               await loadCandidates(searchTerm.trim());
@@ -144,11 +156,13 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
               </div>
               <Button
                 type="button"
-                disabled={isPending || isSearching}
-                onClick={() => inviteUser(candidate.id)}
+                disabled={isSearching || isManualInvitePending}
+                onClick={() => inviteCandidate(candidate.id)}
                 className="bg-[#101b3d] text-white hover:bg-[#1a2f66]"
               >
-                {isPending ? 'Inviting...' : 'Invite'}
+                {invitingCandidateId === candidate.id
+                  ? 'Inviting...'
+                  : 'Invite'}
               </Button>
             </article>
           ))}
@@ -177,7 +191,7 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
             value={userId}
             onChange={event => setUserId(event.target.value)}
             placeholder="Paste target user id"
-            disabled={isPending}
+            disabled={isManualInvitePending || Boolean(invitingCandidateId)}
             className="h-11"
             required
           />
@@ -185,10 +199,10 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
 
         <Button
           type="submit"
-          disabled={isPending}
+          disabled={isManualInvitePending || Boolean(invitingCandidateId)}
           className="h-11 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
         >
-          {isPending ? 'Sending...' : 'Send Invitation'}
+          {isManualInvitePending ? 'Sending...' : 'Send Invitation'}
         </Button>
       </form>
 
