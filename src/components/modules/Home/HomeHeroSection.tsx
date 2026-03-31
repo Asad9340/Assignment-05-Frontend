@@ -19,22 +19,26 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
       <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-6">
           <Badge className="rounded-full bg-orange-500/20 px-3 py-1 text-orange-200">
-            Featured Event · Dynamic
+            {event ? 'Featured Event' : 'Welcome to Planora'}
           </Badge>
-          <h1 className="text-4xl font-black leading-tight text-white sm:text-5xl">
-            Build, Host, and Join Memorable Events with Planora
+          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            {event
+              ? event.title
+              : 'Build, Host, and Join Memorable Events with Planora'}
           </h1>
           <p className="max-w-xl text-base text-slate-300 sm:text-lg">
-            A secure platform for managing public and private events with smooth
-            registration, invite workflows, and integrated payments.
+            {event?.description
+              ? event.description
+              : 'A secure platform for managing public and private events with smooth registration, invite workflows, and integrated payments.'}
           </p>
           <div className="flex flex-wrap gap-3">
             <Button
               asChild
               className="bg-orange-500 text-white hover:bg-orange-400"
             >
-              <Link href="/events">
-                Join This Event <ArrowRight className="size-4" />
+              <Link href={event ? `/events/${event.id}` : '/events'}>
+                {event ? 'View Event' : 'Browse Events'}{' '}
+                <ArrowRight className="size-4" />
               </Link>
             </Button>
             <Button
@@ -67,10 +71,11 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
               </Badge>
             </div>
             <h2 className="text-2xl font-bold text-white">{event.title}</h2>
-            <p className="mb-5 text-sm text-slate-300">
-              Join this featured event and experience streamlined registration,
-              participation, and collaboration powered by Planora.
-            </p>
+            {event.description && (
+              <p className="mb-5 line-clamp-3 text-sm text-slate-300">
+                {event.description}
+              </p>
+            )}
 
             <div className="space-y-3 text-sm text-slate-200">
               <p className="flex items-center gap-2">
@@ -95,6 +100,13 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
               </p>
             </div>
 
+            {event.participantCount !== undefined && (
+              <p className="flex items-center gap-2 text-sm text-slate-400">
+                <Users className="size-4 text-sky-300" />
+                {event.participantCount} participant
+                {event.participantCount !== 1 ? 's' : ''} joined
+              </p>
+            )}
             <div className="mt-6 flex items-center justify-between">
               <Button
                 asChild

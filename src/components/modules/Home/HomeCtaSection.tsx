@@ -5,7 +5,7 @@ const HomeCtaSection = () => {
   return (
     <section className="bg-[#121c38] py-16 sm:py-20">
       <div className="mx-auto w-full max-w-5xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-black text-white sm:text-4xl">
+        <h2 className="text-3xl font-bold text-white sm:text-4xl">
           Create Better Events. Join Smarter Communities.
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-slate-300">

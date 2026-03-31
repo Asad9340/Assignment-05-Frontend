@@ -31,7 +31,7 @@ const EventParticipantPage = async ({
     return (
       <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
         <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-white p-8 text-center">
-          <h1 className="text-2xl font-black text-slate-900">
+          <h1 className="text-2xl font-bold text-slate-900">
             Event Not Selected
           </h1>
           <p className="mt-2 text-slate-600">
@@ -64,7 +64,7 @@ const EventParticipantPage = async ({
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             My Events
           </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
             Event Participants
           </h1>
           <p className="mt-3 text-slate-200">

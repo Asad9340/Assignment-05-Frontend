@@ -21,7 +21,7 @@ const HomeEventStatsSection = ({ events }: HomeEventStatsSectionProps) => {
     {
       label: 'Upcoming Public Events',
       value: totalUpcoming,
-      helper: 'Fetched dynamically from backend upcoming events',
+      helper: 'Live events open for registration',
     },
     {
       label: 'Free Events',
@@ -43,7 +43,7 @@ const HomeEventStatsSection = ({ events }: HomeEventStatsSectionProps) => {
   return (
     <section className="bg-[#0e1733] py-14 sm:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-black text-white">Live Event Snapshot</h2>
+        <h2 className="text-3xl font-bold text-white">Live Event Snapshot</h2>
         <p className="mt-2 text-slate-300">
           Real-time highlights generated from your event inventory.
         </p>
@@ -55,9 +55,7 @@ const HomeEventStatsSection = ({ events }: HomeEventStatsSectionProps) => {
               className="rounded-2xl border border-white/10 bg-white/5 p-5"
             >
               <p className="text-sm text-slate-300">{item.label}</p>
-              <p className="mt-3 text-3xl font-black text-white">
-                {item.value}
-              </p>
+              <p className="mt-3 text-3xl font-bold text-white">{item.value}</p>
               <p className="mt-2 text-xs text-slate-400">{item.helper}</p>
             </article>
           ))}

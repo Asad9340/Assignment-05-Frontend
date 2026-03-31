@@ -123,13 +123,16 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
     <main className="min-h-screen bg-[#f7f8fc] py-14 sm:py-20">
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <header className="mb-8 rounded-3xl bg-[#101b3d] p-8 text-white sm:p-10">
-          <h1 className="text-3xl font-black sm:text-4xl">Discover Events</h1>
+          <h1 className="text-3xl font-bold sm:text-4xl">Discover Events</h1>
           <p className="mt-3 max-w-2xl text-slate-200">
             Search by event title or organizer and filter by event visibility,
             fee type, and status.
           </p>
 
-          <form className="mt-6 grid gap-3 md:grid-cols-5" method="GET">
+          <form
+            className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-5"
+            method="GET"
+          >
             <input type="hidden" name="page" value="1" />
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-500" />
@@ -143,6 +146,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
             <select
               name="visibility"
               defaultValue={visibilityFilter}
+              aria-label="Filter by visibility"
               className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
             >
               <option value="">All Visibility</option>
@@ -152,6 +156,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
             <select
               name="feeType"
               defaultValue={feeTypeFilter}
+              aria-label="Filter by fee type"
               className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
             >
               <option value="">All Fee Types</option>
@@ -161,6 +166,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
             <select
               name="status"
               defaultValue={statusFilter}
+              aria-label="Filter by status"
               className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
             >
               <option value="">All Status</option>
@@ -210,13 +216,13 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
                 <p className="text-sm font-semibold text-orange-600">
                   {event.registrationFee === 0
                     ? 'Free'
-                    : `BDT ${event.registrationFee}`}
+                    : `৳${event.registrationFee}`}
                 </p>
               </div>
               <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
                 {event.status}
               </p>
-              <h2 className="mt-4 text-xl font-bold text-slate-900">
+              <h2 className="mt-4 line-clamp-2 min-h-[3.5rem] text-xl font-bold text-slate-900">
                 {event.title}
               </h2>
               <div className="mt-4 space-y-2 text-sm text-slate-600">
@@ -256,14 +262,24 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
               Page {page} of {totalPages}
             </p>
             <div className="flex gap-2">
-              <Button asChild variant="outline" disabled={page <= 1}>
-                <Link href={getPageHref(Math.max(1, page - 1))}>Previous</Link>
-              </Button>
-              <Button asChild variant="outline" disabled={page >= totalPages}>
-                <Link href={getPageHref(Math.min(totalPages, page + 1))}>
+              {page <= 1 ? (
+                <Button variant="outline" disabled>
+                  Previous
+                </Button>
+              ) : (
+                <Button asChild variant="outline">
+                  <Link href={getPageHref(page - 1)}>Previous</Link>
+                </Button>
+              )}
+              {page >= totalPages ? (
+                <Button variant="outline" disabled>
                   Next
-                </Link>
-              </Button>
+                </Button>
+              ) : (
+                <Button asChild variant="outline">
+                  <Link href={getPageHref(page + 1)}>Next</Link>
+                </Button>
+              )}
             </div>
           </div>
         ) : null}

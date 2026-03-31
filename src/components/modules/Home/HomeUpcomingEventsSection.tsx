@@ -37,7 +37,7 @@ const HomeUpcomingEventsSection = ({
             No upcoming events at the moment. Check back soon!
           </p>
         )}
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {events.map(event => (
             <article
               key={event.id}

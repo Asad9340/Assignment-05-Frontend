@@ -53,7 +53,7 @@ const ChangePasswordForm = () => {
     <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-xl font-black text-slate-900">Change Password</h2>
+          <h2 className="text-xl font-bold text-slate-900">Change Password</h2>
           <p className="mt-1 text-sm text-slate-600">
             Use a strong password with at least 6 characters.
           </p>

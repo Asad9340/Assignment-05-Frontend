@@ -1,5 +1,20 @@
+import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { categoryFilters } from './home-data';
+
+const categoryBadgeClass: Record<string, string> = {
+  'public-free': 'bg-emerald-100 text-emerald-700',
+  'public-paid': 'bg-amber-100 text-amber-700',
+  'private-free': 'bg-sky-100 text-sky-700',
+  'private-paid': 'bg-violet-100 text-violet-700',
+};
+
+const categoryQueryMap: Record<string, string> = {
+  'public-free': 'visibility=PUBLIC&feeType=FREE',
+  'public-paid': 'visibility=PUBLIC&feeType=PAID',
+  'private-free': 'visibility=PRIVATE&feeType=FREE',
+  'private-paid': 'visibility=PRIVATE&feeType=PAID',
+};
 
 const HomeCategoriesSection = () => {
   return (
@@ -12,19 +27,25 @@ const HomeCategoriesSection = () => {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {categoryFilters.map(filter => (
-            <div
+            <Link
               key={filter.value}
+              href={`/events?${categoryQueryMap[filter.value]}`}
               className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition hover:border-orange-300 hover:bg-orange-50"
             >
-              <Badge className="bg-slate-900 text-white">Category</Badge>
+              <Badge
+                className={
+                  categoryBadgeClass[filter.value] ?? 'bg-slate-900 text-white'
+                }
+              >
+                {filter.label}
+              </Badge>
               <h3 className="mt-4 text-lg font-semibold text-slate-900">
                 {filter.label}
               </h3>
               <p className="mt-2 text-sm text-slate-600">
-                Browse events and discover opportunities that match this
-                category.
+                Browse {filter.label.toLowerCase()} events on Planora.
               </p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -25,9 +25,7 @@ const HomeHowItWorksSection = () => {
   return (
     <section className="bg-white py-14 sm:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-black text-slate-900">
-          How Planora Works
-        </h2>
+        <h2 className="text-3xl font-bold text-slate-900">How Planora Works</h2>
         <p className="mt-2 text-slate-600">
           A simple three-step flow from event discovery to participation.
         </p>

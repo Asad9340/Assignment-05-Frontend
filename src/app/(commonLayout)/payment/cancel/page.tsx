@@ -40,7 +40,7 @@ const PaymentCancelPage = async ({ searchParams }: PaymentCancelPageProps) => {
     <main className="grid min-h-screen place-items-center bg-linear-to-br from-slate-100 via-white to-slate-200 px-4 py-10">
       <section className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg sm:p-10">
         <CircleOff className="mx-auto size-14 text-slate-500" />
-        <h1 className="mt-4 text-3xl font-black text-slate-900">
+        <h1 className="mt-4 text-3xl font-bold text-slate-900">
           Payment Cancelled
         </h1>
         <p className="mt-3 text-slate-600">

@@ -123,7 +123,7 @@ const MyEventsPage = async () => {
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             Dashboard
           </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">My Events</h1>
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">My Events</h1>
           <p className="mt-3 max-w-3xl text-slate-200">
             Create, update, and moderate events from one workspace.
           </p>
@@ -147,25 +147,25 @@ const MyEventsPage = async () => {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Total Events</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {events.length}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Paid Events</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {paidEvents}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Free Events</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {events.length - paidEvents}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Total Participants</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {events.reduce(
                 (sum, event) => sum + (event.totalParticipants || 0),
                 0,
@@ -198,7 +198,7 @@ const MyEventsPage = async () => {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Pending Requests
               </p>
-              <p className="mt-1 text-2xl font-black text-amber-600">
+              <p className="mt-1 text-2xl font-bold text-amber-600">
                 {statusSummary.pending}
               </p>
             </article>
@@ -206,7 +206,7 @@ const MyEventsPage = async () => {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Approved
               </p>
-              <p className="mt-1 text-2xl font-black text-emerald-600">
+              <p className="mt-1 text-2xl font-bold text-emerald-600">
                 {statusSummary.approved}
               </p>
             </article>
@@ -214,7 +214,7 @@ const MyEventsPage = async () => {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Rejected
               </p>
-              <p className="mt-1 text-2xl font-black text-rose-500">
+              <p className="mt-1 text-2xl font-bold text-rose-500">
                 {statusSummary.rejected}
               </p>
             </article>
@@ -222,7 +222,7 @@ const MyEventsPage = async () => {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Joined
               </p>
-              <p className="mt-1 text-2xl font-black text-cyan-700">
+              <p className="mt-1 text-2xl font-bold text-cyan-700">
                 {statusSummary.joined}
               </p>
             </article>
@@ -230,7 +230,7 @@ const MyEventsPage = async () => {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Banned
               </p>
-              <p className="mt-1 text-2xl font-black text-rose-700">
+              <p className="mt-1 text-2xl font-bold text-rose-700">
                 {statusSummary.banned}
               </p>
             </article>
@@ -238,7 +238,7 @@ const MyEventsPage = async () => {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Total Moderated
               </p>
-              <p className="mt-1 text-2xl font-black text-slate-900">
+              <p className="mt-1 text-2xl font-bold text-slate-900">
                 {statusSummary.total}
               </p>
             </article>

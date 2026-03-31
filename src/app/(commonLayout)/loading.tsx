@@ -1,27 +1,45 @@
-import { LoaderCircle } from 'lucide-react';
-
 const CommonLayoutLoading = () => {
   return (
-    <main className="min-h-[70vh] bg-[#f8fafc] px-4 py-16 sm:py-24">
-      <section className="mx-auto w-full max-w-5xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:p-12">
-        <div className="flex items-center justify-center gap-3 text-slate-800">
-          <LoaderCircle className="size-6 animate-spin text-orange-500" />
-          <p className="text-lg font-semibold">Preparing your page...</p>
+    <main className="min-h-screen bg-[#f8fafc] px-4 py-10 sm:py-16">
+      {/* Page header skeleton */}
+      <div className="mx-auto mb-8 w-full max-w-7xl sm:px-6 lg:px-8">
+        <div className="h-8 w-64 animate-pulse rounded-xl bg-slate-200" />
+        <div className="mt-2 h-4 w-96 animate-pulse rounded bg-slate-100" />
+      </div>
+
+      {/* Filter row */}
+      <div className="mx-auto mb-8 w-full max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex flex-wrap gap-3">
+          <div className="h-10 w-64 animate-pulse rounded-lg bg-slate-200" />
+          <div className="h-10 w-32 animate-pulse rounded-lg bg-slate-100" />
+          <div className="h-10 w-32 animate-pulse rounded-lg bg-slate-100" />
         </div>
+      </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-4">
-            <div className="h-6 w-1/2 animate-pulse rounded bg-slate-200" />
-            <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
-            <div className="h-4 w-11/12 animate-pulse rounded bg-slate-100" />
-            <div className="h-4 w-4/5 animate-pulse rounded bg-slate-100" />
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
-            <div className="h-4 w-2/3 animate-pulse rounded bg-slate-200" />
-            <div className="mt-3 h-16 animate-pulse rounded-xl bg-slate-100" />
-            <div className="mt-3 h-16 animate-pulse rounded-xl bg-slate-100" />
-          </div>
+      {/* Card grid skeleton */}
+      <section className="mx-auto w-full max-w-7xl sm:px-6 lg:px-8">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            >
+              <div className="mb-4 flex gap-2">
+                <div className="h-5 w-16 animate-pulse rounded-full bg-slate-200" />
+                <div className="h-5 w-12 animate-pulse rounded-full bg-slate-100" />
+              </div>
+              <div className="h-5 w-4/5 animate-pulse rounded bg-slate-200" />
+              <div className="mt-4 space-y-2">
+                <div className="h-4 w-2/5 animate-pulse rounded bg-slate-100" />
+                <div className="h-4 w-2/5 animate-pulse rounded bg-slate-100" />
+                <div className="h-4 w-3/5 animate-pulse rounded bg-slate-100" />
+              </div>
+              <div className="mt-5 flex justify-between">
+                <div className="h-4 w-16 animate-pulse rounded bg-slate-200" />
+                <div className="h-8 w-24 animate-pulse rounded-lg bg-slate-200" />
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </main>

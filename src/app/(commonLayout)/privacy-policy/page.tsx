@@ -25,7 +25,7 @@ const PrivacyPolicyPage = () => {
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-700">
             Privacy Policy
           </p>
-          <h1 className="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">
+          <h1 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">
             Your privacy matters at every event touchpoint.
           </h1>
           <p className="mt-4 text-slate-600">

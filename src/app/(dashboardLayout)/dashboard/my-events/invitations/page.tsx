@@ -47,7 +47,7 @@ const MyEventInvitationsPage = async ({
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             My Events
           </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
             Event Invitations
           </h1>
           <p className="mt-3 text-slate-200">

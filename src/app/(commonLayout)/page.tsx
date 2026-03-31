@@ -12,6 +12,7 @@ const toHomeEvent = (input: ReturnType<typeof mapEvent>): HomeEvent => {
   return {
     id: input.id || `event-${Date.now()}`,
     title: input.title,
+    description: input.description,
     date: input.eventDate,
     time: input.eventTime,
     venue: input.venue,
@@ -20,6 +21,7 @@ const toHomeEvent = (input: ReturnType<typeof mapEvent>): HomeEvent => {
       input.visibility.toUpperCase() === 'PRIVATE' ? 'Private' : 'Public',
     feeType: input.feeType.toUpperCase() === 'PAID' ? 'Paid' : 'Free',
     fee: input.registrationFee,
+    participantCount: input.totalParticipants,
   };
 };
 
@@ -36,7 +38,7 @@ export default async function HomePage() {
   }
 
   const featured = dynamicEvents[0];
-  const upcoming = dynamicEvents.slice(0, 9);
+  const upcoming = dynamicEvents.slice(1, 10);
 
   return (
     <main className="min-h-screen bg-[#090f20]">

@@ -4,23 +4,30 @@ import { Compass, House } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <main className="min-h-[70vh] bg-[#f8fafc] px-4 py-16 sm:py-24">
-      <section className="mx-auto w-full max-w-3xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-500">
-          Error 404
+    <main className="flex min-h-screen items-center justify-center bg-[#090f20] px-4 py-16">
+      <section className="w-full max-w-2xl text-center">
+        {/* Large 404 */}
+        <p className="text-[120px] font-black leading-none text-white/5 sm:text-[180px]">
+          404
         </p>
-        <h1 className="mt-4 text-4xl font-black text-slate-900 sm:text-6xl">
-          Page Not Found
-        </h1>
-        <p className="mx-auto mt-4 max-w-xl text-slate-600">
-          The page you are looking for does not exist or has been moved. Please
-          use one of the links below.
-        </p>
+
+        <div className="-mt-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-orange-400">
+            Page Not Found
+          </p>
+          <h1 className="mt-3 text-3xl font-bold text-white sm:text-5xl">
+            Looks like you&apos;re lost
+          </h1>
+          <p className="mx-auto mt-4 max-w-md text-slate-400">
+            The page you&apos;re looking for doesn&apos;t exist or has been
+            moved. Head back home or explore upcoming events.
+          </p>
+        </div>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button
             asChild
-            className="bg-[#101b3d] text-white hover:bg-[#172958]"
+            className="bg-orange-500 text-white hover:bg-orange-400"
           >
             <Link href="/">
               <House className="size-4" />
@@ -28,7 +35,11 @@ export default function NotFound() {
             </Link>
           </Button>
 
-          <Button asChild variant="outline">
+          <Button
+            asChild
+            variant="outline"
+            className="border-slate-600 bg-transparent text-slate-200 hover:bg-slate-800"
+          >
             <Link href="/events">
               <Compass className="size-4" />
               Browse Events

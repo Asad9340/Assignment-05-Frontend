@@ -85,7 +85,7 @@ export default async function AdminDashboardPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Planora Administration
         </p>
-        <h1 className="mt-2 text-3xl font-black sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           Admin Control Center{user?.name ? `: ${user.name}` : ''}
         </h1>
         <p className="mt-3 max-w-3xl text-slate-200">
@@ -121,7 +121,7 @@ export default async function AdminDashboardPage() {
                 <p className="text-sm text-slate-600">{metric.label}</p>
                 <Icon className="size-4 text-slate-500" />
               </div>
-              <p className="mt-2 text-2xl font-black text-slate-900">
+              <p className="mt-2 text-2xl font-bold text-slate-900">
                 {metric.value}
               </p>
             </article>

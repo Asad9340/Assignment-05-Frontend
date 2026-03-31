@@ -76,7 +76,7 @@ const EventsPage = async ({ searchParams }: AdminEventsPageProps) => {
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Admin
         </p>
-        <h1 className="mt-2 text-3xl font-black sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           Events Management
         </h1>
         <p className="mt-3 max-w-3xl text-slate-200">
@@ -87,17 +87,17 @@ const EventsPage = async ({ searchParams }: AdminEventsPageProps) => {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm text-slate-600">Total Events</p>
-          <p className="mt-2 text-2xl font-black text-slate-900">{total}</p>
+          <p className="mt-2 text-2xl font-bold text-slate-900">{total}</p>
         </article>
         <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm text-slate-600">Private On This Page</p>
-          <p className="mt-2 text-2xl font-black text-slate-900">
+          <p className="mt-2 text-2xl font-bold text-slate-900">
             {privateCount}
           </p>
         </article>
         <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm text-slate-600">Current Page</p>
-          <p className="mt-2 text-2xl font-black text-slate-900">{page}</p>
+          <p className="mt-2 text-2xl font-bold text-slate-900">{page}</p>
         </article>
       </div>
 

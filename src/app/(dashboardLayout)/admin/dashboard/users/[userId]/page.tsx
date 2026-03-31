@@ -47,7 +47,7 @@ const UserDetailsManagementPage = async ({
     return (
       <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
         <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-white p-8 text-center">
-          <h1 className="text-2xl font-black text-slate-900">User Not Found</h1>
+          <h1 className="text-2xl font-bold text-slate-900">User Not Found</h1>
           <p className="mt-2 text-slate-600">
             This user may not exist anymore.
           </p>
@@ -74,7 +74,7 @@ const UserDetailsManagementPage = async ({
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             Admin
           </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">User Details</h1>
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">User Details</h1>
           <p className="mt-3 text-slate-200">
             {pickString(user.name, 'Unnamed user')} (
             {pickString(user.email, 'N/A')})
@@ -100,25 +100,25 @@ const UserDetailsManagementPage = async ({
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Role</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pickString(user.role, 'N/A')}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Status</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pickString(user.status, 'N/A')}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Hosted Events</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pickNumber(count.events)}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Reviews</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pickNumber(count.eventReviews)}
             </p>
           </article>

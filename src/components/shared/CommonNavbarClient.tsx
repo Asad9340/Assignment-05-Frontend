@@ -146,7 +146,7 @@ const CommonNavbarClient = ({
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-70 sm:w-80">
+          <SheetContent side="right" className="w-72 sm:w-80">
             <div className="mt-8 flex flex-col gap-2">
               {navLinks.map(link => (
                 <Button

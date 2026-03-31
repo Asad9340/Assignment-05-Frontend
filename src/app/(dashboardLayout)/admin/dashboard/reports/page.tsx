@@ -117,7 +117,7 @@ const ReportsPage = async () => {
     <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
         <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
-          <h1 className="text-3xl font-black sm:text-4xl">Admin Reports</h1>
+          <h1 className="text-3xl font-bold sm:text-4xl">Admin Reports</h1>
           <p className="mt-2 text-slate-200">
             API-backed moderation and growth metrics for users, events, and
             engagement.
@@ -140,7 +140,7 @@ const ReportsPage = async () => {
                     <Icon className="size-4" />
                   </span>
                 </div>
-                <p className="mt-4 text-3xl font-black text-slate-900">
+                <p className="mt-4 text-3xl font-bold text-slate-900">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm font-semibold text-emerald-600">

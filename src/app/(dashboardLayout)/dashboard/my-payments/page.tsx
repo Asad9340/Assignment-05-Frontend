@@ -17,7 +17,7 @@ const MyPaymentsPage = async () => {
     <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-6xl space-y-6">
         <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
-          <h1 className="text-3xl font-black sm:text-4xl">My Payments</h1>
+          <h1 className="text-3xl font-bold sm:text-4xl">My Payments</h1>
           <p className="mt-2 text-slate-200">
             Track payment status, transaction history, and approval state for
             paid events.

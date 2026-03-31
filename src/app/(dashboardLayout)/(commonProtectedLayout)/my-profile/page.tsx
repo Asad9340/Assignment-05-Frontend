@@ -123,7 +123,7 @@ const MyProfilePage = async () => {
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
               Account Overview
             </p>
-            <h1 className="mt-2 text-3xl font-black sm:text-4xl">My Profile</h1>
+            <h1 className="mt-2 text-3xl font-bold sm:text-4xl">My Profile</h1>
             <p className="mt-3 max-w-3xl text-slate-200">
               Review your account details and recent activity across hosted and
               joined events.
@@ -150,7 +150,7 @@ const MyProfilePage = async () => {
       <section className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
         <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
-            <h2 className="text-2xl font-black text-slate-900">
+            <h2 className="text-2xl font-bold text-slate-900">
               {profile.name}
             </h2>
             <Badge className="bg-slate-900 text-white">{profile.role}</Badge>

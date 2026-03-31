@@ -29,7 +29,7 @@ const AboutUsPage = () => {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-300">
             About Planora
           </p>
-          <h1 className="mt-4 text-3xl font-black sm:text-5xl">
+          <h1 className="mt-4 text-3xl font-bold sm:text-5xl">
             Powering modern event experiences with trust and control.
           </h1>
           <p className="mt-5 max-w-3xl text-slate-200">

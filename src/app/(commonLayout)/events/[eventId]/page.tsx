@@ -1,4 +1,11 @@
-import { CalendarDays, Clock3, Link2, MapPin, Star } from 'lucide-react';
+import {
+  CalendarDays,
+  Clock3,
+  Link2,
+  MapPin,
+  Star,
+  UserRound,
+} from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { getUserInfo } from '@/services/auth.services';
@@ -47,7 +54,7 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
     return (
       <main className="grid min-h-screen place-items-center bg-[#f7f8fc] px-4 py-14">
         <section className="w-full max-w-xl rounded-3xl border border-rose-200 bg-white p-8 text-center shadow-sm">
-          <h1 className="text-2xl font-black text-slate-900">
+          <h1 className="text-2xl font-bold text-slate-900">
             Event Details Unavailable
           </h1>
           <p className="mt-3 text-slate-600">
@@ -88,7 +95,7 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
               {event.feeType}
             </Badge>
           </div>
-          <h1 className="mt-4 text-3xl font-black text-slate-900 sm:text-4xl">
+          <h1 className="mt-4 text-3xl font-bold text-slate-900 sm:text-4xl">
             {event.title}
           </h1>
           <p className="mt-4 text-slate-600">{event.description}</p>
@@ -107,7 +114,7 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
               Venue: {event.venue}
             </p>
             <p className="flex items-center gap-2 rounded-xl bg-slate-50 p-3">
-              <Link2 className="size-4" />
+              <UserRound className="size-4" />
               Organizer: {event.organizerName}
             </p>
             <p className="flex items-center gap-2 rounded-xl bg-slate-50 p-3 sm:col-span-2">
@@ -155,7 +162,10 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
 
             <div className="mt-4 space-y-2 text-sm text-slate-700">
               {reviews.slice(0, 3).map(review => (
-                <p key={review.id} className="rounded-lg bg-slate-50 p-3">
+                <p
+                  key={review.id}
+                  className="line-clamp-3 rounded-lg bg-slate-50 p-3"
+                >
                   <span className="font-semibold">{review.userName}:</span>{' '}
                   {review.review}
                 </p>
@@ -167,10 +177,10 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
         <aside className="space-y-5">
           <div className="rounded-3xl bg-[#101b3d] p-6 text-white shadow-xl">
             <h2 className="text-xl font-bold">Registration Fee</h2>
-            <p className="mt-2 text-3xl font-black">
+            <p className="mt-2 text-3xl font-bold">
               {event.registrationFee === 0
                 ? 'Free'
-                : `BDT ${event.registrationFee}`}
+                : `৳${event.registrationFee}`}
             </p>
             <p className="mt-3 text-sm text-slate-200">
               Paid join attempts become pending until host approval.
@@ -186,15 +196,19 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
             />
           </div>
 
-          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-            <h2 className="text-lg font-bold text-slate-900">Owner Controls</h2>
-            <ul className="mt-4 space-y-2 text-sm text-slate-600">
-              <li>Approve or reject join requests</li>
-              <li>Ban participants</li>
-              <li>Edit event details</li>
-              <li>Delete inappropriate/obsolete event</li>
-            </ul>
-          </div>
+          {isOwner && (
+            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+              <h2 className="text-lg font-bold text-slate-900">
+                Owner Controls
+              </h2>
+              <ul className="mt-4 space-y-2 text-sm text-slate-600">
+                <li>Approve or reject join requests</li>
+                <li>Ban participants</li>
+                <li>Edit event details</li>
+                <li>Delete inappropriate/obsolete event</li>
+              </ul>
+            </div>
+          )}
         </aside>
       </section>
     </main>

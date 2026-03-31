@@ -15,7 +15,7 @@ const ChangePasswordPage = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
               Security Settings
             </p>
-            <h1 className="mt-2 flex items-center gap-2 text-3xl font-black sm:text-4xl">
+            <h1 className="mt-2 flex items-center gap-2 text-3xl font-bold sm:text-4xl">
               <KeyRound className="size-7" /> Change Password
             </h1>
             <p className="mt-3 max-w-3xl text-slate-200">

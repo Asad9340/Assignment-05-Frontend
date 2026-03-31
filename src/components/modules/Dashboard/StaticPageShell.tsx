@@ -27,7 +27,7 @@ const StaticPageShell = ({
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             {eyebrow}
           </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">{title}</h1>
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">{title}</h1>
           <p className="mt-3 max-w-3xl text-slate-200">{description}</p>
           {(primaryAction || secondaryAction) && (
             <div className="mt-6 flex flex-wrap gap-3">
@@ -56,7 +56,7 @@ const StaticPageShell = ({
                 className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
               >
                 <p className="text-sm text-slate-600">{metric.label}</p>
-                <p className="mt-2 text-2xl font-black text-slate-900">
+                <p className="mt-2 text-2xl font-bold text-slate-900">
                   {metric.value}
                 </p>
               </article>

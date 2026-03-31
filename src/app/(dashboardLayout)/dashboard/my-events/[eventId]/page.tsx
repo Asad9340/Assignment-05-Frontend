@@ -50,7 +50,7 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
     return (
       <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
         <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-white p-8 text-center">
-          <h1 className="text-2xl font-black text-slate-900">
+          <h1 className="text-2xl font-bold text-slate-900">
             Unable to Load Event
           </h1>
           <p className="mt-2 text-slate-600">
@@ -80,7 +80,7 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             My Events
           </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
             {pickString(event.title, 'Event Details')}
           </h1>
           <p className="mt-3 text-slate-200">
@@ -125,25 +125,25 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Participants</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pickNumber(count.participants, 0)}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Pending Requests</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pendingParticipants}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Reviews</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pickNumber(count.reviews, 0)}
             </p>
           </article>
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-600">Invitations</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+            <p className="mt-2 text-2xl font-bold text-slate-900">
               {pickNumber(count.eventInvitations, 0)}
             </p>
           </article>
