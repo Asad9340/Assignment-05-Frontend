@@ -43,7 +43,10 @@ export const platformServerServices = {
 
   updateAdminUser: async (
     userId: string,
-    payload: { status?: 'ACTIVE' | 'BLOCKED' | 'DELETED' },
+    payload: {
+      role?: 'ADMIN' | 'USER';
+      status?: 'ACTIVE' | 'BLOCKED' | 'DELETED';
+    },
   ) => {
     return serverHttpClient.patch<unknown>(`/admin/users/${userId}`, payload);
   },

@@ -57,15 +57,8 @@ const EventsPage = async ({ searchParams }: AdminEventsPageProps) => {
     });
 
     events = extractArrayPayload(response.data);
-    total = pickNumber(
-      (response as Record<string, unknown>).meta &&
-        asRecord((response as Record<string, unknown>).meta).total,
-    );
-    limit = pickNumber(
-      (response as Record<string, unknown>).meta &&
-        asRecord((response as Record<string, unknown>).meta).limit,
-      10,
-    );
+    total = pickNumber(response.meta?.total);
+    limit = pickNumber(response.meta?.limit, 10);
   } catch {
     events = [];
     total = 0;

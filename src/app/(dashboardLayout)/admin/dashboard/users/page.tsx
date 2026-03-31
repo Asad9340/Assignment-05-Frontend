@@ -154,6 +154,19 @@ const UserManagementPage = () => {
     );
   };
 
+  const handleRoleUpdated = (userId: string, nextRole: 'ADMIN' | 'USER') => {
+    setUsers(prev =>
+      prev.map(user =>
+        user.id === userId
+          ? {
+              ...user,
+              role: nextRole,
+            }
+          : user,
+      ),
+    );
+  };
+
   const blockedCount = useMemo(
     () =>
       users.filter(user => pickString(user.status).toUpperCase() === 'BLOCKED')
@@ -173,7 +186,7 @@ const UserManagementPage = () => {
         </h1>
         <p className="mt-3 max-w-3xl text-slate-200">
           Search and filter users instantly without page reload, then update
-          user status inline.
+          user role and status inline.
         </p>
       </section>
 
@@ -299,6 +312,7 @@ const UserManagementPage = () => {
                     status={pickString(user.status)}
                     role={pickString(user.role)}
                     onStatusUpdated={handleStatusUpdated}
+                    onRoleUpdated={handleRoleUpdated}
                   />
                 </div>
               </article>

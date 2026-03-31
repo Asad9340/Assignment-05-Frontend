@@ -32,7 +32,10 @@ export async function fetchAdminStatsAction() {
 
 export async function updateAdminUserAction(
   userId: string,
-  payload: { status?: 'ACTIVE' | 'BLOCKED' | 'DELETED' },
+  payload: {
+    role?: 'ADMIN' | 'USER';
+    status?: 'ACTIVE' | 'BLOCKED' | 'DELETED';
+  },
 ) {
   try {
     const response = await platformServerServices.updateAdminUser(

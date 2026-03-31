@@ -8,25 +8,19 @@ import { platformServerServices } from '@/services/platform.server.services';
 import { getUserInfo } from '@/services/auth.services';
 import EventBookingButton from '@/components/modules/Event/EventBookingButton';
 
-const filters = ['Public Free', 'Public Paid', 'Private Free', 'Private Paid'];
-
-const parseFilter = (filter: string) => {
-  const normalized = filter.toLowerCase();
-
-  if (normalized === 'public free') {
-    return { visibility: 'PUBLIC', feeType: 'FREE' };
-  }
-  if (normalized === 'public paid') {
-    return { visibility: 'PUBLIC', feeType: 'PAID' };
-  }
-  if (normalized === 'private free') {
-    return { visibility: 'PRIVATE', feeType: 'FREE' };
-  }
-  if (normalized === 'private paid') {
-    return { visibility: 'PRIVATE', feeType: 'PAID' };
+const pickNumber = (value: unknown, fallback = 0): number => {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
   }
 
-  return {};
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return fallback;
 };
 
 type EventsPageProps = {
@@ -39,32 +33,91 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
     typeof resolvedSearchParams.searchTerm === 'string'
       ? resolvedSearchParams.searchTerm
       : '';
-  const selectedFilter =
-    typeof resolvedSearchParams.filter === 'string'
-      ? resolvedSearchParams.filter
+  const visibilityFilter =
+    typeof resolvedSearchParams.visibility === 'string'
+      ? resolvedSearchParams.visibility.toUpperCase()
       : '';
+  const feeTypeFilter =
+    typeof resolvedSearchParams.feeType === 'string'
+      ? resolvedSearchParams.feeType.toUpperCase()
+      : '';
+  const statusFilter =
+    typeof resolvedSearchParams.status === 'string'
+      ? resolvedSearchParams.status.toUpperCase()
+      : '';
+  const pageParam =
+    typeof resolvedSearchParams.page === 'string'
+      ? resolvedSearchParams.page
+      : '1';
 
-  const filterQuery = parseFilter(selectedFilter);
+  const page = Math.max(1, Number(pageParam) || 1);
+  const defaultLimit = 9;
 
   const query: Record<string, unknown> = {
-    ...filterQuery,
-    limit: 100,
+    page,
+    limit: defaultLimit,
   };
 
   if (searchTerm.trim()) {
     query.searchTerm = searchTerm.trim();
   }
 
+  if (visibilityFilter === 'PUBLIC' || visibilityFilter === 'PRIVATE') {
+    query.visibility = visibilityFilter;
+  }
+
+  if (feeTypeFilter === 'FREE' || feeTypeFilter === 'PAID') {
+    query.feeType = feeTypeFilter;
+  }
+
+  if (
+    statusFilter === 'ACTIVE' ||
+    statusFilter === 'COMPLETED' ||
+    statusFilter === 'CANCELLED'
+  ) {
+    query.status = statusFilter;
+  }
+
   let events = [] as ReturnType<typeof mapEvent>[];
+  let total = 0;
+  let limit = defaultLimit;
   let isError = false;
   const user = await getUserInfo();
 
   try {
     const response = await platformServerServices.getEvents(query);
     events = extractArrayPayload(response.data).map(item => mapEvent(item));
+    total = pickNumber(response.meta?.total, events.length);
+    limit = pickNumber(response.meta?.limit, defaultLimit);
   } catch {
     isError = true;
   }
+
+  const totalPages = Math.max(1, Math.ceil(total / Math.max(1, limit)));
+  const baseQuery = new URLSearchParams();
+
+  if (searchTerm.trim()) {
+    baseQuery.set('searchTerm', searchTerm.trim());
+  }
+  if (visibilityFilter) {
+    baseQuery.set('visibility', visibilityFilter);
+  }
+  if (feeTypeFilter) {
+    baseQuery.set('feeType', feeTypeFilter);
+  }
+  if (statusFilter) {
+    baseQuery.set('status', statusFilter);
+  }
+
+  const getPageHref = (nextPage: number) => {
+    const params = new URLSearchParams(baseQuery.toString());
+    params.set('page', String(nextPage));
+    const queryString = params.toString();
+
+    return queryString ? `/events?${queryString}` : '/events';
+  };
+
+  const resetHref = '/events';
 
   return (
     <main className="min-h-screen bg-[#f7f8fc] py-14 sm:py-20">
@@ -72,14 +125,12 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
         <header className="mb-8 rounded-3xl bg-[#101b3d] p-8 text-white sm:p-10">
           <h1 className="text-3xl font-black sm:text-4xl">Discover Events</h1>
           <p className="mt-3 max-w-2xl text-slate-200">
-            Search by event title or organizer and filter by privacy and
-            registration fee.
+            Search by event title or organizer and filter by event visibility,
+            fee type, and status.
           </p>
 
-          <form
-            className="mt-6 grid gap-3 md:grid-cols-[1fr_auto]"
-            method="GET"
-          >
+          <form className="mt-6 grid gap-3 md:grid-cols-5" method="GET">
+            <input type="hidden" name="page" value="1" />
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-500" />
               <Input
@@ -89,46 +140,52 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
                 className="h-11 border-0 bg-white pl-10 text-slate-900"
               />
             </div>
+            <select
+              name="visibility"
+              defaultValue={visibilityFilter}
+              className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
+            >
+              <option value="">All Visibility</option>
+              <option value="PUBLIC">Public</option>
+              <option value="PRIVATE">Private</option>
+            </select>
+            <select
+              name="feeType"
+              defaultValue={feeTypeFilter}
+              className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
+            >
+              <option value="">All Fee Types</option>
+              <option value="FREE">Free</option>
+              <option value="PAID">Paid</option>
+            </select>
+            <select
+              name="status"
+              defaultValue={statusFilter}
+              className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
+            >
+              <option value="">All Status</option>
+              <option value="ACTIVE">Active</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
             <Button
               type="submit"
               className="h-11 bg-orange-500 text-white hover:bg-orange-400"
             >
-              Search
+              Apply
             </Button>
           </form>
-        </header>
 
-        <div className="mb-6 flex flex-wrap gap-2">
-          <Button
-            asChild
-            variant="outline"
-            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
-          >
-            <Link
-              href={
-                searchTerm
-                  ? `/events?searchTerm=${encodeURIComponent(searchTerm)}`
-                  : '/events'
-              }
-            >
-              All Events
-            </Link>
-          </Button>
-          {filters.map(filter => (
+          <div className="mt-3">
             <Button
-              key={filter}
               asChild
               variant="outline"
-              className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+              className="border-slate-400 bg-transparent text-slate-100 hover:bg-slate-800"
             >
-              <Link
-                href={`/events?filter=${encodeURIComponent(filter)}${searchTerm ? `&searchTerm=${encodeURIComponent(searchTerm)}` : ''}`}
-              >
-                {filter}
-              </Link>
+              <Link href={resetHref}>Reset Filters</Link>
             </Button>
-          ))}
-        </div>
+          </div>
+        </header>
 
         {isError ? (
           <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-rose-700">
@@ -156,6 +213,9 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
                     : `BDT ${event.registrationFee}`}
                 </p>
               </div>
+              <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                {event.status}
+              </p>
               <h2 className="mt-4 text-xl font-bold text-slate-900">
                 {event.title}
               </h2>
@@ -189,6 +249,24 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
             </article>
           ))}
         </div>
+
+        {!isError && events.length > 0 ? (
+          <div className="mt-8 flex items-center justify-between gap-4">
+            <p className="text-sm text-slate-600">
+              Page {page} of {totalPages}
+            </p>
+            <div className="flex gap-2">
+              <Button asChild variant="outline" disabled={page <= 1}>
+                <Link href={getPageHref(Math.max(1, page - 1))}>Previous</Link>
+              </Button>
+              <Button asChild variant="outline" disabled={page >= totalPages}>
+                <Link href={getPageHref(Math.min(totalPages, page + 1))}>
+                  Next
+                </Link>
+              </Button>
+            </div>
+          </div>
+        ) : null}
       </section>
     </main>
   );
