@@ -42,9 +42,7 @@ export default async function HomePage() {
     <main className="min-h-screen bg-[#090f20]">
       <HomeHeroSection event={featured} />
       <HomeEventStatsSection events={upcoming} />
-      <HomeUpcomingEventsSection
-        events={upcoming.length > 0 ? upcoming : undefined}
-      />
+      <HomeUpcomingEventsSection events={upcoming} />
       <HomeHowItWorksSection />
       <HomeCategoriesSection />
       <HomeCtaSection />

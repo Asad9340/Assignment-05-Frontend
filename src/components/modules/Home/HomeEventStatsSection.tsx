@@ -35,7 +35,7 @@ const HomeEventStatsSection = ({ events }: HomeEventStatsSectionProps) => {
     },
     {
       label: 'Average Paid Fee',
-      value: avgFee > 0 ? `$${avgFee}` : '$0',
+      value: avgFee > 0 ? `৳${avgFee}` : '৳0',
       helper: 'Calculated from current paid events',
     },
   ];

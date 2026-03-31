@@ -1,6 +1,8 @@
 import CommonFooter from '@/components/shared/CommonFooter';
 import CommonNavbar from '@/components/shared/CommonNavbar';
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{

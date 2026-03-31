@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { CalendarDays, Clock3, MapPin, UserRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { HomeEvent, upcomingPublicEvents } from './home-data';
+import { HomeEvent } from './home-data';
 
 type HomeUpcomingEventsSectionProps = {
   events?: HomeEvent[];
 };
 
 const HomeUpcomingEventsSection = ({
-  events = upcomingPublicEvents,
+  events = [],
 }: HomeUpcomingEventsSectionProps) => {
   return (
     <section className="bg-[#f7f8fc] py-16 sm:py-20">
@@ -32,6 +32,11 @@ const HomeUpcomingEventsSection = ({
           </Button>
         </div>
 
+        {events.length === 0 && (
+          <p className="text-center text-slate-500 py-12">
+            No upcoming events at the moment. Check back soon!
+          </p>
+        )}
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {events.map(event => (
             <article
@@ -88,7 +93,7 @@ const HomeUpcomingEventsSection = ({
 
               <div className="mt-5 flex items-center justify-between">
                 <p className="font-semibold text-slate-900">
-                  {event.fee === 0 ? 'Free' : `$${event.fee}`}
+                  {event.fee === 0 ? 'Free' : `৳${event.fee}`}
                 </p>
                 <Button
                   asChild

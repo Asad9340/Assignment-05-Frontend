@@ -163,7 +163,7 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
             <p className="rounded-lg bg-slate-50 p-3">
               Registration Fee:{' '}
               {pickNumber(event.registrationFee, 0) > 0
-                ? `$${pickNumber(event.registrationFee, 0)}`
+                ? `৳${pickNumber(event.registrationFee, 0)}`
                 : 'Free'}
             </p>
             <p className="rounded-lg bg-slate-50 p-3">

@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { ArrowRight, Calendar, Clock3, MapPin, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { featuredEvent, HomeEvent } from './home-data';
+import { HomeEvent } from './home-data';
 
 type HomeHeroSectionProps = {
   event?: HomeEvent;
 };
 
-const HomeHeroSection = ({ event = featuredEvent }: HomeHeroSectionProps) => {
-  const feeLabel = event.fee === 0 ? 'Free' : `$${event.fee}`;
+const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
+  const feeLabel = event ? (event.fee === 0 ? 'Free' : `৳${event.fee}`) : '';
 
   return (
     <section className="relative overflow-hidden border-b border-white/10 bg-[#0b1329]">
@@ -47,62 +47,64 @@ const HomeHeroSection = ({ event = featuredEvent }: HomeHeroSectionProps) => {
           </div>
         </div>
 
-        <article className="rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-2xl backdrop-blur">
-          <div className="mb-4 flex flex-wrap items-center gap-2">
-            <Badge className="bg-sky-500/20 text-sky-200">
-              {event.visibility}
-            </Badge>
-            <Badge
-              className={
-                event.feeType === 'Free'
-                  ? 'bg-emerald-500/20 text-emerald-200'
-                  : 'bg-amber-500/20 text-amber-200'
-              }
-            >
-              {event.feeType}
-            </Badge>
-            <Badge className="bg-purple-500/20 text-purple-200">
-              {feeLabel}
-            </Badge>
-          </div>
-          <h2 className="text-2xl font-bold text-white">{event.title}</h2>
-          <p className="mb-5 text-sm text-slate-300">
-            Join this featured event and experience streamlined registration,
-            participation, and collaboration powered by Planora.
-          </p>
-
-          <div className="space-y-3 text-sm text-slate-200">
-            <p className="flex items-center gap-2">
-              <Calendar className="size-4 text-orange-300" />
-              {event.date}
+        {event && (
+          <article className="rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-2xl backdrop-blur">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <Badge className="bg-sky-500/20 text-sky-200">
+                {event.visibility}
+              </Badge>
+              <Badge
+                className={
+                  event.feeType === 'Free'
+                    ? 'bg-emerald-500/20 text-emerald-200'
+                    : 'bg-amber-500/20 text-amber-200'
+                }
+              >
+                {event.feeType}
+              </Badge>
+              <Badge className="bg-purple-500/20 text-purple-200">
+                {feeLabel}
+              </Badge>
+            </div>
+            <h2 className="text-2xl font-bold text-white">{event.title}</h2>
+            <p className="mb-5 text-sm text-slate-300">
+              Join this featured event and experience streamlined registration,
+              participation, and collaboration powered by Planora.
             </p>
-            {event.time && (
-              <p className="flex items-center gap-2">
-                <Clock3 className="size-4 text-indigo-300" />
-                {event.time}
-              </p>
-            )}
-            {event.venue && (
-              <p className="flex items-center gap-2">
-                <MapPin className="size-4 text-emerald-300" />
-                {event.venue}
-              </p>
-            )}
-            <p className="flex items-center gap-2">
-              <Users className="size-4 text-sky-300" />
-              Organizer: {event.organizer}
-            </p>
-          </div>
 
-          <div className="mt-6 flex items-center justify-between">
-            <Button
-              asChild
-              className="bg-white text-slate-900 hover:bg-slate-200"
-            >
-              <Link href={`/events/${event.id}`}>View Details</Link>
-            </Button>
-          </div>
-        </article>
+            <div className="space-y-3 text-sm text-slate-200">
+              <p className="flex items-center gap-2">
+                <Calendar className="size-4 text-orange-300" />
+                {event.date}
+              </p>
+              {event.time && (
+                <p className="flex items-center gap-2">
+                  <Clock3 className="size-4 text-indigo-300" />
+                  {event.time}
+                </p>
+              )}
+              {event.venue && (
+                <p className="flex items-center gap-2">
+                  <MapPin className="size-4 text-emerald-300" />
+                  {event.venue}
+                </p>
+              )}
+              <p className="flex items-center gap-2">
+                <Users className="size-4 text-sky-300" />
+                Organizer: {event.organizer}
+              </p>
+            </div>
+
+            <div className="mt-6 flex items-center justify-between">
+              <Button
+                asChild
+                className="bg-white text-slate-900 hover:bg-slate-200"
+              >
+                <Link href={`/events/${event.id}`}>View Details</Link>
+              </Button>
+            </div>
+          </article>
+        )}
       </div>
     </section>
   );

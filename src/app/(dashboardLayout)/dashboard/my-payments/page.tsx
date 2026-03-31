@@ -46,7 +46,7 @@ const MyPaymentsPage = async () => {
                     <td className="py-3 font-semibold">
                       {row.registrationFee === 0
                         ? 'Free'
-                        : `$${row.registrationFee}`}
+                        : `৳${row.registrationFee}`}
                     </td>
                     <td className="py-3">
                       <span
