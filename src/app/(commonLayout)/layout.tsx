@@ -9,9 +9,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen flex-col overflow-x-hidden bg-[#f8fafc]">
+    <div className="flex min-h-screen flex-col bg-[#f8fafc]">
       <CommonNavbar />
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 pt-16">{children}</div>
       <CommonFooter />
     </div>
   );

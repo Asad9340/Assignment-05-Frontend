@@ -175,7 +175,10 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
           className="w-full"
           onClick={() => {
             const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-            window.location.href = `${baseUrl}/auth/login/google`;
+            const redirect = redirectPath
+              ? `?redirect=${encodeURIComponent(redirectPath)}`
+              : '';
+            window.location.href = `${baseUrl}/auth/login/google${redirect}`;
           }}
         >
           <FcGoogle className="w-5 h-5 mr-2" />

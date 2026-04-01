@@ -1,11 +1,19 @@
 'use client';
 
-import { FormEvent, useMemo, useState, useTransition } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Camera, Loader2 } from 'lucide-react';
 import { updateMyProfileAction } from '@/app/(dashboardLayout)/(commonProtectedLayout)/my-profile/_actions';
 
 type ProfileEditorCardProps = {
@@ -13,6 +21,9 @@ type ProfileEditorCardProps = {
   email: string;
   image: string;
 };
+
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const MAX_SIZE_MB = 5;
 
 const getInitials = (name: string) => {
   return name
@@ -23,18 +34,11 @@ const getInitials = (name: string) => {
     .toUpperCase();
 };
 
-const isValidUrl = (value: string): boolean => {
-  try {
-    const url = new URL(value);
-    return url.protocol === 'http:' || url.protocol === 'https:';
-  } catch {
-    return false;
-  }
-};
-
 const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
+  const [isUploading, setIsUploading] = useState(false);
   const [fullName, setFullName] = useState(name);
   const [imageUrl, setImageUrl] = useState(image);
   const [feedback, setFeedback] = useState<{
@@ -47,12 +51,64 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
     [fullName, name],
   );
 
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setFeedback({
+        type: 'error',
+        message: 'Only JPEG, PNG, WebP, or GIF images are allowed.',
+      });
+      return;
+    }
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      setFeedback({
+        type: 'error',
+        message: `Image must be smaller than ${MAX_SIZE_MB} MB.`,
+      });
+      return;
+    }
+
+    setFeedback(null);
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me/avatar`,
+        { method: 'POST', body: formData, credentials: 'include' },
+      );
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData?.message || 'Upload failed');
+      }
+
+      const data = await res.json();
+      const uploadedUrl: string = data?.data?.imageUrl ?? '';
+      setImageUrl(uploadedUrl);
+      setFeedback({ type: 'success', message: 'Profile image updated.' });
+      router.refresh();
+    } catch (err: unknown) {
+      setFeedback({
+        type: 'error',
+        message: err instanceof Error ? err.message : 'Image upload failed.',
+      });
+    } finally {
+      setIsUploading(false);
+      // reset so re-picking the same file still fires change
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFeedback(null);
 
     const trimmedName = fullName.trim();
-    const trimmedImage = imageUrl.trim();
 
     if (!trimmedName || trimmedName.length < 2) {
       setFeedback({
@@ -62,19 +118,8 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
       return;
     }
 
-    if (trimmedImage && !isValidUrl(trimmedImage)) {
-      setFeedback({
-        type: 'error',
-        message: 'Image URL must be a valid http or https URL.',
-      });
-      return;
-    }
-
     startTransition(async () => {
-      const result = await updateMyProfileAction({
-        name: trimmedName,
-        image: trimmedImage,
-      });
+      const result = await updateMyProfileAction({ name: trimmedName });
 
       setFeedback({
         type: result.success ? 'success' : 'error',
@@ -87,6 +132,8 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
     });
   };
 
+  const isBusy = isPending || isUploading;
+
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex items-start justify-between gap-3">
@@ -96,12 +143,42 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
             Keep your display information up to date.
           </p>
         </div>
-        <Avatar size="lg" className="size-16 ring-2 ring-slate-200">
-          {imageUrl ? (
-            <AvatarImage src={imageUrl} alt={fullName || name} />
-          ) : null}
-          <AvatarFallback>{initials || 'U'}</AvatarFallback>
-        </Avatar>
+
+        {/* Clickable avatar for image upload */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isBusy}
+            className="group relative block size-16 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+            aria-label="Change profile photo"
+          >
+            <Avatar className="size-16 ring-2 ring-slate-200">
+              {imageUrl ? (
+                <AvatarImage src={imageUrl} alt={fullName || name} />
+              ) : null}
+              <AvatarFallback>{initials || 'U'}</AvatarFallback>
+            </Avatar>
+            <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
+              {isUploading ? (
+                <Loader2 className="size-5 animate-spin text-white" />
+              ) : (
+                <Camera className="size-5 text-white" />
+              )}
+            </span>
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            className="hidden"
+            onChange={handleFileChange}
+            disabled={isBusy}
+          />
+          <p className="mt-1 text-center text-xs text-slate-500">
+            Click to change
+          </p>
+        </div>
       </div>
 
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
@@ -112,7 +189,7 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
             value={fullName}
             onChange={event => setFullName(event.target.value)}
             placeholder="Enter your full name"
-            disabled={isPending}
+            disabled={isBusy}
             className="h-11"
           />
         </div>
@@ -125,18 +202,6 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
             disabled
             readOnly
             className="h-11 bg-slate-100"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="profile-image">Avatar URL</Label>
-          <Input
-            id="profile-image"
-            value={imageUrl}
-            onChange={event => setImageUrl(event.target.value)}
-            placeholder="https://example.com/my-avatar.png"
-            disabled={isPending}
-            className="h-11"
           />
         </div>
 
@@ -154,7 +219,7 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
 
         <Button
           type="submit"
-          disabled={isPending}
+          disabled={isBusy}
           className="h-11 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
         >
           {isPending ? 'Saving...' : 'Save Profile'}
