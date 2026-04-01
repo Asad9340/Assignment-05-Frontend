@@ -1,8 +1,10 @@
 import HomeCategoriesSection from '@/components/modules/Home/HomeCategoriesSection';
 import HomeCtaSection from '@/components/modules/Home/HomeCtaSection';
 import HomeEventStatsSection from '@/components/modules/Home/HomeEventStatsSection';
+import HomeFeaturesSection from '@/components/modules/Home/HomeFeaturesSection';
 import HomeHeroSection from '@/components/modules/Home/HomeHeroSection';
 import HomeHowItWorksSection from '@/components/modules/Home/HomeHowItWorksSection';
+import HomeTestimonialsSection from '@/components/modules/Home/HomeTestimonialsSection';
 import HomeUpcomingEventsSection from '@/components/modules/Home/HomeUpcomingEventsSection';
 import { HomeEvent } from '@/components/modules/Home/home-data';
 import { extractArrayPayload, mapEvent } from '@/lib/apiMappers';
@@ -46,7 +48,9 @@ export default async function HomePage() {
       <HomeEventStatsSection events={upcoming} />
       <HomeUpcomingEventsSection events={upcoming} />
       <HomeHowItWorksSection />
+      <HomeFeaturesSection />
       <HomeCategoriesSection />
+      <HomeTestimonialsSection />
       <HomeCtaSection />
     </main>
   );
