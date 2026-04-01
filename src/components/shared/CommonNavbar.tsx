@@ -15,6 +15,7 @@ const CommonNavbar = async () => {
       isLoggedIn={isLoggedIn}
       dashboardHome={dashboardHome}
       userName={userInfo?.name}
+      userImage={userInfo?.image}
     />
   );
 };

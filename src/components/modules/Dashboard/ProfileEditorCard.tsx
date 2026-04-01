@@ -14,7 +14,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Camera, Loader2 } from 'lucide-react';
-import { updateMyProfileAction } from '@/app/(dashboardLayout)/(commonProtectedLayout)/my-profile/_actions';
+import {
+  updateMyProfileAction,
+  uploadAvatarAction,
+} from '@/app/(dashboardLayout)/(commonProtectedLayout)/my-profile/_actions';
 
 type ProfileEditorCardProps = {
   name: string;
@@ -77,19 +80,13 @@ const ProfileEditorCard = ({ name, email, image }: ProfileEditorCardProps) => {
       const formData = new FormData();
       formData.append('image', file);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me/avatar`,
-        { method: 'POST', body: formData, credentials: 'include' },
-      );
+      const result = await uploadAvatarAction(formData);
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData?.message || 'Upload failed');
+      if (!result.success) {
+        throw new Error(result.message);
       }
 
-      const data = await res.json();
-      const uploadedUrl: string = data?.data?.imageUrl ?? '';
-      setImageUrl(uploadedUrl);
+      if (result.imageUrl) setImageUrl(result.imageUrl);
       setFeedback({ type: 'success', message: 'Profile image updated.' });
       router.refresh();
     } catch (err: unknown) {

@@ -2,6 +2,7 @@
 
 import { logoutAction } from '@/app/(commonLayout)/(auth)/logout/_action';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,9 +41,14 @@ const SidebarUserDropdown = ({ userInfo }: SidebarUserDropdownProps) => {
           className="h-auto w-full justify-between rounded-xl px-2 py-2 hover:bg-accent"
         >
           <span className="flex min-w-0 items-center gap-3">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-              {userInfo.name.charAt(0).toUpperCase()}
-            </span>
+            <Avatar className="size-8">
+              {userInfo.image ? (
+                <AvatarImage src={userInfo.image} alt={userInfo.name} />
+              ) : null}
+              <AvatarFallback className="bg-primary/10 text-sm font-semibold text-primary">
+                {userInfo.name.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
             <span className="min-w-0 text-left">
               <span className="block truncate text-sm font-medium text-foreground">
                 {userInfo.name}

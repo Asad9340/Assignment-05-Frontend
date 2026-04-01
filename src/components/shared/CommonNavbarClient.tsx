@@ -1,6 +1,7 @@
 'use client';
 
 import { logoutAction } from '@/app/(commonLayout)/(auth)/logout/_action';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -26,6 +27,7 @@ interface CommonNavbarClientProps {
   isLoggedIn: boolean;
   dashboardHome: string;
   userName?: string;
+  userImage?: string | null;
 }
 
 const navLinks = [
@@ -39,6 +41,7 @@ const CommonNavbarClient = ({
   isLoggedIn,
   dashboardHome,
   userName,
+  userImage,
 }: CommonNavbarClientProps) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -85,10 +88,15 @@ const CommonNavbarClient = ({
           {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                  <span className="inline-flex size-6 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-700">
-                    {userName?.charAt(0).toUpperCase() || 'U'}
-                  </span>
+                <Button variant="outline" className="gap-2 px-2">
+                  <Avatar className="size-6">
+                    {userImage ? (
+                      <AvatarImage src={userImage} alt={userName || 'User'} />
+                    ) : null}
+                    <AvatarFallback className="bg-slate-100 text-xs font-semibold text-slate-700">
+                      {userName?.charAt(0).toUpperCase() || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
                   {userName ? userName.split(' ')[0] : 'Profile'}
                 </Button>
               </DropdownMenuTrigger>

@@ -1,7 +1,7 @@
 'use client';
 
 import { logoutAction } from '@/app/(commonLayout)/(auth)/logout/_action';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,11 +35,16 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={'outline'} size={'icon'} className="rounded-full">
-          <span className="text-sm font-semibold">
-            {userInfo.name.charAt(0).toUpperCase()}
-          </span>
-        </Button>
+        <button className="rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Avatar className="size-9">
+            {userInfo.image ? (
+              <AvatarImage src={userInfo.image} alt={userInfo.name} />
+            ) : null}
+            <AvatarFallback className="text-sm font-semibold">
+              {userInfo.name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align={'end'} className="w-56">
