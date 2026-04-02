@@ -64,16 +64,30 @@ const AdminUserRowActions = ({
     });
   };
 
+  if (isAdminUser) {
+    return (
+      <div className="space-y-2">
+        <p className="text-xs font-semibold text-rose-500">
+          Admin accounts cannot have their role or status modified by another
+          admin.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <p className="flex h-9 items-center rounded-md border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-500">
+            Role: ADMIN
+          </p>
+          <p className="flex h-9 items-center rounded-md border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-500">
+            Status: {normalizedStatus}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const isStatusUnchanged = selectedStatus === normalizedStatus;
   const isRoleUnchanged = selectedRole === (normalizedRole || 'USER');
 
   return (
     <div className="space-y-2">
-      {isAdminUser ? (
-        <p className="text-xs font-semibold text-slate-500">
-          Admin account status is restricted.
-        </p>
-      ) : null}
       <div className="flex flex-wrap gap-2">
         <p className="flex h-9 items-center rounded-md border border-slate-200 px-2 text-xs font-semibold text-slate-600">
           Current: {normalizedStatus}
@@ -81,7 +95,7 @@ const AdminUserRowActions = ({
         <select
           className="h-9 rounded-md border border-slate-300 px-2 text-sm"
           value={selectedStatus}
-          disabled={isPending || isAdminUser}
+          disabled={isPending}
           onChange={event => setSelectedStatus(event.target.value)}
         >
           <option value="ACTIVE">ACTIVE</option>
@@ -90,7 +104,7 @@ const AdminUserRowActions = ({
         <select
           className="h-9 rounded-md border border-slate-300 px-2 text-sm"
           value={selectedRole}
-          disabled={isPending || isAdminUser}
+          disabled={isPending}
           onChange={event => setSelectedRole(event.target.value)}
         >
           <option value="USER">USER</option>
@@ -100,9 +114,7 @@ const AdminUserRowActions = ({
           type="button"
           size="sm"
           variant="outline"
-          disabled={
-            isPending || isAdminUser || (isStatusUnchanged && isRoleUnchanged)
-          }
+          disabled={isPending || (isStatusUnchanged && isRoleUnchanged)}
           onClick={runAction}
         >
           Update User
