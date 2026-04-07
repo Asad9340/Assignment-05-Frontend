@@ -63,6 +63,21 @@ export const platformServerServices = {
     return serverHttpClient.get<unknown>('/events', { params });
   },
 
+  getEventSearchSuggestions: async (params?: {
+    q?: string;
+    limit?: number;
+  }) => {
+    return serverHttpClient.get<unknown>('/events/search-suggestions', {
+      params,
+    });
+  },
+
+  getPersonalizedEventRecommendations: async (params?: { limit?: number }) => {
+    return serverHttpClient.get<unknown>('/events/recommendations', {
+      params,
+    });
+  },
+
   getUpcomingEvents: async () => {
     return serverHttpClient.get<unknown>('/events/upcoming');
   },

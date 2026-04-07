@@ -99,6 +99,11 @@ export const userNavItems: NavSection[] = [
         href: '/dashboard/my-payments',
         icon: 'CreditCard',
       },
+      {
+        title: 'AI Recommendations',
+        href: '/dashboard/recommendations',
+        icon: 'Sparkles',
+      },
     ],
   },
 ];

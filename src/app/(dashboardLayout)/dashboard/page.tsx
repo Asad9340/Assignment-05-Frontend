@@ -51,6 +51,12 @@ const quickActions = [
     href: '/dashboard/my-payments',
     icon: CreditCard,
   },
+  {
+    title: 'AI Recommendations',
+    description: 'Get personalized event suggestions based on your activity.',
+    href: '/dashboard/recommendations',
+    icon: Sparkles,
+  },
 ];
 
 export default async function UserDashboardPage() {

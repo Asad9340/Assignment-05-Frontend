@@ -289,9 +289,9 @@ const MyEventsPage = async () => {
             {events.map(event => (
               <article
                 key={event.id}
-                className="group relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-white via-slate-50/60 to-sky-50/50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                className="group relative overflow-hidden rounded-3xl border border-border bg-linear-to-br from-white via-slate-50/60 to-sky-50/50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-white/10 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-800"
               >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-sky-500 via-cyan-400 to-emerald-400" />
 
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
@@ -299,14 +299,14 @@ const MyEventsPage = async () => {
                       <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold tracking-wide text-white">
                         {event.status || 'ACTIVE'}
                       </span>
-                      <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
+                      <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground dark:border-white/20 dark:bg-slate-800 dark:text-slate-200">
                         {event.visibility}
                       </span>
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-semibold ${
                           event.feeType.toUpperCase() === 'PAID'
-                            ? 'bg-amber-100 text-amber-700'
-                            : 'bg-emerald-100 text-emerald-700'
+                            ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-200'
+                            : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-200'
                         }`}
                       >
                         {event.feeType}
