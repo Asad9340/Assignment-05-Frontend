@@ -20,7 +20,7 @@ const HomeUpcomingEventsSection = ({
               Upcoming Public Events
             </h2>
             <p className="mt-2 text-muted-foreground">
-              Discover live upcoming events fetched from backend.
+              Discover handpicked upcoming experiences across communities.
             </p>
           </div>
           <Button
