@@ -114,7 +114,7 @@ const MyProfilePage = async () => {
 
   return (
     <main className="space-y-6">
-      <section className="relative overflow-hidden rounded-3xl bg-primary p-7 text-white sm:p-10">
+      <section className="relative overflow-hidden rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
         <div className="pointer-events-none absolute -right-12 -top-16 size-52 rounded-full bg-orange-500/20 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-20 left-1/3 size-60 rounded-full bg-sky-500/10 blur-2xl" />
 
@@ -124,7 +124,7 @@ const MyProfilePage = async () => {
               Account Overview
             </p>
             <h1 className="mt-2 text-3xl font-bold sm:text-4xl">My Profile</h1>
-            <p className="mt-3 max-w-3xl text-primary-foreground/80">
+            <p className="mt-3 max-w-3xl text-primary-foreground/80 dark:text-muted-foreground">
               Review your account details and recent activity across hosted and
               joined events.
             </p>
@@ -140,7 +140,7 @@ const MyProfilePage = async () => {
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm text-primary-foreground/80">Signed in as</p>
+              <p className="text-sm text-primary-foreground/80 dark:text-muted-foreground">Signed in as</p>
               <p className="text-lg font-bold">{profile.name}</p>
             </div>
           </div>

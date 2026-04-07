@@ -81,14 +81,14 @@ export default async function AdminDashboardPage() {
 
   return (
     <main className="space-y-6">
-      <section className="rounded-3xl bg-primary p-7 text-white sm:p-10">
+      <section className="rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Planora Administration
         </p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           Admin Control Center{user?.name ? `: ${user.name}` : ''}
         </h1>
-        <p className="mt-3 max-w-3xl text-primary-foreground/80">
+        <p className="mt-3 max-w-3xl text-primary-foreground/80 dark:text-muted-foreground">
           Monitor platform activity, moderate users and events, and keep the
           ecosystem healthy.
         </p>
@@ -102,7 +102,7 @@ export default async function AdminDashboardPage() {
           <Button
             asChild
             variant="outline"
-            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
           >
             <Link href="/admin/dashboard/events">Moderate Events</Link>
           </Button>

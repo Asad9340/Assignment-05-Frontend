@@ -41,12 +41,12 @@ const HomeEventStatsSection = ({ events }: HomeEventStatsSectionProps) => {
   ];
 
   return (
-    <section className="bg-primary py-14 sm:py-16">
+    <section className="bg-primary dark:bg-background py-14 sm:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-primary-foreground">
+        <h2 className="text-3xl font-bold text-primary-foreground dark:text-foreground">
           Live Event Snapshot
         </h2>
-        <p className="mt-2 text-primary-foreground/70">
+        <p className="mt-2 text-primary-foreground/75 dark:text-muted-foreground">
           Real-time highlights generated from your event inventory.
         </p>
 
@@ -54,13 +54,15 @@ const HomeEventStatsSection = ({ events }: HomeEventStatsSectionProps) => {
           {items.map(item => (
             <article
               key={item.label}
-              className="rounded-2xl border border-white/10 bg-card/5 p-5"
+              className="rounded-2xl border border-primary-foreground/20 bg-primary-foreground/10 p-5 dark:border-border dark:bg-card"
             >
-              <p className="text-sm text-primary-foreground/70">{item.label}</p>
-              <p className="mt-3 text-3xl font-bold text-primary-foreground">
+              <p className="text-sm text-primary-foreground/80 dark:text-muted-foreground">
+                {item.label}
+              </p>
+              <p className="mt-3 text-3xl font-bold text-primary-foreground dark:text-foreground">
                 {item.value}
               </p>
-              <p className="mt-2 text-xs text-muted-foreground">
+              <p className="mt-2 text-xs text-primary-foreground/70 dark:text-muted-foreground">
                 {item.helper}
               </p>
             </article>

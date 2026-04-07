@@ -134,7 +134,7 @@ const EventParticipationActions = ({
           <DialogTrigger asChild>
             <Button
               variant="outline"
-              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
             >
               View Participation Rules
             </Button>
@@ -183,7 +183,7 @@ const EventParticipationActions = ({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
           >
             View Participation Rules
           </Button>

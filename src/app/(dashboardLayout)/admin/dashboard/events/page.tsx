@@ -72,14 +72,14 @@ const EventsPage = async ({ searchParams }: AdminEventsPageProps) => {
 
   return (
     <main className="space-y-6">
-      <section className="rounded-3xl bg-primary p-7 text-white sm:p-10">
+      <section className="rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Admin
         </p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           Events Management
         </h1>
-        <p className="mt-3 max-w-3xl text-primary-foreground/80">
+        <p className="mt-3 max-w-3xl text-primary-foreground/80 dark:text-muted-foreground">
           Audit published events and remove policy-violating content.
         </p>
       </section>

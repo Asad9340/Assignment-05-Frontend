@@ -116,9 +116,9 @@ const ReportsPage = async () => {
   return (
     <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
-        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
           <h1 className="text-3xl font-bold sm:text-4xl">Admin Reports</h1>
-          <p className="mt-2 text-primary-foreground/80">
+          <p className="mt-2 text-primary-foreground/80 dark:text-muted-foreground">
             API-backed moderation and growth metrics for users, events, and
             engagement.
           </p>

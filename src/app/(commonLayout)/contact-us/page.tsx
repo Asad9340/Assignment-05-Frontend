@@ -32,18 +32,18 @@ const ContactUsPage = () => {
           </div>
         </div>
 
-        <div className="rounded-3xl bg-primary p-8 text-white shadow-xl sm:p-10">
+        <div className="rounded-3xl bg-primary p-8 text-primary-foreground dark:bg-card dark:text-card-foreground shadow-xl sm:p-10">
           <h2 className="text-2xl font-bold">Support Hours</h2>
-          <p className="mt-3 text-primary-foreground/80">
+          <p className="mt-3 text-primary-foreground/80 dark:text-muted-foreground">
             Sunday to Thursday: 9:00 AM - 8:00 PM
           </p>
-          <p className="mt-2 text-primary-foreground/70">
+          <p className="mt-2 text-primary-foreground/70 dark:text-muted-foreground">
             Friday to Saturday: Emergency support only
           </p>
 
           <div className="mt-8 rounded-2xl bg-card/10 p-5">
             <h3 className="text-lg font-semibold">Need payment support?</h3>
-            <p className="mt-2 text-sm text-primary-foreground/80">
+            <p className="mt-2 text-sm text-primary-foreground/80 dark:text-muted-foreground">
               Share your transaction ID and event title, and our payments team
               will assist immediately.
             </p>

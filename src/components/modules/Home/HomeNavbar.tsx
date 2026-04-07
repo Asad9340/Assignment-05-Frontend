@@ -26,7 +26,7 @@ const HomeNavbar = () => {
               key={link.href}
               asChild
               variant="ghost"
-              className="text-primary-foreground/80 hover:text-white"
+              className="text-primary-foreground/80 dark:text-muted-foreground hover:text-white"
             >
               <Link href={link.href}>{link.label}</Link>
             </Button>

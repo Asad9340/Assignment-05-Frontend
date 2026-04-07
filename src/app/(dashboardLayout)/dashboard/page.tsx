@@ -87,14 +87,14 @@ export default async function UserDashboardPage() {
 
   return (
     <main className="space-y-6">
-      <section className="rounded-3xl bg-primary p-7 text-white sm:p-10">
+      <section className="rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Planora Workspace
         </p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           Welcome back{user?.name ? `, ${user.name}` : ''}
         </h1>
-        <p className="mt-3 max-w-3xl text-primary-foreground/80">
+        <p className="mt-3 max-w-3xl text-primary-foreground/80 dark:text-muted-foreground">
           Manage event creation, invitations, participation requests, reviews,
           and payments from one place.
         </p>
@@ -108,7 +108,7 @@ export default async function UserDashboardPage() {
           <Button
             asChild
             variant="outline"
-            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
           >
             <Link href="/events">Browse Events</Link>
           </Button>

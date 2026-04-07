@@ -175,14 +175,14 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
         </article>
 
         <aside className="space-y-5">
-          <div className="rounded-3xl bg-primary p-6 text-white shadow-xl">
+          <div className="rounded-3xl bg-primary p-6 text-primary-foreground dark:bg-card dark:text-card-foreground shadow-xl">
             <h2 className="text-xl font-bold">Registration Fee</h2>
             <p className="mt-2 text-3xl font-bold">
               {event.registrationFee === 0
                 ? 'Free'
                 : `৳${event.registrationFee}`}
             </p>
-            <p className="mt-3 text-sm text-primary-foreground/80">
+            <p className="mt-3 text-sm text-primary-foreground/80 dark:text-muted-foreground">
               Paid join attempts become pending until host approval.
             </p>
             <EventParticipationActions

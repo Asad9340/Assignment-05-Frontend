@@ -70,12 +70,12 @@ const UserDetailsManagementPage = async ({
   return (
     <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
-        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             Admin
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">User Details</h1>
-          <p className="mt-3 text-primary-foreground/80">
+          <p className="mt-3 text-primary-foreground/80 dark:text-muted-foreground">
             {pickString(user.name, 'Unnamed user')} (
             {pickString(user.email, 'N/A')})
           </p>
@@ -90,7 +90,7 @@ const UserDetailsManagementPage = async ({
             <Button
               asChild
               variant="outline"
-              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
             >
               <Link href="/admin/dashboard/users">Back to Users</Link>
             </Button>

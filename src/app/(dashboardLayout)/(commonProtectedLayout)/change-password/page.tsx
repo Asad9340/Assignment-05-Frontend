@@ -6,7 +6,7 @@ import ChangePasswordForm from '@/components/modules/Dashboard/ChangePasswordFor
 const ChangePasswordPage = () => {
   return (
     <main className="space-y-6">
-      <section className="relative overflow-hidden rounded-3xl bg-primary p-7 text-white sm:p-10">
+      <section className="relative overflow-hidden rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
         <div className="pointer-events-none absolute -right-14 -top-20 size-56 rounded-full bg-orange-500/20 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-20 left-1/3 size-56 rounded-full bg-sky-500/15 blur-2xl" />
 
@@ -18,7 +18,7 @@ const ChangePasswordPage = () => {
             <h1 className="mt-2 flex items-center gap-2 text-3xl font-bold sm:text-4xl">
               <KeyRound className="size-7" /> Change Password
             </h1>
-            <p className="mt-3 max-w-3xl text-primary-foreground/80">
+            <p className="mt-3 max-w-3xl text-primary-foreground/80 dark:text-muted-foreground">
               Update your account password to keep your profile and dashboard
               secure.
             </p>
@@ -27,7 +27,7 @@ const ChangePasswordPage = () => {
           <Button
             asChild
             variant="outline"
-            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
           >
             <Link href="/my-profile">
               <ArrowLeft className="size-4" /> Back to Profile

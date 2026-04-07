@@ -38,7 +38,7 @@ export default function NotFound() {
           <Button
             asChild
             variant="outline"
-            className="border-border bg-transparent text-primary-foreground/80 hover:bg-primary/80"
+            className="border-border bg-transparent text-primary-foreground/80 dark:text-muted-foreground hover:bg-primary/80"
           >
             <Link href="/events">
               <Compass className="size-4" />

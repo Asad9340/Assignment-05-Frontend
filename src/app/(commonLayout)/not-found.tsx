@@ -40,7 +40,7 @@ const CommonLayoutNotFound = () => {
           </div>
 
           <div className="rounded-2xl bg-muted p-8 text-center">
-            <p className="text-8xl font-black text-primary-foreground/80">404</p>
+            <p className="text-8xl font-black text-primary-foreground/80 dark:text-muted-foreground">404</p>
             <p className="mt-3 text-sm font-medium text-muted-foreground">
               Page not found
             </p>

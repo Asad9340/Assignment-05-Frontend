@@ -44,7 +44,7 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-border bg-transparent text-foreground dark:text-primary-foreground hover:bg-muted dark:hover:bg-primary/80"
+              className="border-border bg-transparent text-foreground hover:bg-muted dark:text-foreground dark:hover:bg-muted"
             >
               <Link href="/dashboard/my-events/create-event">Create Event</Link>
             </Button>
@@ -52,7 +52,7 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
         </div>
 
         {event && (
-          <article className="rounded-3xl border border-border dark:border-white/10 bg-card/90 dark:bg-card/10 p-6 shadow-2xl backdrop-blur">
+          <article className="rounded-3xl border border-border dark:border-border bg-card/90 dark:bg-card p-6 shadow-2xl backdrop-blur">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <Badge className="bg-sky-500/20 text-sky-700 dark:text-sky-200">
                 {event.visibility}
@@ -74,12 +74,12 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
               {event.title}
             </h2>
             {event.description && (
-              <p className="mb-5 line-clamp-3 text-sm text-muted-foreground dark:text-primary-foreground/70">
+              <p className="mb-5 line-clamp-3 text-sm text-muted-foreground dark:text-foreground/80">
                 {event.description}
               </p>
             )}
 
-            <div className="space-y-3 text-sm text-muted-foreground dark:text-primary-foreground/80">
+            <div className="space-y-3 text-sm text-muted-foreground dark:text-foreground/80">
               <p className="flex items-center gap-2">
                 <Calendar className="size-4 text-orange-300" />
                 {event.date}
@@ -103,7 +103,7 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
             </div>
 
             {event.participantCount !== undefined && (
-              <p className="flex items-center gap-2 text-sm text-muted-foreground dark:text-primary-foreground/70">
+              <p className="flex items-center gap-2 text-sm text-muted-foreground dark:text-foreground/80">
                 <Users className="size-4 text-sky-300" />
                 {event.participantCount} participant
                 {event.participantCount !== 1 ? 's' : ''} joined

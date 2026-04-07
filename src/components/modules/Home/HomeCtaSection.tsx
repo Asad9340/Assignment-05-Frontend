@@ -8,7 +8,7 @@ const HomeCtaSection = () => {
         <h2 className="text-3xl font-bold text-primary-foreground sm:text-4xl">
           Create Better Events. Join Smarter Communities.
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/70">
+        <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/70 dark:text-muted-foreground">
           Whether you are hosting a paid summit or joining a private free
           meetup, Planora helps you manage invites, approvals, reviews, and
           payments in one workflow.
@@ -23,7 +23,7 @@ const HomeCtaSection = () => {
           <Button
             asChild
             variant="outline"
-            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
           >
             <Link href="/events">Join Events</Link>
           </Button>

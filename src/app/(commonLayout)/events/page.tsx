@@ -122,9 +122,9 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
   return (
     <main className="min-h-screen bg-background py-14 sm:py-20">
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-8 rounded-3xl bg-primary p-8 text-white sm:p-10">
+        <header className="mb-8 rounded-3xl bg-primary p-8 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
           <h1 className="text-3xl font-bold sm:text-4xl">Discover Events</h1>
-          <p className="mt-3 max-w-2xl text-primary-foreground/80">
+          <p className="mt-3 max-w-2xl text-primary-foreground/80 dark:text-muted-foreground">
             Search by event title or organizer and filter by event visibility,
             fee type, and status.
           </p>
@@ -186,7 +186,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
             >
               <Link href={resetHref}>Reset Filters</Link>
             </Button>

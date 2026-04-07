@@ -76,21 +76,21 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
   return (
     <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-6xl space-y-6">
-        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-primary-foreground dark:bg-card dark:text-card-foreground sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             My Events
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
             {pickString(event.title, 'Event Details')}
           </h1>
-          <p className="mt-3 text-primary-foreground/80">
+          <p className="mt-3 text-primary-foreground/80 dark:text-muted-foreground">
             {pickString(event.description, 'No description')}
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Button
               asChild
               variant="outline"
-              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
             >
               <Link href={`/dashboard/my-events/edit-event?eventId=${eventId}`}>
                 Edit Event
@@ -99,7 +99,7 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
             >
               <Link
                 href={`/dashboard/my-events/participants?eventId=${eventId}`}
@@ -110,7 +110,7 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
             >
               <Link
                 href={`/dashboard/my-events/invitations?eventId=${eventId}`}
