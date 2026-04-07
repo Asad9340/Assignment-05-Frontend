@@ -14,21 +14,21 @@ const MyPaymentsPage = async () => {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-6xl space-y-6">
-        <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
           <h1 className="text-3xl font-bold sm:text-4xl">My Payments</h1>
-          <p className="mt-2 text-slate-200">
+          <p className="mt-2 text-primary-foreground/80">
             Track payment status, transaction history, and approval state for
             paid events.
           </p>
         </header>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-900">Payment History</h2>
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-foreground">Payment History</h2>
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-160 text-left text-sm">
-              <thead className="text-slate-500">
+              <thead className="text-muted-foreground">
                 <tr>
                   <th className="py-2">Event</th>
                   <th className="py-2">Amount</th>
@@ -40,7 +40,7 @@ const MyPaymentsPage = async () => {
                 {paymentRows.map(row => (
                   <tr
                     key={`${row.id}-${row.createdAt}`}
-                    className="border-t border-slate-100 text-slate-700"
+                    className="border-t border-border text-muted-foreground"
                   >
                     <td className="py-3">{row.eventTitle}</td>
                     <td className="py-3 font-semibold">
@@ -73,7 +73,7 @@ const MyPaymentsPage = async () => {
               </tbody>
             </table>
             {paymentRows.length === 0 ? (
-              <p className="mt-4 text-sm text-slate-500">
+              <p className="mt-4 text-sm text-muted-foreground">
                 No payment records found yet.
               </p>
             ) : null}

@@ -11,7 +11,7 @@ const navLinks = [
 
 const HomeNavbar = () => {
   return (
-    <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0d111f]/80 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-white/10 bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 text-white">
           <span className="rounded-lg bg-linear-to-br from-amber-300 to-orange-500 p-2 text-[#0f172a]">
@@ -26,7 +26,7 @@ const HomeNavbar = () => {
               key={link.href}
               asChild
               variant="ghost"
-              className="text-slate-200 hover:text-white"
+              className="text-primary-foreground/80 hover:text-white"
             >
               <Link href={link.href}>{link.label}</Link>
             </Button>

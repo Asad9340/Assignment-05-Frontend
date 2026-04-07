@@ -58,17 +58,17 @@ const PendingInvitationsPage = async () => {
         {pendingInvites.map(invitation => (
           <div
             key={invitation.id}
-            className="rounded-xl border border-slate-200 bg-slate-50 p-4"
+            className="rounded-xl border border-border bg-muted p-4"
           >
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-slate-900">
+                <p className="font-semibold text-foreground">
                   {invitation.eventTitle}
                 </p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-muted-foreground">
                   Status: {invitation.status}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Sent:{' '}
                   {invitation.createdAt
                     ? new Date(invitation.createdAt).toLocaleString()
@@ -100,12 +100,12 @@ const PendingInvitationsPage = async () => {
               {pendingParticipations.map(item => (
                 <div
                   key={item.id}
-                  className="rounded-lg border border-orange-200 bg-white p-3"
+                  className="rounded-lg border border-orange-200 bg-card p-3"
                 >
-                  <p className="font-medium text-slate-900">
+                  <p className="font-medium text-foreground">
                     {item.eventTitle}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-muted-foreground">
                     Payment: {item.paymentStatus} | Status: {item.status}
                   </p>
                 </div>
@@ -115,7 +115,7 @@ const PendingInvitationsPage = async () => {
         ) : null}
 
         {pendingInvites.length === 0 ? (
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted-foreground">
             No pending invitations at this moment.
           </p>
         ) : null}

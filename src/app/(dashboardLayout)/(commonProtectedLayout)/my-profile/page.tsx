@@ -114,7 +114,7 @@ const MyProfilePage = async () => {
 
   return (
     <main className="space-y-6">
-      <section className="relative overflow-hidden rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+      <section className="relative overflow-hidden rounded-3xl bg-primary p-7 text-white sm:p-10">
         <div className="pointer-events-none absolute -right-12 -top-16 size-52 rounded-full bg-orange-500/20 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-20 left-1/3 size-60 rounded-full bg-sky-500/10 blur-2xl" />
 
@@ -124,23 +124,23 @@ const MyProfilePage = async () => {
               Account Overview
             </p>
             <h1 className="mt-2 text-3xl font-bold sm:text-4xl">My Profile</h1>
-            <p className="mt-3 max-w-3xl text-slate-200">
+            <p className="mt-3 max-w-3xl text-primary-foreground/80">
               Review your account details and recent activity across hosted and
               joined events.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+          <div className="flex items-center gap-4 rounded-2xl border border-white/20 bg-card/10 p-4 backdrop-blur-sm">
             <Avatar className="size-14 ring-2 ring-white/40">
               {profile.image ? (
                 <AvatarImage src={profile.image} alt={profile.name} />
               ) : null}
-              <AvatarFallback className="bg-slate-800 text-slate-100">
+              <AvatarFallback className="bg-primary/80 text-primary-foreground">
                 {initials || 'U'}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm text-slate-200">Signed in as</p>
+              <p className="text-sm text-primary-foreground/80">Signed in as</p>
               <p className="text-lg font-bold">{profile.name}</p>
             </div>
           </div>
@@ -148,12 +148,12 @@ const MyProfilePage = async () => {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <article className="rounded-2xl border border-border bg-card p-6 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="text-2xl font-bold text-foreground">
               {profile.name}
             </h2>
-            <Badge className="bg-slate-900 text-white">{profile.role}</Badge>
+            <Badge className="bg-primary text-white">{profile.role}</Badge>
             <Badge
               className={
                 profile.emailVerified
@@ -165,17 +165,17 @@ const MyProfilePage = async () => {
             </Badge>
           </div>
 
-          <div className="mt-5 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
-            <p className="rounded-lg bg-slate-50 p-3">
+          <div className="mt-5 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+            <p className="rounded-lg bg-muted p-3">
               <span className="font-semibold">Email:</span> {profile.email}
             </p>
-            <p className="rounded-lg bg-slate-50 p-3">
+            <p className="rounded-lg bg-muted p-3">
               <span className="font-semibold">Status:</span> {profile.status}
             </p>
-            <p className="rounded-lg bg-slate-50 p-3">
+            <p className="rounded-lg bg-muted p-3">
               <span className="font-semibold">User ID:</span> {profile.id}
             </p>
-            <p className="rounded-lg bg-slate-50 p-3">
+            <p className="rounded-lg bg-muted p-3">
               <span className="font-semibold">Joined:</span>{' '}
               {formatDate(profile.createdAt)}
             </p>
@@ -184,7 +184,7 @@ const MyProfilePage = async () => {
           <div className="mt-5 flex flex-wrap gap-3">
             <Button
               asChild
-              className="bg-[#101b3d] text-white hover:bg-[#172958]"
+              className="bg-primary text-white hover:bg-primary/90"
             >
               <Link href="/change-password">Change Password</Link>
             </Button>
@@ -194,22 +194,22 @@ const MyProfilePage = async () => {
           </div>
         </article>
 
-        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-900">Activity Stats</h3>
+        <article className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <h3 className="text-lg font-bold text-foreground">Activity Stats</h3>
           <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-            <p className="rounded-lg bg-slate-50 p-3 text-slate-700">
+            <p className="rounded-lg bg-muted p-3 text-muted-foreground">
               Hosted Events:{' '}
               <span className="font-semibold">{hostedEventsCount}</span>
             </p>
-            <p className="rounded-lg bg-slate-50 p-3 text-slate-700">
+            <p className="rounded-lg bg-muted p-3 text-muted-foreground">
               Joined Events:{' '}
               <span className="font-semibold">{joinedEventsCount}</span>
             </p>
-            <p className="rounded-lg bg-slate-50 p-3 text-slate-700">
+            <p className="rounded-lg bg-muted p-3 text-muted-foreground">
               Reviews Written:{' '}
               <span className="font-semibold">{reviewsCount}</span>
             </p>
-            <p className="rounded-lg bg-slate-50 p-3 text-slate-700">
+            <p className="rounded-lg bg-muted p-3 text-muted-foreground">
               Paid Participations:{' '}
               <span className="font-semibold">{participationPaidCount}</span>
             </p>
@@ -223,8 +223,8 @@ const MyProfilePage = async () => {
         image={profile.image}
       />
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 className="text-lg font-bold text-slate-900">
+      <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <h3 className="text-lg font-bold text-foreground">
           Recent Hosted Events
         </h3>
         <div className="mt-4 space-y-2">
@@ -233,7 +233,7 @@ const MyProfilePage = async () => {
             return (
               <p
                 key={pickString(event.id, `event-${index}`)}
-                className="rounded-lg bg-slate-50 p-3 text-sm text-slate-700"
+                className="rounded-lg bg-muted p-3 text-sm text-muted-foreground"
               >
                 {pickString(event.title, 'Untitled event')} {' - '}{' '}
                 {pickString(event.visibility, 'PUBLIC')}
@@ -241,15 +241,15 @@ const MyProfilePage = async () => {
             );
           })}
           {profile.events.length === 0 ? (
-            <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+            <p className="rounded-lg bg-muted p-3 text-sm text-muted-foreground">
               No hosted events yet.
             </p>
           ) : null}
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 className="text-lg font-bold text-slate-900">Recent Reviews</h3>
+      <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <h3 className="text-lg font-bold text-foreground">Recent Reviews</h3>
         <div className="mt-4 space-y-2">
           {profile.eventReviews.slice(0, 5).map((item, index) => {
             const review = asRecord(item);
@@ -258,7 +258,7 @@ const MyProfilePage = async () => {
             return (
               <p
                 key={pickString(review.id, `review-${index}`)}
-                className="rounded-lg bg-slate-50 p-3 text-sm text-slate-700"
+                className="rounded-lg bg-muted p-3 text-sm text-muted-foreground"
               >
                 {pickString(relatedEvent.title, 'Untitled event')} {' - '}{' '}
                 Rating: {pickNumber(review.rating)}
@@ -266,7 +266,7 @@ const MyProfilePage = async () => {
             );
           })}
           {profile.eventReviews.length === 0 ? (
-            <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+            <p className="rounded-lg bg-muted p-3 text-sm text-muted-foreground">
               No reviews yet.
             </p>
           ) : null}

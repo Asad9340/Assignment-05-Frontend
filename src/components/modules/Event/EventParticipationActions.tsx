@@ -127,14 +127,14 @@ const EventParticipationActions = ({
   if (isOwner) {
     return (
       <div className="mt-6 grid gap-2">
-        <Button disabled className="bg-slate-600 text-white">
+        <Button disabled className="bg-muted-foreground text-white">
           You are the event owner
         </Button>
         <Dialog>
           <DialogTrigger asChild>
             <Button
               variant="outline"
-              className="border-slate-400 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
             >
               View Participation Rules
             </Button>
@@ -146,9 +146,9 @@ const EventParticipationActions = ({
                 Rules participants must follow for this event.
               </DialogDescription>
             </DialogHeader>
-            <ul className="space-y-2 text-sm text-slate-700">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               {rules.map(rule => (
-                <li key={rule} className="rounded-lg bg-slate-50 p-3">
+                <li key={rule} className="rounded-lg bg-muted p-3">
                   {rule}
                 </li>
               ))}
@@ -183,7 +183,7 @@ const EventParticipationActions = ({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="border-slate-400 bg-transparent text-slate-100 hover:bg-slate-800"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
           >
             View Participation Rules
           </Button>
@@ -195,9 +195,9 @@ const EventParticipationActions = ({
               Check requirements before joining this event.
             </DialogDescription>
           </DialogHeader>
-          <ul className="space-y-2 text-sm text-slate-700">
+          <ul className="space-y-2 text-sm text-muted-foreground">
             {rules.map(rule => (
-              <li key={rule} className="rounded-lg bg-slate-50 p-3">
+              <li key={rule} className="rounded-lg bg-muted p-3">
                 {rule}
               </li>
             ))}

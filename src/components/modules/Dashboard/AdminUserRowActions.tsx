@@ -72,10 +72,10 @@ const AdminUserRowActions = ({
           admin.
         </p>
         <div className="flex flex-wrap gap-2">
-          <p className="flex h-9 items-center rounded-md border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-500">
+          <p className="flex h-9 items-center rounded-md border border-border bg-muted px-2 text-xs font-semibold text-muted-foreground">
             Role: ADMIN
           </p>
-          <p className="flex h-9 items-center rounded-md border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-500">
+          <p className="flex h-9 items-center rounded-md border border-border bg-muted px-2 text-xs font-semibold text-muted-foreground">
             Status: {normalizedStatus}
           </p>
         </div>
@@ -89,11 +89,11 @@ const AdminUserRowActions = ({
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap gap-2">
-        <p className="flex h-9 items-center rounded-md border border-slate-200 px-2 text-xs font-semibold text-slate-600">
+        <p className="flex h-9 items-center rounded-md border border-border px-2 text-xs font-semibold text-muted-foreground">
           Current: {normalizedStatus}
         </p>
         <select
-          className="h-9 rounded-md border border-slate-300 px-2 text-sm"
+          className="h-9 rounded-md border border-border px-2 text-sm"
           value={selectedStatus}
           disabled={isPending}
           onChange={event => setSelectedStatus(event.target.value)}
@@ -102,7 +102,7 @@ const AdminUserRowActions = ({
           <option value="BLOCKED">BLOCKED</option>
         </select>
         <select
-          className="h-9 rounded-md border border-slate-300 px-2 text-sm"
+          className="h-9 rounded-md border border-border px-2 text-sm"
           value={selectedRole}
           disabled={isPending}
           onChange={event => setSelectedRole(event.target.value)}

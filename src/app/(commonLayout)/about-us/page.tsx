@@ -23,16 +23,16 @@ const pillars = [
 
 const AboutUsPage = () => {
   return (
-    <main className="min-h-screen bg-[#f7f8fc] py-14 sm:py-20">
+    <main className="min-h-screen bg-background py-14 sm:py-20">
       <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-[#101b3d] p-8 text-white shadow-2xl sm:p-12">
+        <div className="rounded-3xl bg-primary p-8 text-white shadow-2xl sm:p-12">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-300">
             About Planora
           </p>
           <h1 className="mt-4 text-3xl font-bold sm:text-5xl">
             Powering modern event experiences with trust and control.
           </h1>
-          <p className="mt-5 max-w-3xl text-slate-200">
+          <p className="mt-5 max-w-3xl text-primary-foreground/80">
             Planora helps teams host and scale events from one secure platform.
             Whether the event is free, paid, public, or private, we keep
             registrations, payments, reviews, and approvals simple.
@@ -45,15 +45,15 @@ const AboutUsPage = () => {
             return (
               <article
                 key={pillar.title}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                className="rounded-2xl border border-border bg-card p-6 shadow-sm"
               >
                 <span className="inline-flex rounded-xl bg-orange-100 p-2 text-orange-600">
                   <Icon className="size-5" />
                 </span>
-                <h2 className="mt-4 text-xl font-bold text-slate-900">
+                <h2 className="mt-4 text-xl font-bold text-foreground">
                   {pillar.title}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {pillar.description}
                 </p>
               </article>

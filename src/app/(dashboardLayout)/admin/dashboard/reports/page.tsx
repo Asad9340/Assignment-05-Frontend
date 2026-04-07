@@ -114,11 +114,11 @@ const ReportsPage = async () => {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
-        <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
           <h1 className="text-3xl font-bold sm:text-4xl">Admin Reports</h1>
-          <p className="mt-2 text-slate-200">
+          <p className="mt-2 text-primary-foreground/80">
             API-backed moderation and growth metrics for users, events, and
             engagement.
           </p>
@@ -130,17 +130,17 @@ const ReportsPage = async () => {
             return (
               <article
                 key={stat.title}
-                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                className="rounded-2xl border border-border bg-card p-5 shadow-sm"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-slate-600">
+                  <p className="text-sm font-medium text-muted-foreground">
                     {stat.title}
                   </p>
-                  <span className="rounded-lg bg-slate-100 p-2 text-slate-700">
+                  <span className="rounded-lg bg-muted p-2 text-muted-foreground">
                     <Icon className="size-4" />
                   </span>
                 </div>
-                <p className="mt-4 text-3xl font-bold text-slate-900">
+                <p className="mt-4 text-3xl font-bold text-foreground">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm font-semibold text-emerald-600">
@@ -151,21 +151,21 @@ const ReportsPage = async () => {
           })}
         </div>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-900">
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-foreground">
             Moderation Snapshot
           </h2>
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-140 text-left text-sm">
-              <thead className="text-slate-500">
+              <thead className="text-muted-foreground">
                 <tr>
                   <th className="py-2">Category</th>
                   <th className="py-2">Count</th>
                   <th className="py-2">Status</th>
                 </tr>
               </thead>
-              <tbody className="text-slate-700">
-                <tr className="border-t border-slate-100">
+              <tbody className="text-muted-foreground">
+                <tr className="border-t border-border">
                   <td className="py-3">Total Participants</td>
                   <td className="py-3">
                     {engagementSummary.totalParticipants}
@@ -174,14 +174,14 @@ const ReportsPage = async () => {
                     Track approvals in event workspace
                   </td>
                 </tr>
-                <tr className="border-t border-slate-100">
+                <tr className="border-t border-border">
                   <td className="py-3">Blocked Users</td>
                   <td className="py-3">{usersSummary.blockedUsers}</td>
                   <td className="py-3 text-rose-600">
                     Monitor for abuse patterns
                   </td>
                 </tr>
-                <tr className="border-t border-slate-100">
+                <tr className="border-t border-border">
                   <td className="py-3">Private/Paid Events</td>
                   <td className="py-3">
                     {eventsSummary.privateEvents} / {eventsSummary.paidEvents}
@@ -190,10 +190,10 @@ const ReportsPage = async () => {
                     Visibility and monetization mix
                   </td>
                 </tr>
-                <tr className="border-t border-slate-100">
+                <tr className="border-t border-border">
                   <td className="py-3">Deleted Users</td>
                   <td className="py-3">{usersSummary.deletedUsers}</td>
-                  <td className="py-3 text-slate-500">
+                  <td className="py-3 text-muted-foreground">
                     Historical moderation count
                   </td>
                 </tr>

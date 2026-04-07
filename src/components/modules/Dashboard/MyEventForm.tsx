@@ -104,7 +104,7 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
   };
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <section className="rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8">
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2 md:col-span-2">
@@ -146,7 +146,7 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
                   type="button"
                   variant="outline"
                   disabled={isPending}
-                  className="h-11 w-full justify-start border-slate-200 text-left font-normal"
+                  className="h-11 w-full justify-start border-border text-left font-normal"
                 >
                   <CalendarDays className="mr-2 size-4" />
                   {selectedDate
@@ -172,7 +172,7 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
               </PopoverContent>
             </Popover>
             {!form.eventDate ? (
-              <p className="text-xs text-slate-500">Please choose a date.</p>
+              <p className="text-xs text-muted-foreground">Please choose a date.</p>
             ) : null}
           </div>
 
@@ -310,7 +310,7 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
           <Button
             type="submit"
             disabled={isPending}
-            className="h-11 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="h-11 bg-primary text-white hover:bg-primary/90"
           >
             {isPending
               ? mode === 'create'

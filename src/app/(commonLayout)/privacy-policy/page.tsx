@@ -19,16 +19,16 @@ const policySections = [
 
 const PrivacyPolicyPage = () => {
   return (
-    <main className="min-h-screen bg-[#f4f7fb] py-14 sm:py-20">
+    <main className="min-h-screen bg-background py-14 sm:py-20">
       <section className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
+        <div className="rounded-3xl bg-card p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-700">
             Privacy Policy
           </p>
-          <h1 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">
+          <h1 className="mt-3 text-3xl font-bold text-foreground sm:text-4xl">
             Your privacy matters at every event touchpoint.
           </h1>
-          <p className="mt-4 text-slate-600">
+          <p className="mt-4 text-muted-foreground">
             This policy explains how Planora collects, protects, and manages
             your personal data while you create, join, and manage events.
           </p>
@@ -37,19 +37,19 @@ const PrivacyPolicyPage = () => {
             {policySections.map(section => (
               <article
                 key={section.title}
-                className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+                className="rounded-2xl border border-border bg-muted p-5"
               >
-                <h2 className="text-lg font-bold text-slate-900">
+                <h2 className="text-lg font-bold text-foreground">
                   {section.title}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {section.text}
                 </p>
               </article>
             ))}
           </div>
 
-          <p className="mt-8 text-sm text-slate-500">
+          <p className="mt-8 text-sm text-muted-foreground">
             Last updated: March 2026
           </p>
         </div>

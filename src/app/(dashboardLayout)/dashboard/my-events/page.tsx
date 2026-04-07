@@ -117,14 +117,14 @@ const MyEventsPage = async () => {
   ).length;
 
   return (
-    <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
-        <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             Dashboard
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">My Events</h1>
-          <p className="mt-3 max-w-3xl text-slate-200">
+          <p className="mt-3 max-w-3xl text-primary-foreground/80">
             Create, update, and moderate events from one workspace.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -137,7 +137,7 @@ const MyEventsPage = async () => {
             <Button
               asChild
               variant="outline"
-              className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
             >
               <Link href="/dashboard/my-events/approvals">Approval Queue</Link>
             </Button>
@@ -145,27 +145,27 @@ const MyEventsPage = async () => {
         </header>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Total Events</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Total Events</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {events.length}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Paid Events</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Paid Events</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {paidEvents}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Free Events</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Free Events</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {events.length - paidEvents}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Total Participants</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Total Participants</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {events.reduce(
                 (sum, event) => sum + (event.totalParticipants || 0),
                 0,
@@ -174,9 +174,9 @@ const MyEventsPage = async () => {
           </article>
         </div>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-xl font-bold text-slate-900">
+            <h2 className="text-xl font-bold text-foreground">
               Update Event Status
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -194,62 +194,62 @@ const MyEventsPage = async () => {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-wide text-slate-500">
+            <article className="rounded-xl border border-border bg-muted p-4">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 Pending Requests
               </p>
               <p className="mt-1 text-2xl font-bold text-amber-600">
                 {statusSummary.pending}
               </p>
             </article>
-            <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-wide text-slate-500">
+            <article className="rounded-xl border border-border bg-muted p-4">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 Approved
               </p>
               <p className="mt-1 text-2xl font-bold text-emerald-600">
                 {statusSummary.approved}
               </p>
             </article>
-            <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-wide text-slate-500">
+            <article className="rounded-xl border border-border bg-muted p-4">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 Rejected
               </p>
               <p className="mt-1 text-2xl font-bold text-rose-500">
                 {statusSummary.rejected}
               </p>
             </article>
-            <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-wide text-slate-500">
+            <article className="rounded-xl border border-border bg-muted p-4">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 Joined
               </p>
               <p className="mt-1 text-2xl font-bold text-cyan-700">
                 {statusSummary.joined}
               </p>
             </article>
-            <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-wide text-slate-500">
+            <article className="rounded-xl border border-border bg-muted p-4">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 Banned
               </p>
               <p className="mt-1 text-2xl font-bold text-rose-700">
                 {statusSummary.banned}
               </p>
             </article>
-            <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-wide text-slate-500">
+            <article className="rounded-xl border border-border bg-muted p-4">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 Total Moderated
               </p>
-              <p className="mt-1 text-2xl font-bold text-slate-900">
+              <p className="mt-1 text-2xl font-bold text-foreground">
                 {statusSummary.total}
               </p>
             </article>
           </div>
 
           <div className="mt-4 space-y-2">
-            <p className="text-sm font-semibold text-slate-700">
+            <p className="text-sm font-semibold text-muted-foreground">
               Latest Join Requests
             </p>
             {statusSummary.recentPending.length === 0 ? (
-              <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
+              <p className="rounded-xl bg-muted p-3 text-sm text-muted-foreground">
                 No pending join requests right now.
               </p>
             ) : (
@@ -261,13 +261,13 @@ const MyEventsPage = async () => {
                 return (
                   <article
                     key={pickString(participant.id)}
-                    className="rounded-xl border border-slate-200 p-3"
+                    className="rounded-xl border border-border p-3"
                   >
-                    <p className="text-sm font-semibold text-slate-900">
+                    <p className="text-sm font-semibold text-foreground">
                       {pickString(user.name, 'Unknown user')} -{' '}
                       {pickString(event.title, 'Untitled event')}
                     </p>
-                    <p className="text-xs text-slate-600">
+                    <p className="text-xs text-muted-foreground">
                       {pickString(user.email, 'N/A')}
                     </p>
                   </article>
@@ -277,9 +277,9 @@ const MyEventsPage = async () => {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="text-xl font-bold text-slate-900">Event List</h2>
+            <h2 className="text-xl font-bold text-foreground">Event List</h2>
             <Button asChild variant="outline">
               <Link href="/dashboard/my-events/create-event">Add New</Link>
             </Button>
@@ -289,17 +289,17 @@ const MyEventsPage = async () => {
             {events.map(event => (
               <article
                 key={event.id}
-                className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50/60 to-sky-50/50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                className="group relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-white via-slate-50/60 to-sky-50/50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400" />
 
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold tracking-wide text-white">
+                      <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold tracking-wide text-white">
                         {event.status || 'ACTIVE'}
                       </span>
-                      <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700">
+                      <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
                         {event.visibility}
                       </span>
                       <span
@@ -313,15 +313,15 @@ const MyEventsPage = async () => {
                       </span>
                     </div>
 
-                    <h3 className="truncate text-2xl font-semibold text-slate-900">
+                    <h3 className="truncate text-2xl font-semibold text-foreground">
                       {event.title}
                     </h3>
 
-                    <p className="mt-2 text-sm font-medium text-slate-700">
+                    <p className="mt-2 text-sm font-medium text-muted-foreground">
                       {event.eventDate} at {event.eventTime || 'TBD'}
                     </p>
 
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-muted-foreground">
                       Fee:{' '}
                       {event.registrationFee > 0
                         ? `BDT ${event.registrationFee}`
@@ -360,13 +360,13 @@ const MyEventsPage = async () => {
             ))}
 
             {events.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-                <p className="text-sm text-slate-600">
+              <div className="rounded-2xl border border-dashed border-border bg-muted p-8 text-center">
+                <p className="text-sm text-muted-foreground">
                   You have not created any event yet.
                 </p>
                 <Button
                   asChild
-                  className="mt-4 bg-[#101b3d] text-white hover:bg-[#172958]"
+                  className="mt-4 bg-primary text-white hover:bg-primary/90"
                 >
                   <Link href="/dashboard/my-events/create-event">
                     Create Your First Event

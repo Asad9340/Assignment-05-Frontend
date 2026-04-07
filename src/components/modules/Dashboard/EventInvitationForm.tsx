@@ -115,9 +115,9 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
 
   return (
     <div className="space-y-5">
-      <div className="rounded-2xl border border-slate-200 p-4">
-        <p className="font-semibold text-slate-900">Find User</p>
-        <p className="mt-1 text-sm text-slate-600">
+      <div className="rounded-2xl border border-border p-4">
+        <p className="font-semibold text-foreground">Find User</p>
+        <p className="mt-1 text-sm text-muted-foreground">
           Search by name or email and invite directly.
         </p>
 
@@ -147,18 +147,18 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
           {candidates.map(candidate => (
             <article
               key={candidate.id}
-              className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 p-3"
+              className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border p-3"
             >
               <div>
-                <p className="font-medium text-slate-900">{candidate.name}</p>
-                <p className="text-sm text-slate-600">{candidate.email}</p>
-                <p className="text-xs text-slate-500">ID: {candidate.id}</p>
+                <p className="font-medium text-foreground">{candidate.name}</p>
+                <p className="text-sm text-muted-foreground">{candidate.email}</p>
+                <p className="text-xs text-muted-foreground">ID: {candidate.id}</p>
               </div>
               <Button
                 type="button"
                 disabled={isSearching || isManualInvitePending}
                 onClick={() => inviteCandidate(candidate.id)}
-                className="bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+                className="bg-primary text-white hover:bg-primary/90"
               >
                 {invitingCandidateId === candidate.id
                   ? 'Inviting...'
@@ -168,7 +168,7 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
           ))}
 
           {!isSearching && candidates.length === 0 ? (
-            <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+            <p className="rounded-lg bg-muted p-3 text-sm text-muted-foreground">
               No eligible users found for invitation.
             </p>
           ) : null}
@@ -177,10 +177,10 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
 
       <form
         onSubmit={onSubmit}
-        className="space-y-3 rounded-2xl border border-slate-200 p-4"
+        className="space-y-3 rounded-2xl border border-border p-4"
       >
-        <p className="font-semibold text-slate-900">Invite By User ID</p>
-        <p className="text-sm text-slate-600">
+        <p className="font-semibold text-foreground">Invite By User ID</p>
+        <p className="text-sm text-muted-foreground">
           Manual fallback if you already have the user id.
         </p>
 
@@ -200,7 +200,7 @@ const EventInvitationForm = ({ eventId }: EventInvitationFormProps) => {
         <Button
           type="submit"
           disabled={isManualInvitePending || Boolean(invitingCandidateId)}
-          className="h-11 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+          className="h-11 bg-primary text-white hover:bg-primary/90"
         >
           {isManualInvitePending ? 'Sending...' : 'Send Invitation'}
         </Button>

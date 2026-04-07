@@ -21,14 +21,14 @@ const StaticPageShell = ({
   secondaryAction,
 }: StaticPageShellProps) => {
   return (
-    <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
-        <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             {eyebrow}
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">{title}</h1>
-          <p className="mt-3 max-w-3xl text-slate-200">{description}</p>
+          <p className="mt-3 max-w-3xl text-primary-foreground/80">{description}</p>
           {(primaryAction || secondaryAction) && (
             <div className="mt-6 flex flex-wrap gap-3">
               {primaryAction ? (
@@ -39,7 +39,7 @@ const StaticPageShell = ({
               {secondaryAction ? (
                 <Button
                   variant="outline"
-                  className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+                  className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
                 >
                   {secondaryAction}
                 </Button>
@@ -53,10 +53,10 @@ const StaticPageShell = ({
             {metrics.map(metric => (
               <article
                 key={metric.label}
-                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                className="rounded-2xl border border-border bg-card p-5 shadow-sm"
               >
-                <p className="text-sm text-slate-600">{metric.label}</p>
-                <p className="mt-2 text-2xl font-bold text-slate-900">
+                <p className="text-sm text-muted-foreground">{metric.label}</p>
+                <p className="mt-2 text-2xl font-bold text-foreground">
                   {metric.value}
                 </p>
               </article>
@@ -65,7 +65,7 @@ const StaticPageShell = ({
         ) : null}
 
         {children ? (
-          <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
             {children}
           </section>
         ) : null}

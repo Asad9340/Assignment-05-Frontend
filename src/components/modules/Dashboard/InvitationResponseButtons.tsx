@@ -43,7 +43,7 @@ const InvitationResponseButtons = ({
 
   if (!canRespond) {
     return (
-      <p className="text-xs font-semibold text-slate-500">{normalizedStatus}</p>
+      <p className="text-xs font-semibold text-muted-foreground">{normalizedStatus}</p>
     );
   }
 

@@ -43,7 +43,7 @@ export default async function HomePage() {
   const upcoming = dynamicEvents.slice(1, 10);
 
   return (
-    <main className="min-h-screen bg-[#090f20]">
+    <main className="min-h-screen bg-background">
       <HomeHeroSection event={featured} />
       <HomeEventStatsSection events={upcoming} />
       <HomeUpcomingEventsSection events={upcoming} />

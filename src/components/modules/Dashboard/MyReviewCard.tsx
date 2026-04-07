@@ -84,14 +84,14 @@ const MyReviewCard = ({
   };
 
   return (
-    <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+    <article className="rounded-xl border border-border bg-muted p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="font-semibold text-slate-900">
+          <p className="font-semibold text-foreground">
             {eventTitle || 'Event review'}
           </p>
-          <p className="mt-1 text-sm text-slate-600">Rating: {rating}/5</p>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-muted-foreground">Rating: {rating}/5</p>
+          <p className="mt-1 text-sm text-muted-foreground">
             {createdAt ? new Date(createdAt).toLocaleString() : 'N/A'}
           </p>
         </div>
@@ -124,7 +124,7 @@ const MyReviewCard = ({
       {isEditing ? (
         <form onSubmit={onSubmit} className="mt-4 space-y-3">
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-700">Rating</label>
+            <label className="text-sm font-medium text-muted-foreground">Rating</label>
             <Input
               type="number"
               min={1}
@@ -136,7 +136,7 @@ const MyReviewCard = ({
             />
           </div>
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-700">Review</label>
+            <label className="text-sm font-medium text-muted-foreground">Review</label>
             <Textarea
               value={currentReview}
               onChange={event => setCurrentReview(event.target.value)}
@@ -148,13 +148,13 @@ const MyReviewCard = ({
           <Button
             type="submit"
             disabled={isPending}
-            className="bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="bg-primary text-white hover:bg-primary/90"
           >
             {isPending ? 'Saving...' : 'Save Changes'}
           </Button>
         </form>
       ) : (
-        <p className="mt-3 text-sm text-slate-700">
+        <p className="mt-3 text-sm text-muted-foreground">
           {reviewText || 'No review text provided.'}
         </p>
       )}

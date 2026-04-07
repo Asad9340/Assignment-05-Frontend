@@ -120,11 +120,11 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
   const resetHref = '/events';
 
   return (
-    <main className="min-h-screen bg-[#f7f8fc] py-14 sm:py-20">
+    <main className="min-h-screen bg-background py-14 sm:py-20">
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-8 rounded-3xl bg-[#101b3d] p-8 text-white sm:p-10">
+        <header className="mb-8 rounded-3xl bg-primary p-8 text-white sm:p-10">
           <h1 className="text-3xl font-bold sm:text-4xl">Discover Events</h1>
-          <p className="mt-3 max-w-2xl text-slate-200">
+          <p className="mt-3 max-w-2xl text-primary-foreground/80">
             Search by event title or organizer and filter by event visibility,
             fee type, and status.
           </p>
@@ -135,19 +135,19 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
           >
             <input type="hidden" name="page" value="1" />
             <div className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-500" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 name="searchTerm"
                 defaultValue={searchTerm}
                 placeholder="Search by title or organizer"
-                className="h-11 border-0 bg-white pl-10 text-slate-900"
+                className="h-11 border-0 bg-card pl-10 text-foreground"
               />
             </div>
             <select
               name="visibility"
               defaultValue={visibilityFilter}
               aria-label="Filter by visibility"
-              className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
+              className="h-11 rounded-md border-0 bg-card px-3 text-foreground"
             >
               <option value="">All Visibility</option>
               <option value="PUBLIC">Public</option>
@@ -157,7 +157,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
               name="feeType"
               defaultValue={feeTypeFilter}
               aria-label="Filter by fee type"
-              className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
+              className="h-11 rounded-md border-0 bg-card px-3 text-foreground"
             >
               <option value="">All Fee Types</option>
               <option value="FREE">Free</option>
@@ -167,7 +167,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
               name="status"
               defaultValue={statusFilter}
               aria-label="Filter by status"
-              className="h-11 rounded-md border-0 bg-white px-3 text-slate-900"
+              className="h-11 rounded-md border-0 bg-card px-3 text-foreground"
             >
               <option value="">All Status</option>
               <option value="ACTIVE">Active</option>
@@ -186,7 +186,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-slate-400 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
             >
               <Link href={resetHref}>Reset Filters</Link>
             </Button>
@@ -200,7 +200,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
         ) : null}
 
         {!isError && events.length === 0 ? (
-          <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-slate-600">
+          <div className="rounded-2xl border border-border bg-card p-8 text-center text-muted-foreground">
             No events found for this search and filter combination.
           </div>
         ) : null}
@@ -209,23 +209,23 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
           {events.map(event => (
             <article
               key={event.id}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="flex items-center justify-between gap-2">
-                <Badge className="bg-slate-900 text-white">{`${event.visibility} ${event.feeType}`}</Badge>
+                <Badge className="bg-primary text-white">{`${event.visibility} ${event.feeType}`}</Badge>
                 <p className="text-sm font-semibold text-orange-600">
                   {event.registrationFee === 0
                     ? 'Free'
                     : `৳${event.registrationFee}`}
                 </p>
               </div>
-              <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 {event.status}
               </p>
-              <h2 className="mt-4 line-clamp-2 min-h-[3.5rem] text-xl font-bold text-slate-900">
+              <h2 className="mt-4 line-clamp-2 min-h-[3.5rem] text-xl font-bold text-foreground">
                 {event.title}
               </h2>
-              <div className="mt-4 space-y-2 text-sm text-slate-600">
+              <div className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <p className="flex items-center gap-2">
                   <CalendarDays className="size-4" />
                   {event.eventDate}
@@ -238,7 +238,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
               <div className="mt-5 grid gap-2">
                 <Button
                   asChild
-                  className="w-full bg-[#101b3d] text-white hover:bg-[#172958]"
+                  className="w-full bg-primary text-white hover:bg-primary/90"
                 >
                   <Link href={`/events/${event.id}`}>View Details</Link>
                 </Button>
@@ -258,7 +258,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
 
         {!isError && events.length > 0 ? (
           <div className="mt-8 flex items-center justify-between gap-4">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-muted-foreground">
               Page {page} of {totalPages}
             </p>
             <div className="flex gap-2">

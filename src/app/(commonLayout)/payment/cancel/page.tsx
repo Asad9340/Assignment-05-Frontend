@@ -38,22 +38,22 @@ const PaymentCancelPage = async ({ searchParams }: PaymentCancelPageProps) => {
 
   return (
     <main className="grid min-h-screen place-items-center bg-linear-to-br from-slate-100 via-white to-slate-200 px-4 py-10">
-      <section className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg sm:p-10">
-        <CircleOff className="mx-auto size-14 text-slate-500" />
-        <h1 className="mt-4 text-3xl font-bold text-slate-900">
+      <section className="w-full max-w-xl rounded-3xl border border-border bg-card p-8 text-center shadow-lg sm:p-10">
+        <CircleOff className="mx-auto size-14 text-muted-foreground" />
+        <h1 className="mt-4 text-3xl font-bold text-foreground">
           Payment Cancelled
         </h1>
-        <p className="mt-3 text-slate-600">
+        <p className="mt-3 text-muted-foreground">
           You cancelled the payment process. No charge was made and your event
           request was not submitted.
         </p>
         {trxId ? (
-          <p className="mt-2 text-sm text-slate-500">Transaction: {trxId}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Transaction: {trxId}</p>
         ) : null}
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Button
             asChild
-            className="bg-slate-900 text-white hover:bg-slate-700"
+            className="bg-primary text-white hover:bg-primary/90"
           >
             <Link href={eventId ? `/events/${eventId}` : '/events'}>
               Return to Events
@@ -62,7 +62,7 @@ const PaymentCancelPage = async ({ searchParams }: PaymentCancelPageProps) => {
           <Button
             asChild
             variant="outline"
-            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+            className="border-border bg-card text-muted-foreground hover:bg-muted"
           >
             <Link href="/dashboard/my-events">Go to My Events</Link>
           </Button>

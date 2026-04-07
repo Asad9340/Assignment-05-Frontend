@@ -50,7 +50,7 @@ type UpdateMyEventStatusButtonsProps = {
 
 const statusClassMap: Record<string, string> = {
   ACTIVE: 'bg-emerald-50 text-emerald-700',
-  COMPLETED: 'bg-slate-100 text-slate-700',
+  COMPLETED: 'bg-muted text-muted-foreground',
   CANCELLED: 'bg-rose-50 text-rose-700',
 };
 
@@ -78,7 +78,7 @@ export const UpdateMyEventStatusButtons = ({
   return (
     <div className="flex flex-wrap items-center gap-2">
       <p
-        className={`rounded-md px-2 py-1 text-xs font-semibold ${statusClassMap[normalizedStatus] || 'bg-slate-100 text-slate-700'}`}
+        className={`rounded-md px-2 py-1 text-xs font-semibold ${statusClassMap[normalizedStatus] || 'bg-muted text-muted-foreground'}`}
       >
         {normalizedStatus}
       </p>

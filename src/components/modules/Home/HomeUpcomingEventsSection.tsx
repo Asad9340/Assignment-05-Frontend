@@ -12,28 +12,28 @@ const HomeUpcomingEventsSection = ({
   events = [],
 }: HomeUpcomingEventsSectionProps) => {
   return (
-    <section className="bg-[#f7f8fc] py-16 sm:py-20">
+    <section className="bg-background py-16 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-3xl font-bold text-slate-900">
+            <h2 className="text-3xl font-bold text-foreground">
               Upcoming Public Events
             </h2>
-            <p className="mt-2 text-slate-600">
+            <p className="mt-2 text-muted-foreground">
               Discover live upcoming events fetched from backend.
             </p>
           </div>
           <Button
             asChild
             variant="outline"
-            className="border-slate-300 bg-white text-slate-800 hover:bg-slate-100"
+            className="border-border bg-card text-foreground hover:bg-muted"
           >
             <Link href="/events">See All Events</Link>
           </Button>
         </div>
 
         {events.length === 0 && (
-          <p className="text-center text-slate-500 py-12">
+          <p className="text-center text-muted-foreground py-12">
             No upcoming events at the moment. Check back soon!
           </p>
         )}
@@ -41,7 +41,7 @@ const HomeUpcomingEventsSection = ({
           {events.map(event => (
             <article
               key={event.id}
-              className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="mb-4 flex flex-wrap items-center gap-2">
                 <Badge
@@ -64,11 +64,11 @@ const HomeUpcomingEventsSection = ({
                 </Badge>
               </div>
 
-              <h3 className="line-clamp-2 min-h-12 text-lg font-bold text-slate-900">
+              <h3 className="line-clamp-2 min-h-12 text-lg font-bold text-foreground">
                 {event.title}
               </h3>
 
-              <div className="mt-4 space-y-2 text-sm text-slate-600">
+              <div className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <p className="flex items-center gap-2">
                   <CalendarDays className="size-4" />
                   {event.date}
@@ -92,13 +92,13 @@ const HomeUpcomingEventsSection = ({
               </div>
 
               <div className="mt-5 flex items-center justify-between">
-                <p className="font-semibold text-slate-900">
+                <p className="font-semibold text-foreground">
                   {event.fee === 0 ? 'Free' : `৳${event.fee}`}
                 </p>
                 <Button
                   asChild
                   size="sm"
-                  className="bg-slate-900 text-white hover:bg-slate-700 group-hover:bg-[#101b3d]"
+                  className="bg-primary text-white hover:bg-primary/90 group-hover:bg-primary"
                 >
                   <Link href={`/events/${event.id}`}>View Details</Link>
                 </Button>

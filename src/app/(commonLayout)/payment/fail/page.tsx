@@ -38,17 +38,17 @@ const PaymentFailPage = async ({ searchParams }: PaymentFailPageProps) => {
 
   return (
     <main className="grid min-h-screen place-items-center bg-linear-to-br from-rose-50 via-white to-orange-50 px-4 py-10">
-      <section className="w-full max-w-xl rounded-3xl border border-rose-100 bg-white p-8 text-center shadow-lg sm:p-10">
+      <section className="w-full max-w-xl rounded-3xl border border-rose-100 bg-card p-8 text-center shadow-lg sm:p-10">
         <AlertTriangle className="mx-auto size-14 text-rose-600" />
-        <h1 className="mt-4 text-3xl font-bold text-slate-900">
+        <h1 className="mt-4 text-3xl font-bold text-foreground">
           Payment Failed
         </h1>
-        <p className="mt-3 text-slate-600">
+        <p className="mt-3 text-muted-foreground">
           We could not complete your payment. Please retry with a valid payment
           method or contact support if the issue persists.
         </p>
         {trxId ? (
-          <p className="mt-2 text-sm text-slate-500">Transaction: {trxId}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Transaction: {trxId}</p>
         ) : null}
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Button asChild className="bg-rose-600 text-white hover:bg-rose-500">
@@ -59,7 +59,7 @@ const PaymentFailPage = async ({ searchParams }: PaymentFailPageProps) => {
           <Button
             asChild
             variant="outline"
-            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+            className="border-border bg-card text-muted-foreground hover:bg-muted"
           >
             <Link href="/contact-us">Contact Support</Link>
           </Button>

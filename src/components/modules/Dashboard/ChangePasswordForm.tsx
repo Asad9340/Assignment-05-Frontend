@@ -50,11 +50,11 @@ const ChangePasswordForm = () => {
   };
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <section className="rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Change Password</h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <h2 className="text-xl font-bold text-foreground">Change Password</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
             Use a strong password with at least 6 characters.
           </p>
         </div>
@@ -67,7 +67,7 @@ const ChangePasswordForm = () => {
         <div className="space-y-2">
           <Label htmlFor="current-password">Current Password</Label>
           <div className="relative">
-            <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+            <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               id="current-password"
               type={showCurrent ? 'text' : 'password'}
@@ -80,7 +80,7 @@ const ChangePasswordForm = () => {
             <button
               type="button"
               onClick={() => setShowCurrent(prev => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-muted-foreground"
               aria-label="Toggle current password visibility"
             >
               {showCurrent ? (
@@ -95,7 +95,7 @@ const ChangePasswordForm = () => {
         <div className="space-y-2">
           <Label htmlFor="new-password">New Password</Label>
           <div className="relative">
-            <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+            <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               id="new-password"
               type={showNew ? 'text' : 'password'}
@@ -108,7 +108,7 @@ const ChangePasswordForm = () => {
             <button
               type="button"
               onClick={() => setShowNew(prev => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-muted-foreground"
               aria-label="Toggle new password visibility"
             >
               {showNew ? (
@@ -123,7 +123,7 @@ const ChangePasswordForm = () => {
         <div className="space-y-2">
           <Label htmlFor="confirm-password">Confirm New Password</Label>
           <div className="relative">
-            <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+            <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               id="confirm-password"
               type={showConfirm ? 'text' : 'password'}
@@ -136,7 +136,7 @@ const ChangePasswordForm = () => {
             <button
               type="button"
               onClick={() => setShowConfirm(prev => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-muted-foreground"
               aria-label="Toggle confirm password visibility"
             >
               {showConfirm ? (
@@ -164,7 +164,7 @@ const ChangePasswordForm = () => {
           <Button
             type="submit"
             disabled={isPending}
-            className="h-11 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="h-11 bg-primary text-white hover:bg-primary/90"
           >
             {isPending ? 'Updating...' : 'Update Password'}
           </Button>

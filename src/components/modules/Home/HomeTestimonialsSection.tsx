@@ -47,13 +47,13 @@ const testimonials = [
 
 const HomeTestimonialsSection = () => {
   return (
-    <section className="bg-[#f7f8fc] py-16 sm:py-20">
+    <section className="bg-background py-16 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+          <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
             What Organizers Are Saying
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
             Event creators and participants across Bangladesh trust Planora to
             run their most important gatherings.
           </p>
@@ -63,22 +63,22 @@ const HomeTestimonialsSection = () => {
           {testimonials.map(testimonial => (
             <article
               key={testimonial.name}
-              className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+              className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
             >
               <Quote className="mb-3 size-6 text-orange-400/60" />
-              <p className="flex-1 text-sm leading-relaxed text-slate-700">
+              <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
                 &ldquo;{testimonial.content}&rdquo;
               </p>
 
-              <div className="mt-5 flex items-center gap-3 border-t border-slate-100 pt-4">
-                <span className="flex size-10 items-center justify-center rounded-full bg-[#101b3d] text-sm font-bold text-white">
+              <div className="mt-5 flex items-center gap-3 border-t border-border pt-4">
+                <span className="flex size-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
                   {testimonial.name.charAt(0)}
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-slate-900">
+                  <p className="truncate text-sm font-semibold text-foreground">
                     {testimonial.name}
                   </p>
-                  <p className="truncate text-xs text-slate-500">
+                  <p className="truncate text-xs text-muted-foreground">
                     {testimonial.role}
                   </p>
                 </div>

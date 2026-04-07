@@ -45,15 +45,15 @@ const UserDetailsManagementPage = async ({
     user = asRecord(response.data);
   } catch {
     return (
-      <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
-        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-white p-8 text-center">
-          <h1 className="text-2xl font-bold text-slate-900">User Not Found</h1>
-          <p className="mt-2 text-slate-600">
+      <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-card p-8 text-center">
+          <h1 className="text-2xl font-bold text-foreground">User Not Found</h1>
+          <p className="mt-2 text-muted-foreground">
             This user may not exist anymore.
           </p>
           <Button
             asChild
-            className="mt-5 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="mt-5 bg-primary text-white hover:bg-primary/90"
           >
             <Link href="/admin/dashboard/users">Back to Users</Link>
           </Button>
@@ -68,14 +68,14 @@ const UserDetailsManagementPage = async ({
   const reviews = extractArrayPayload(user.eventReviews);
 
   return (
-    <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-7xl space-y-6">
-        <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             Admin
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">User Details</h1>
-          <p className="mt-3 text-slate-200">
+          <p className="mt-3 text-primary-foreground/80">
             {pickString(user.name, 'Unnamed user')} (
             {pickString(user.email, 'N/A')})
           </p>
@@ -90,7 +90,7 @@ const UserDetailsManagementPage = async ({
             <Button
               asChild
               variant="outline"
-              className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
             >
               <Link href="/admin/dashboard/users">Back to Users</Link>
             </Button>
@@ -98,34 +98,34 @@ const UserDetailsManagementPage = async ({
         </header>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Role</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Role</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pickString(user.role, 'N/A')}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Status</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Status</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pickString(user.status, 'N/A')}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Hosted Events</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Hosted Events</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pickNumber(count.events)}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Reviews</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Reviews</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pickNumber(count.eventReviews)}
             </p>
           </article>
         </div>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900">
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-foreground">
             Recent Hosted Events
           </h2>
           <div className="mt-4 space-y-2">
@@ -134,12 +134,12 @@ const UserDetailsManagementPage = async ({
               return (
                 <article
                   key={pickString(event.id)}
-                  className="rounded-xl border border-slate-200 p-3"
+                  className="rounded-xl border border-border p-3"
                 >
-                  <p className="font-medium text-slate-900">
+                  <p className="font-medium text-foreground">
                     {pickString(event.title, 'Untitled event')}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-muted-foreground">
                     {pickString(event.visibility, 'N/A')} |{' '}
                     {pickString(event.feeType, 'N/A')}
                   </p>
@@ -147,13 +147,13 @@ const UserDetailsManagementPage = async ({
               );
             })}
             {hostedEvents.length === 0 ? (
-              <p className="text-sm text-slate-500">No hosted events found.</p>
+              <p className="text-sm text-muted-foreground">No hosted events found.</p>
             ) : null}
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900">
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-foreground">
             Recent Joined Events
           </h2>
           <div className="mt-4 space-y-2">
@@ -163,12 +163,12 @@ const UserDetailsManagementPage = async ({
               return (
                 <article
                   key={pickString(participation.id)}
-                  className="rounded-xl border border-slate-200 p-3"
+                  className="rounded-xl border border-border p-3"
                 >
-                  <p className="font-medium text-slate-900">
+                  <p className="font-medium text-foreground">
                     {pickString(event.title, 'Untitled event')}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-muted-foreground">
                     Status: {pickString(participation.status, 'N/A')} | Payment:{' '}
                     {pickString(participation.paymentStatus, 'N/A')}
                   </p>
@@ -176,13 +176,13 @@ const UserDetailsManagementPage = async ({
               );
             })}
             {joinedEvents.length === 0 ? (
-              <p className="text-sm text-slate-500">No joined events found.</p>
+              <p className="text-sm text-muted-foreground">No joined events found.</p>
             ) : null}
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900">Recent Reviews</h2>
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-foreground">Recent Reviews</h2>
           <div className="mt-4 space-y-2">
             {reviews.map(item => {
               const review = asRecord(item);
@@ -190,22 +190,22 @@ const UserDetailsManagementPage = async ({
               return (
                 <article
                   key={pickString(review.id)}
-                  className="rounded-xl border border-slate-200 p-3"
+                  className="rounded-xl border border-border p-3"
                 >
-                  <p className="font-medium text-slate-900">
+                  <p className="font-medium text-foreground">
                     {pickString(event.title, 'Untitled event')}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-muted-foreground">
                     Rating: {pickNumber(review.rating, 0)}/5
                   </p>
-                  <p className="mt-1 text-sm text-slate-700">
+                  <p className="mt-1 text-sm text-muted-foreground">
                     {pickString(review.review, 'No review text')}
                   </p>
                 </article>
               );
             })}
             {reviews.length === 0 ? (
-              <p className="text-sm text-slate-500">No reviews found.</p>
+              <p className="text-sm text-muted-foreground">No reviews found.</p>
             ) : null}
           </div>
         </section>

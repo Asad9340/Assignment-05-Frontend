@@ -42,17 +42,17 @@ const EditMyEventPage = async ({ searchParams }: EditEventPageProps) => {
 
   if (!eventId) {
     return (
-      <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
-        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-white p-8 text-center">
-          <h1 className="text-2xl font-bold text-slate-900">
+      <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-card p-8 text-center">
+          <h1 className="text-2xl font-bold text-foreground">
             Event Not Selected
           </h1>
-          <p className="mt-2 text-slate-600">
+          <p className="mt-2 text-muted-foreground">
             Choose an event from My Events list before editing.
           </p>
           <Button
             asChild
-            className="mt-5 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="mt-5 bg-primary text-white hover:bg-primary/90"
           >
             <Link href="/dashboard/my-events">Go to My Events</Link>
           </Button>
@@ -97,17 +97,17 @@ const EditMyEventPage = async ({ searchParams }: EditEventPageProps) => {
     };
   } catch {
     return (
-      <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
-        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-white p-8 text-center">
-          <h1 className="text-2xl font-bold text-slate-900">
+      <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-card p-8 text-center">
+          <h1 className="text-2xl font-bold text-foreground">
             Unable to Load Event
           </h1>
-          <p className="mt-2 text-slate-600">
+          <p className="mt-2 text-muted-foreground">
             The event might be deleted or you may not have permission.
           </p>
           <Button
             asChild
-            className="mt-5 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="mt-5 bg-primary text-white hover:bg-primary/90"
           >
             <Link href="/dashboard/my-events">Back to My Events</Link>
           </Button>
@@ -117,20 +117,20 @@ const EditMyEventPage = async ({ searchParams }: EditEventPageProps) => {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-5xl space-y-6">
-        <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             My Events
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Edit Event</h1>
-          <p className="mt-3 text-slate-200">
+          <p className="mt-3 text-primary-foreground/80">
             Update timeline, fee, visibility, and location details.
           </p>
           <Button
             asChild
             variant="outline"
-            className="mt-5 border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+            className="mt-5 border-border bg-transparent text-primary-foreground hover:bg-primary/80"
           >
             <Link href={`/dashboard/my-events/${eventId}`}>
               <ArrowLeft className="size-4" /> Back to Event Details

@@ -4,7 +4,7 @@ import { Compass, House } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#090f20] px-4 py-16">
+    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-16">
       <section className="w-full max-w-2xl text-center">
         {/* Large 404 */}
         <p className="text-[120px] font-black leading-none text-white/5 sm:text-[180px]">
@@ -18,7 +18,7 @@ export default function NotFound() {
           <h1 className="mt-3 text-3xl font-bold text-white sm:text-5xl">
             Looks like you&apos;re lost
           </h1>
-          <p className="mx-auto mt-4 max-w-md text-slate-400">
+          <p className="mx-auto mt-4 max-w-md text-muted-foreground">
             The page you&apos;re looking for doesn&apos;t exist or has been
             moved. Head back home or explore upcoming events.
           </p>
@@ -38,7 +38,7 @@ export default function NotFound() {
           <Button
             asChild
             variant="outline"
-            className="border-slate-600 bg-transparent text-slate-200 hover:bg-slate-800"
+            className="border-border bg-transparent text-primary-foreground/80 hover:bg-primary/80"
           >
             <Link href="/events">
               <Compass className="size-4" />

@@ -22,6 +22,7 @@ import {
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 interface CommonNavbarClientProps {
   isLoggedIn: boolean;
@@ -56,10 +57,10 @@ const CommonNavbarClient = ({
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <header className="fixed top-0 left-0 right-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 text-slate-900">
-          <span className="rounded-lg bg-linear-to-br from-amber-300 to-orange-500 p-2 text-slate-900">
+        <Link href="/" className="flex items-center gap-2 text-foreground">
+          <span className="rounded-lg bg-linear-to-br from-amber-300 to-orange-500 p-2 text-foreground">
             <CalendarDays className="size-4" />
           </span>
           <span className="text-lg font-semibold tracking-wide">Planora</span>
@@ -76,7 +77,9 @@ const CommonNavbarClient = ({
                 key={link.href}
                 asChild
                 variant="ghost"
-                className={isActive ? 'text-orange-600' : 'text-slate-700'}
+                className={
+                  isActive ? 'text-orange-600' : 'text-muted-foreground'
+                }
               >
                 <Link href={link.href}>{link.label}</Link>
               </Button>
@@ -85,6 +88,7 @@ const CommonNavbarClient = ({
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -93,7 +97,7 @@ const CommonNavbarClient = ({
                     {userImage ? (
                       <AvatarImage src={userImage} alt={userName || 'User'} />
                     ) : null}
-                    <AvatarFallback className="bg-slate-100 text-xs font-semibold text-slate-700">
+                    <AvatarFallback className="bg-muted text-xs font-semibold text-muted-foreground">
                       {userName?.charAt(0).toUpperCase() || 'U'}
                     </AvatarFallback>
                   </Avatar>
@@ -140,7 +144,7 @@ const CommonNavbarClient = ({
               </Button>
               <Button
                 asChild
-                className="bg-[#101b3d] text-white hover:bg-[#172958]"
+                className="bg-primary text-white hover:bg-primary/90"
               >
                 <Link href="/register">Get Started</Link>
               </Button>
@@ -156,6 +160,10 @@ const CommonNavbarClient = ({
           </SheetTrigger>
           <SheetContent side="right" className="w-72 sm:w-80">
             <div className="mt-8 flex flex-col gap-2">
+              <div className="mb-2">
+                <ThemeToggle />
+              </div>
+
               {navLinks.map(link => (
                 <Button
                   key={link.href}
@@ -172,7 +180,7 @@ const CommonNavbarClient = ({
                   <>
                     <Button
                       asChild
-                      className="col-span-2 bg-[#101b3d] text-white hover:bg-[#172958]"
+                      className="col-span-2 bg-primary text-white hover:bg-primary/90"
                     >
                       <Link href={dashboardHome}>Go to Dashboard</Link>
                     </Button>
@@ -196,7 +204,7 @@ const CommonNavbarClient = ({
                     </Button>
                     <Button
                       asChild
-                      className="bg-[#101b3d] text-white hover:bg-[#172958]"
+                      className="bg-primary text-white hover:bg-primary/90"
                     >
                       <Link href="/register">Register</Link>
                     </Button>

@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import QueryProviders from '@/providers/QueryProvider';
 import { Toaster } from '@/components/ui/sonner';
+import ThemeProvider from '@/providers/ThemeProvider';
 
 const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -20,13 +21,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn('font-sans', montserrat.variable)}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn('font-sans', montserrat.variable)}
+    >
       <body className="antialiased">
         <QueryProviders>
-          <TooltipProvider>
-            {children}
-            <Toaster richColors position="top-right" />
-          </TooltipProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TooltipProvider>
+              {children}
+              <Toaster richColors position="top-right" />
+            </TooltipProvider>
+          </ThemeProvider>
         </QueryProviders>
       </body>
     </html>

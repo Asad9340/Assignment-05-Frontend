@@ -35,19 +35,19 @@ const JoinedEventsPage = async () => {
         { label: 'Total Joined', value: String(joinedParticipations.length) },
       ]}
     >
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-bold text-slate-900">My Joined Events</h2>
-        <p className="mt-2 text-sm text-slate-600">
+      <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+        <h2 className="text-xl font-bold text-foreground">My Joined Events</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
           These are events you can actively participate in right now.
         </p>
 
         {joinedParticipations.length === 0 ? (
-          <div className="mt-4 rounded-2xl border border-dashed border-slate-300 p-8 text-center text-slate-600">
+          <div className="mt-4 rounded-2xl border border-dashed border-border p-8 text-center text-muted-foreground">
             You have not joined any events yet.
             <div className="mt-4">
               <Button
                 asChild
-                className="bg-[#101b3d] text-white hover:bg-[#172958]"
+                className="bg-primary text-white hover:bg-primary/90"
               >
                 <Link href="/events">Browse Events</Link>
               </Button>
@@ -58,18 +58,18 @@ const JoinedEventsPage = async () => {
             {joinedParticipations.map(item => (
               <article
                 key={item.id}
-                className="rounded-2xl border border-slate-200 bg-white p-5"
+                className="rounded-2xl border border-border bg-card p-5"
               >
                 <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">
                   Joined
                 </p>
-                <h3 className="mt-2 text-lg font-bold text-slate-900">
+                <h3 className="mt-2 text-lg font-bold text-foreground">
                   {item.eventTitle}
                 </h3>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-muted-foreground">
                   Payment: {item.paymentStatus}
                 </p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-muted-foreground">
                   Event Status: {item.eventStatus || 'ACTIVE'}
                 </p>
                 <div className="mt-4 flex gap-2">

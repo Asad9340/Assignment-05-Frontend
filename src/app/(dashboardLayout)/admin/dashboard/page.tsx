@@ -81,14 +81,14 @@ export default async function AdminDashboardPage() {
 
   return (
     <main className="space-y-6">
-      <section className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+      <section className="rounded-3xl bg-primary p-7 text-white sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Planora Administration
         </p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           Admin Control Center{user?.name ? `: ${user.name}` : ''}
         </h1>
-        <p className="mt-3 max-w-3xl text-slate-200">
+        <p className="mt-3 max-w-3xl text-primary-foreground/80">
           Monitor platform activity, moderate users and events, and keep the
           ecosystem healthy.
         </p>
@@ -102,7 +102,7 @@ export default async function AdminDashboardPage() {
           <Button
             asChild
             variant="outline"
-            className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
           >
             <Link href="/admin/dashboard/events">Moderate Events</Link>
           </Button>
@@ -115,13 +115,13 @@ export default async function AdminDashboardPage() {
           return (
             <article
               key={metric.label}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+              className="rounded-2xl border border-border bg-card p-5 shadow-sm"
             >
               <div className="flex items-center justify-between gap-3">
-                <p className="text-sm text-slate-600">{metric.label}</p>
-                <Icon className="size-4 text-slate-500" />
+                <p className="text-sm text-muted-foreground">{metric.label}</p>
+                <Icon className="size-4 text-muted-foreground" />
               </div>
-              <p className="mt-2 text-2xl font-bold text-slate-900">
+              <p className="mt-2 text-2xl font-bold text-foreground">
                 {metric.value}
               </p>
             </article>
@@ -129,10 +129,10 @@ export default async function AdminDashboardPage() {
         })}
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
         <div className="mb-4 flex items-center gap-2">
           <Shield className="size-4 text-orange-500" />
-          <h2 className="text-lg font-bold text-slate-900">Admin Shortcuts</h2>
+          <h2 className="text-lg font-bold text-foreground">Admin Shortcuts</h2>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <Button asChild variant="outline" className="justify-start">
@@ -148,8 +148,8 @@ export default async function AdminDashboardPage() {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-900">Recent Users</h3>
+        <article className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h3 className="text-lg font-bold text-foreground">Recent Users</h3>
           <div className="mt-4 space-y-2">
             {recentUsers.map(item => {
               const userPayload = asRecord(item);
@@ -157,27 +157,27 @@ export default async function AdminDashboardPage() {
               return (
                 <div
                   key={String(userPayload.id)}
-                  className="rounded-xl border border-slate-200 p-3"
+                  className="rounded-xl border border-border p-3"
                 >
-                  <p className="font-semibold text-slate-900">
+                  <p className="font-semibold text-foreground">
                     {String(userPayload.name || 'Unnamed user')}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-muted-foreground">
                     {String(userPayload.email || 'N/A')}
                   </p>
                 </div>
               );
             })}
             {recentUsers.length === 0 ? (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-muted-foreground">
                 No recent users available.
               </p>
             ) : null}
           </div>
         </article>
 
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-900">Recent Events</h3>
+        <article className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h3 className="text-lg font-bold text-foreground">Recent Events</h3>
           <div className="mt-4 space-y-2">
             {recentEvents.map(item => {
               const eventPayload = asRecord(item);
@@ -185,12 +185,12 @@ export default async function AdminDashboardPage() {
               return (
                 <div
                   key={String(eventPayload.id)}
-                  className="rounded-xl border border-slate-200 p-3"
+                  className="rounded-xl border border-border p-3"
                 >
-                  <p className="font-semibold text-slate-900">
+                  <p className="font-semibold text-foreground">
                     {String(eventPayload.title || 'Untitled event')}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-muted-foreground">
                     {String(eventPayload.visibility || 'N/A')} |{' '}
                     {String(eventPayload.feeType || 'N/A')}
                   </p>
@@ -198,7 +198,7 @@ export default async function AdminDashboardPage() {
               );
             })}
             {recentEvents.length === 0 ? (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-muted-foreground">
                 No recent events available.
               </p>
             ) : null}

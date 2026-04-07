@@ -87,14 +87,14 @@ export default async function UserDashboardPage() {
 
   return (
     <main className="space-y-6">
-      <section className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+      <section className="rounded-3xl bg-primary p-7 text-white sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Planora Workspace
         </p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           Welcome back{user?.name ? `, ${user.name}` : ''}
         </h1>
-        <p className="mt-3 max-w-3xl text-slate-200">
+        <p className="mt-3 max-w-3xl text-primary-foreground/80">
           Manage event creation, invitations, participation requests, reviews,
           and payments from one place.
         </p>
@@ -108,7 +108,7 @@ export default async function UserDashboardPage() {
           <Button
             asChild
             variant="outline"
-            className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+            className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
           >
             <Link href="/events">Browse Events</Link>
           </Button>
@@ -119,10 +119,10 @@ export default async function UserDashboardPage() {
         {stats.map(item => (
           <article
             key={item.label}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            className="rounded-2xl border border-border bg-card p-5 shadow-sm"
           >
-            <p className="text-sm text-slate-600">{item.label}</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+            <p className="text-sm text-muted-foreground">{item.label}</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {item.value}
             </p>
           </article>
@@ -133,10 +133,10 @@ export default async function UserDashboardPage() {
         Pending approvals on your events: {summary.pendingApprovalsCount}
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
         <div className="mb-5 flex items-center gap-2">
           <Star className="size-4 text-amber-500" />
-          <h2 className="text-lg font-bold text-slate-900">Quick Actions</h2>
+          <h2 className="text-lg font-bold text-foreground">Quick Actions</h2>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -145,21 +145,21 @@ export default async function UserDashboardPage() {
             return (
               <article
                 key={action.title}
-                className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+                className="rounded-2xl border border-border bg-muted p-5"
               >
                 <div className="mb-3 flex items-center gap-2">
-                  <span className="rounded-lg bg-slate-900 p-2 text-white">
+                  <span className="rounded-lg bg-primary p-2 text-white">
                     <Icon className="size-4" />
                   </span>
-                  <h3 className="font-semibold text-slate-900">
+                  <h3 className="font-semibold text-foreground">
                     {action.title}
                   </h3>
                 </div>
-                <p className="text-sm text-slate-600">{action.description}</p>
+                <p className="text-sm text-muted-foreground">{action.description}</p>
                 <Button
                   asChild
                   size="sm"
-                  className="mt-4 bg-[#101b3d] text-white hover:bg-[#172958]"
+                  className="mt-4 bg-primary text-white hover:bg-primary/90"
                 >
                   <Link href={action.href}>Open</Link>
                 </Button>

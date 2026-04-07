@@ -12,21 +12,21 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
   const feeLabel = event ? (event.fee === 0 ? 'Free' : `৳${event.fee}`) : '';
 
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-[#0b1329]">
+    <section className="relative overflow-hidden border-b border-border dark:border-white/10 bg-background">
       <div className="absolute -left-24 top-8 size-72 rounded-full bg-orange-400/20 blur-3xl" />
       <div className="absolute right-0 top-0 size-80 rounded-full bg-sky-500/20 blur-3xl" />
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-6">
-          <Badge className="rounded-full bg-orange-500/20 px-3 py-1 text-orange-200">
+          <Badge className="rounded-full bg-orange-500/20 px-3 py-1 text-orange-700 dark:text-orange-200">
             {event ? 'Featured Event' : 'Welcome to Planora'}
           </Badge>
-          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
+          <h1 className="text-4xl font-bold leading-tight text-foreground dark:text-white sm:text-5xl">
             {event
               ? event.title
               : 'Build, Host, and Join Memorable Events with Planora'}
           </h1>
-          <p className="max-w-xl text-base text-slate-300 sm:text-lg">
+          <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
             {event?.description
               ? event.description
               : 'A secure platform for managing public and private events with smooth registration, invite workflows, and integrated payments.'}
@@ -44,7 +44,7 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-foreground dark:text-primary-foreground hover:bg-muted dark:hover:bg-primary/80"
             >
               <Link href="/dashboard/my-events/create-event">Create Event</Link>
             </Button>
@@ -52,32 +52,34 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
         </div>
 
         {event && (
-          <article className="rounded-3xl border border-white/10 bg-slate-950/60 p-6 shadow-2xl backdrop-blur">
+          <article className="rounded-3xl border border-border dark:border-white/10 bg-card/90 dark:bg-card/10 p-6 shadow-2xl backdrop-blur">
             <div className="mb-4 flex flex-wrap items-center gap-2">
-              <Badge className="bg-sky-500/20 text-sky-200">
+              <Badge className="bg-sky-500/20 text-sky-700 dark:text-sky-200">
                 {event.visibility}
               </Badge>
               <Badge
                 className={
                   event.feeType === 'Free'
-                    ? 'bg-emerald-500/20 text-emerald-200'
-                    : 'bg-amber-500/20 text-amber-200'
+                    ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-200'
+                    : 'bg-amber-500/20 text-amber-700 dark:text-amber-200'
                 }
               >
                 {event.feeType}
               </Badge>
-              <Badge className="bg-purple-500/20 text-purple-200">
+              <Badge className="bg-purple-500/20 text-purple-700 dark:text-purple-200">
                 {feeLabel}
               </Badge>
             </div>
-            <h2 className="text-2xl font-bold text-white">{event.title}</h2>
+            <h2 className="text-2xl font-bold text-foreground dark:text-white">
+              {event.title}
+            </h2>
             {event.description && (
-              <p className="mb-5 line-clamp-3 text-sm text-slate-300">
+              <p className="mb-5 line-clamp-3 text-sm text-muted-foreground dark:text-primary-foreground/70">
                 {event.description}
               </p>
             )}
 
-            <div className="space-y-3 text-sm text-slate-200">
+            <div className="space-y-3 text-sm text-muted-foreground dark:text-primary-foreground/80">
               <p className="flex items-center gap-2">
                 <Calendar className="size-4 text-orange-300" />
                 {event.date}
@@ -101,7 +103,7 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
             </div>
 
             {event.participantCount !== undefined && (
-              <p className="flex items-center gap-2 text-sm text-slate-400">
+              <p className="flex items-center gap-2 text-sm text-muted-foreground dark:text-primary-foreground/70">
                 <Users className="size-4 text-sky-300" />
                 {event.participantCount} participant
                 {event.participantCount !== 1 ? 's' : ''} joined
@@ -110,7 +112,7 @@ const HomeHeroSection = ({ event }: HomeHeroSectionProps) => {
             <div className="mt-6 flex items-center justify-between">
               <Button
                 asChild
-                className="bg-white text-slate-900 hover:bg-slate-200"
+                className="bg-card text-foreground hover:bg-muted"
               >
                 <Link href={`/events/${event.id}`}>View Details</Link>
               </Button>

@@ -18,10 +18,10 @@ const categoryQueryMap: Record<string, string> = {
 
 const HomeCategoriesSection = () => {
   return (
-    <section className="bg-white py-14 sm:py-16">
+    <section className="bg-card py-14 sm:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-slate-900">Event Categories</h2>
-        <p className="mt-2 text-slate-600">
+        <h2 className="text-3xl font-bold text-foreground">Event Categories</h2>
+        <p className="mt-2 text-muted-foreground">
           Filter events by visibility and fee type.
         </p>
 
@@ -30,19 +30,19 @@ const HomeCategoriesSection = () => {
             <Link
               key={filter.value}
               href={`/events?${categoryQueryMap[filter.value]}`}
-              className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition hover:border-orange-300 hover:bg-orange-50"
+              className="rounded-2xl border border-border bg-muted p-5 transition hover:border-orange-300 hover:bg-orange-50"
             >
               <Badge
                 className={
-                  categoryBadgeClass[filter.value] ?? 'bg-slate-900 text-white'
+                  categoryBadgeClass[filter.value] ?? 'bg-primary text-white'
                 }
               >
                 {filter.label}
               </Badge>
-              <h3 className="mt-4 text-lg font-semibold text-slate-900">
+              <h3 className="mt-4 text-lg font-semibold text-foreground">
                 {filter.label}
               </h3>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-sm text-muted-foreground">
                 Browse {filter.label.toLowerCase()} events on Planora.
               </p>
             </Link>

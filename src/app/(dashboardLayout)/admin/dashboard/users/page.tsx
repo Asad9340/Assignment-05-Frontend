@@ -177,37 +177,37 @@ const UserManagementPage = () => {
 
   return (
     <main className="space-y-6">
-      <section className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+      <section className="rounded-3xl bg-primary p-7 text-white sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
           Admin
         </p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">User Management</h1>
-        <p className="mt-3 max-w-3xl text-slate-200">
+        <p className="mt-3 max-w-3xl text-primary-foreground/80">
           Search and filter users instantly without page reload, then update
           user role and status inline.
         </p>
       </section>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-600">Total Users (All)</p>
-          <p className="mt-2 text-2xl font-bold text-slate-900">
+        <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <p className="text-sm text-muted-foreground">Total Users (All)</p>
+          <p className="mt-2 text-2xl font-bold text-foreground">
             {totalUsersOverall}
           </p>
         </article>
-        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-600">Blocked Users In List</p>
-          <p className="mt-2 text-2xl font-bold text-slate-900">
+        <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <p className="text-sm text-muted-foreground">Blocked Users In List</p>
+          <p className="mt-2 text-2xl font-bold text-foreground">
             {blockedCount}
           </p>
         </article>
-        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-600">Current Page</p>
-          <p className="mt-2 text-2xl font-bold text-slate-900">{page}</p>
+        <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <p className="text-sm text-muted-foreground">Current Page</p>
+          <p className="mt-2 text-2xl font-bold text-foreground">{page}</p>
         </article>
       </div>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
         <form
           className="mb-4 flex flex-col gap-3 sm:flex-row"
           onSubmit={handleSearchSubmit}
@@ -217,11 +217,11 @@ const UserManagementPage = () => {
             value={searchInput}
             onChange={event => setSearchInput(event.target.value)}
             placeholder="Search by name or email"
-            className="h-11 flex-1 rounded-lg border border-slate-300 px-3 text-sm"
+            className="h-11 flex-1 rounded-lg border border-border px-3 text-sm"
           />
           <Button
             type="submit"
-            className="h-11 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="h-11 bg-primary text-white hover:bg-primary/90"
           >
             Search
           </Button>
@@ -232,7 +232,7 @@ const UserManagementPage = () => {
               setStatusFilter(event.target.value);
               setPage(1);
             }}
-            className="h-11 rounded-lg border border-slate-300 px-3 text-sm"
+            className="h-11 rounded-lg border border-border px-3 text-sm"
           >
             <option value="">All Status</option>
             <option value="ACTIVE">Active</option>
@@ -245,7 +245,7 @@ const UserManagementPage = () => {
               setRoleFilter(event.target.value);
               setPage(1);
             }}
-            className="h-11 rounded-lg border border-slate-300 px-3 text-sm"
+            className="h-11 rounded-lg border border-border px-3 text-sm"
           >
             <option value="">All Roles</option>
             <option value="USER">User</option>
@@ -268,7 +268,7 @@ const UserManagementPage = () => {
         ) : null}
 
         {isLoading ? (
-          <p className="mb-4 rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
+          <p className="mb-4 rounded-xl bg-muted p-3 text-sm text-muted-foreground">
             Loading users...
           </p>
         ) : null}
@@ -281,17 +281,17 @@ const UserManagementPage = () => {
             return (
               <article
                 key={`${userId}-${pickString(user.status)}`}
-                className="rounded-xl border border-slate-200 p-4"
+                className="rounded-xl border border-border p-4"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="font-semibold text-slate-900">
+                    <p className="font-semibold text-foreground">
                       {pickString(user.name, 'Unnamed user')}
                     </p>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-sm text-muted-foreground">
                       {pickString(user.email, 'N/A')}
                     </p>
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs text-muted-foreground">
                       Status: {pickString(user.status, 'UNKNOWN')} | Hosted:{' '}
                       {pickNumber(count.events)} | Joined:{' '}
                       {pickNumber(count.eventParticipants)} | Reviews:{' '}
@@ -318,14 +318,14 @@ const UserManagementPage = () => {
           })}
 
           {users.length === 0 ? (
-            <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
+            <p className="rounded-xl bg-muted p-4 text-sm text-muted-foreground">
               No users found.
             </p>
           ) : null}
         </div>
 
         <div className="mt-5 flex items-center justify-between">
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-muted-foreground">
             Showing {users.length} users on this page. Page {page} of{' '}
             {totalPages}
           </p>

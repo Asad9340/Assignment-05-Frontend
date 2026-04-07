@@ -78,9 +78,9 @@ const MyReviewsPage = async () => {
           </Button>
         </div>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-4">
-          <h2 className="text-lg font-bold text-slate-900">Ready to Review</h2>
-          <p className="mt-1 text-sm text-slate-600">
+        <section className="rounded-xl border border-border bg-card p-4">
+          <h2 className="text-lg font-bold text-foreground">Ready to Review</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
             You can submit a review after the owner marks the event completed.
           </p>
 
@@ -94,7 +94,7 @@ const MyReviewsPage = async () => {
             ))}
 
             {readyToReview.length === 0 ? (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-muted-foreground">
                 No completed participated events are waiting for your review.
               </p>
             ) : null}
@@ -112,7 +112,7 @@ const MyReviewsPage = async () => {
           />
         ))}
         {reviews.length === 0 ? (
-          <p className="text-sm text-slate-500">No reviews found yet.</p>
+          <p className="text-sm text-muted-foreground">No reviews found yet.</p>
         ) : null}
       </div>
     </StaticPageShell>

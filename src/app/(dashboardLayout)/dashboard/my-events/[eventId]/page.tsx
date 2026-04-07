@@ -48,17 +48,17 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
     participants = extractArrayPayload(participantsResponse.data);
   } catch {
     return (
-      <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
-        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-white p-8 text-center">
-          <h1 className="text-2xl font-bold text-slate-900">
+      <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+        <section className="mx-auto w-full max-w-3xl rounded-3xl border border-rose-200 bg-card p-8 text-center">
+          <h1 className="text-2xl font-bold text-foreground">
             Unable to Load Event
           </h1>
-          <p className="mt-2 text-slate-600">
+          <p className="mt-2 text-muted-foreground">
             This event may be unavailable or inaccessible.
           </p>
           <Button
             asChild
-            className="mt-5 bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+            className="mt-5 bg-primary text-white hover:bg-primary/90"
           >
             <Link href="/dashboard/my-events">Back to My Events</Link>
           </Button>
@@ -74,23 +74,23 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
   }).length;
 
   return (
-    <main className="min-h-screen bg-[#f7f8fc] p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <section className="mx-auto w-full max-w-6xl space-y-6">
-        <header className="rounded-3xl bg-[#101b3d] p-7 text-white sm:p-10">
+        <header className="rounded-3xl bg-primary p-7 text-white sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
             My Events
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
             {pickString(event.title, 'Event Details')}
           </h1>
-          <p className="mt-3 text-slate-200">
+          <p className="mt-3 text-primary-foreground/80">
             {pickString(event.description, 'No description')}
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Button
               asChild
               variant="outline"
-              className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
             >
               <Link href={`/dashboard/my-events/edit-event?eventId=${eventId}`}>
                 Edit Event
@@ -99,7 +99,7 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
             >
               <Link
                 href={`/dashboard/my-events/participants?eventId=${eventId}`}
@@ -110,7 +110,7 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
             <Button
               asChild
               variant="outline"
-              className="border-slate-500 bg-transparent text-slate-100 hover:bg-slate-800"
+              className="border-border bg-transparent text-primary-foreground hover:bg-primary/80"
             >
               <Link
                 href={`/dashboard/my-events/invitations?eventId=${eventId}`}
@@ -123,50 +123,50 @@ const MyEventDetailsPage = async ({ params }: MyEventDetailsPageProps) => {
         </header>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Participants</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Participants</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pickNumber(count.participants, 0)}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Pending Requests</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Pending Requests</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pendingParticipants}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Reviews</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Reviews</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pickNumber(count.reviews, 0)}
             </p>
           </article>
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">Invitations</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">
+          <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <p className="text-sm text-muted-foreground">Invitations</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {pickNumber(count.eventInvitations, 0)}
             </p>
           </article>
         </div>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-900">
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-foreground">
             Event Information
           </h2>
-          <div className="mt-4 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
-            <p className="rounded-lg bg-slate-50 p-3">
+          <div className="mt-4 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+            <p className="rounded-lg bg-muted p-3">
               Visibility: {pickString(event.visibility)}
             </p>
-            <p className="rounded-lg bg-slate-50 p-3">
+            <p className="rounded-lg bg-muted p-3">
               Fee Type: {pickString(event.feeType)}
             </p>
-            <p className="rounded-lg bg-slate-50 p-3">
+            <p className="rounded-lg bg-muted p-3">
               Registration Fee:{' '}
               {pickNumber(event.registrationFee, 0) > 0
                 ? `৳${pickNumber(event.registrationFee, 0)}`
                 : 'Free'}
             </p>
-            <p className="rounded-lg bg-slate-50 p-3">
+            <p className="rounded-lg bg-muted p-3">
               Venue: {pickString(event.venue, 'N/A')}
             </p>
           </div>

@@ -47,16 +47,16 @@ const CreateReviewCard = ({ eventId, eventTitle }: CreateReviewCardProps) => {
   };
 
   return (
-    <article className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-      <p className="font-semibold text-slate-900">{eventTitle}</p>
-      <p className="mt-1 text-xs text-slate-600">
+    <article className="rounded-xl border border-border bg-muted p-4">
+      <p className="font-semibold text-foreground">{eventTitle}</p>
+      <p className="mt-1 text-xs text-muted-foreground">
         You can review this event because it is completed and your participation
         is confirmed.
       </p>
 
       <form onSubmit={onSubmit} className="mt-3 space-y-3">
         <div className="space-y-1">
-          <label className="text-sm font-medium text-slate-700">Rating</label>
+          <label className="text-sm font-medium text-muted-foreground">Rating</label>
           <Input
             type="number"
             min={1}
@@ -69,7 +69,7 @@ const CreateReviewCard = ({ eventId, eventTitle }: CreateReviewCardProps) => {
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium text-slate-700">Review</label>
+          <label className="text-sm font-medium text-muted-foreground">Review</label>
           <Textarea
             value={review}
             onChange={event => setReview(event.target.value)}
@@ -82,7 +82,7 @@ const CreateReviewCard = ({ eventId, eventTitle }: CreateReviewCardProps) => {
         <Button
           type="submit"
           disabled={isPending}
-          className="bg-[#101b3d] text-white hover:bg-[#1a2f66]"
+          className="bg-primary text-white hover:bg-primary/90"
         >
           {isPending ? 'Submitting...' : 'Submit Review'}
         </Button>

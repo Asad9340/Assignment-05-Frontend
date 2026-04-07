@@ -60,20 +60,20 @@ const PaymentSuccessPage = async ({
 
   return (
     <main className="grid min-h-screen place-items-center bg-linear-to-br from-emerald-50 via-white to-cyan-50 px-4 py-10">
-      <section className="w-full max-w-xl rounded-3xl border border-emerald-100 bg-white p-8 text-center shadow-lg sm:p-10">
+      <section className="w-full max-w-xl rounded-3xl border border-emerald-100 bg-card p-8 text-center shadow-lg sm:p-10">
         <CheckCircle2 className="mx-auto size-14 text-emerald-600" />
-        <h1 className="mt-4 text-3xl font-bold text-slate-900">
+        <h1 className="mt-4 text-3xl font-bold text-foreground">
           Payment Successful
         </h1>
-        <p className="mt-3 text-slate-600">
+        <p className="mt-3 text-muted-foreground">
           Your payment has been processed successfully. Your participation
           request is now pending host approval.
         </p>
         {trxId ? (
-          <p className="mt-2 text-sm text-slate-500">Transaction: {trxId}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Transaction: {trxId}</p>
         ) : null}
         {eventTitle ? (
-          <p className="mt-2 text-sm text-slate-600">Event: {eventTitle}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Event: {eventTitle}</p>
         ) : null}
         {paidAmount > 0 ? (
           <p className="mt-1 text-sm font-semibold text-emerald-700">
@@ -98,7 +98,7 @@ const PaymentSuccessPage = async ({
             <Button
               asChild
               variant="outline"
-              className="border-sky-300 bg-white text-sky-700 hover:bg-sky-50"
+              className="border-sky-300 bg-card text-sky-700 hover:bg-sky-50"
             >
               <Link href={`/events/${eventId}`}>View Event Details</Link>
             </Button>
@@ -106,7 +106,7 @@ const PaymentSuccessPage = async ({
           <Button
             asChild
             variant="outline"
-            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+            className="border-border bg-card text-muted-foreground hover:bg-muted"
           >
             <Link href="/dashboard/my-payments">My Payments</Link>
           </Button>
