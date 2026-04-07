@@ -25,6 +25,17 @@ interface LoginFormProps {
   redirectPath?: string;
 }
 
+const DEMO_CREDENTIALS = {
+  user: {
+    email: 'asadulimran1998@gmail.com',
+    password: 'asad.emran',
+  },
+  admin: {
+    email: 'asadulimran1999@gmail.com',
+    password: 'asad.emran',
+  },
+} as const;
+
 const LoginForm = ({ redirectPath }: LoginFormProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -63,6 +74,14 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
       }
     },
   });
+
+  const applyDemoCredentials = (role: 'user' | 'admin') => {
+    const credentials = DEMO_CREDENTIALS[role];
+    setServerError(null);
+    form.setFieldValue('email', credentials.email);
+    form.setFieldValue('password', credentials.password);
+  };
+
   return (
     <Card className="w-full max-w-md mx-auto shadow-md">
       <CardHeader className="text-center">
@@ -70,6 +89,25 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
         <CardDescription>
           Please enter your credentials to log in.
         </CardDescription>
+
+        <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={() => applyDemoCredentials('user')}
+          >
+            Demo User Login
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={() => applyDemoCredentials('admin')}
+          >
+            Demo Admin Login
+          </Button>
+        </div>
       </CardHeader>
 
       <CardContent>
@@ -164,9 +202,7 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
             <div className="w-full border-t border-gray-300"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-card text-gray-500">
-              Or continue with
-            </span>
+            <span className="px-2 bg-card text-gray-500">Or continue with</span>
           </div>
         </div>
 

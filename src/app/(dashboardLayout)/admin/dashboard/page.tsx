@@ -3,6 +3,7 @@ import { CalendarDays, Shield, Star, UserRound, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getUserInfo } from '@/services/auth.services';
 import { platformServerServices } from '@/services/platform.server.services';
+import AdminDashboardCharts from './AdminDashboardCharts';
 
 const asRecord = (value: unknown): Record<string, unknown> => {
   return value && typeof value === 'object'
@@ -37,7 +38,8 @@ export default async function AdminDashboardPage() {
 
   try {
     const response = await platformServerServices.getAdminStats();
-    const payload = asRecord(response.data);
+    const envelope = asRecord(response.data);
+    const payload = asRecord(envelope.data ?? envelope);
 
     stats = {
       totalUsers: pickNumber(payload.totalUsers),
@@ -69,8 +71,10 @@ export default async function AdminDashboardPage() {
       platformServerServices.getAdminEvents({ page: 1, limit: 5 }),
     ]);
 
-    const usersPayload = asRecord(usersResponse);
-    const eventsPayload = asRecord(eventsResponse);
+    const usersEnvelope = asRecord(usersResponse.data);
+    const eventsEnvelope = asRecord(eventsResponse.data);
+    const usersPayload = asRecord(usersEnvelope.data ?? usersEnvelope);
+    const eventsPayload = asRecord(eventsEnvelope.data ?? eventsEnvelope);
 
     recentUsers = Array.isArray(usersPayload.data) ? usersPayload.data : [];
     recentEvents = Array.isArray(eventsPayload.data) ? eventsPayload.data : [];
@@ -128,6 +132,13 @@ export default async function AdminDashboardPage() {
           );
         })}
       </section>
+
+      <AdminDashboardCharts
+        totalUsers={stats.totalUsers}
+        totalEvents={stats.totalEvents}
+        totalReviews={stats.totalReviews}
+        totalParticipants={stats.totalParticipants}
+      />
 
       <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
         <div className="mb-4 flex items-center gap-2">

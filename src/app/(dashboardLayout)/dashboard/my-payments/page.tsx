@@ -1,7 +1,27 @@
 import { extractArrayPayload, mapParticipation } from '@/lib/apiMappers';
 import { platformServerServices } from '@/services/platform.server.services';
 
-const MyPaymentsPage = async () => {
+type MyPaymentsPageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+const MyPaymentsPage = async ({ searchParams }: MyPaymentsPageProps) => {
+  const resolvedSearchParams = (await searchParams) || {};
+  const searchTerm =
+    typeof resolvedSearchParams.searchTerm === 'string'
+      ? resolvedSearchParams.searchTerm.trim().toLowerCase()
+      : '';
+  const statusFilter =
+    typeof resolvedSearchParams.status === 'string'
+      ? resolvedSearchParams.status.toUpperCase()
+      : '';
+  const pageParam =
+    typeof resolvedSearchParams.page === 'string'
+      ? resolvedSearchParams.page
+      : '1';
+  const page = Math.max(1, Number(pageParam) || 1);
+  const limit = 8;
+
   let paymentRows = [] as ReturnType<typeof mapParticipation>[];
 
   try {
@@ -12,6 +32,39 @@ const MyPaymentsPage = async () => {
   } catch {
     paymentRows = [];
   }
+
+  const filteredRows = paymentRows.filter(row => {
+    const matchesSearch =
+      !searchTerm || row.eventTitle.toLowerCase().includes(searchTerm);
+
+    const normalizedStatus =
+      row.paymentStatus.toUpperCase() === 'PAID'
+        ? 'PAID'
+        : row.status.toUpperCase();
+
+    const matchesStatus =
+      !statusFilter ||
+      statusFilter === 'ALL' ||
+      normalizedStatus.includes(statusFilter);
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const total = filteredRows.length;
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * limit;
+  const paginatedRows = filteredRows.slice(start, start + limit);
+
+  const baseQuery = new URLSearchParams();
+  if (searchTerm) baseQuery.set('searchTerm', searchTerm);
+  if (statusFilter) baseQuery.set('status', statusFilter);
+
+  const getPageHref = (nextPage: number) => {
+    const params = new URLSearchParams(baseQuery.toString());
+    params.set('page', String(nextPage));
+    return `/dashboard/my-payments?${params.toString()}`;
+  };
 
   return (
     <main className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
@@ -25,7 +78,37 @@ const MyPaymentsPage = async () => {
         </header>
 
         <section className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-foreground">Payment History</h2>
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <h2 className="text-xl font-bold text-foreground">
+              Payment History
+            </h2>
+            <form className="grid gap-2 sm:grid-cols-3" method="GET">
+              <input
+                name="searchTerm"
+                defaultValue={searchTerm}
+                placeholder="Search event"
+                className="h-9 rounded-md border border-border bg-background px-3 text-sm"
+              />
+              <select
+                name="status"
+                defaultValue={statusFilter || 'ALL'}
+                className="h-9 rounded-md border border-border bg-background px-3 text-sm"
+              >
+                <option value="ALL">All Status</option>
+                <option value="PAID">Paid</option>
+                <option value="PENDING">Pending</option>
+                <option value="APPROVED">Approved</option>
+                <option value="REJECTED">Rejected</option>
+              </select>
+              <button
+                type="submit"
+                className="h-9 rounded-md bg-primary px-3 text-sm font-medium text-white"
+              >
+                Filter
+              </button>
+            </form>
+          </div>
+
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-160 text-left text-sm">
               <thead className="text-muted-foreground">
@@ -37,7 +120,7 @@ const MyPaymentsPage = async () => {
                 </tr>
               </thead>
               <tbody>
-                {paymentRows.map(row => (
+                {paginatedRows.map(row => (
                   <tr
                     key={`${row.id}-${row.createdAt}`}
                     className="border-t border-border text-muted-foreground"
@@ -72,10 +155,38 @@ const MyPaymentsPage = async () => {
                 ))}
               </tbody>
             </table>
-            {paymentRows.length === 0 ? (
+            {paginatedRows.length === 0 ? (
               <p className="mt-4 text-sm text-muted-foreground">
                 No payment records found yet.
               </p>
+            ) : null}
+
+            {paginatedRows.length > 0 ? (
+              <div className="mt-4 flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  Page {currentPage} of {totalPages}
+                </p>
+                <div className="flex gap-2">
+                  <a
+                    href={getPageHref(Math.max(1, currentPage - 1))}
+                    className={`rounded-md border border-border px-3 py-1.5 text-sm ${
+                      currentPage <= 1 ? 'pointer-events-none opacity-50' : ''
+                    }`}
+                  >
+                    Previous
+                  </a>
+                  <a
+                    href={getPageHref(Math.min(totalPages, currentPage + 1))}
+                    className={`rounded-md border border-border px-3 py-1.5 text-sm ${
+                      currentPage >= totalPages
+                        ? 'pointer-events-none opacity-50'
+                        : ''
+                    }`}
+                  >
+                    Next
+                  </a>
+                </div>
+              </div>
             ) : null}
           </div>
         </section>

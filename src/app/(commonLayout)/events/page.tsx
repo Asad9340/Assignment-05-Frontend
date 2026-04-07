@@ -27,6 +27,35 @@ type EventsPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
+type SortOption =
+  | 'date_desc'
+  | 'date_asc'
+  | 'fee_asc'
+  | 'fee_desc'
+  | 'title_asc'
+  | 'title_desc';
+
+const validSortOptions: SortOption[] = [
+  'date_desc',
+  'date_asc',
+  'fee_asc',
+  'fee_desc',
+  'title_asc',
+  'title_desc',
+];
+
+const getSortValue = (value: string | undefined): SortOption => {
+  if (!value) return 'date_desc';
+  return validSortOptions.includes(value as SortOption)
+    ? (value as SortOption)
+    : 'date_desc';
+};
+
+const getDateTimestamp = (value: string): number => {
+  const ts = Date.parse(value);
+  return Number.isFinite(ts) ? ts : 0;
+};
+
 const EventsPage = async ({ searchParams }: EventsPageProps) => {
   const resolvedSearchParams = (await searchParams) || {};
   const searchTerm =
@@ -45,6 +74,10 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
     typeof resolvedSearchParams.status === 'string'
       ? resolvedSearchParams.status.toUpperCase()
       : '';
+  const sortBy =
+    typeof resolvedSearchParams.sortBy === 'string'
+      ? getSortValue(resolvedSearchParams.sortBy)
+      : 'date_desc';
   const pageParam =
     typeof resolvedSearchParams.page === 'string'
       ? resolvedSearchParams.page
@@ -93,6 +126,17 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
     isError = true;
   }
 
+  events.sort((a, b) => {
+    if (sortBy === 'fee_asc') return a.registrationFee - b.registrationFee;
+    if (sortBy === 'fee_desc') return b.registrationFee - a.registrationFee;
+    if (sortBy === 'title_asc') return a.title.localeCompare(b.title);
+    if (sortBy === 'title_desc') return b.title.localeCompare(a.title);
+    if (sortBy === 'date_asc') {
+      return getDateTimestamp(a.eventDate) - getDateTimestamp(b.eventDate);
+    }
+    return getDateTimestamp(b.eventDate) - getDateTimestamp(a.eventDate);
+  });
+
   const totalPages = Math.max(1, Math.ceil(total / Math.max(1, limit)));
   const baseQuery = new URLSearchParams();
 
@@ -107,6 +151,9 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
   }
   if (statusFilter) {
     baseQuery.set('status', statusFilter);
+  }
+  if (sortBy) {
+    baseQuery.set('sortBy', sortBy);
   }
 
   const getPageHref = (nextPage: number) => {
@@ -130,7 +177,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
           </p>
 
           <form
-            className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-5"
+            className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-6"
             method="GET"
           >
             <input type="hidden" name="page" value="1" />
@@ -173,6 +220,19 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
               <option value="ACTIVE">Active</option>
               <option value="COMPLETED">Completed</option>
               <option value="CANCELLED">Cancelled</option>
+            </select>
+            <select
+              name="sortBy"
+              defaultValue={sortBy}
+              aria-label="Sort events"
+              className="h-11 rounded-md border-0 bg-card px-3 text-foreground"
+            >
+              <option value="date_desc">Sort: Newest</option>
+              <option value="date_asc">Sort: Oldest</option>
+              <option value="fee_asc">Sort: Fee Low to High</option>
+              <option value="fee_desc">Sort: Fee High to Low</option>
+              <option value="title_asc">Sort: Title A-Z</option>
+              <option value="title_desc">Sort: Title Z-A</option>
             </select>
             <Button
               type="submit"
@@ -222,7 +282,7 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
               <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 {event.status}
               </p>
-              <h2 className="mt-4 line-clamp-2 min-h-[3.5rem] text-xl font-bold text-foreground">
+              <h2 className="mt-4 line-clamp-2 min-h-14 text-xl font-bold text-foreground">
                 {event.title}
               </h2>
               <div className="mt-4 space-y-2 text-sm text-muted-foreground">

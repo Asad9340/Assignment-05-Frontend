@@ -3,6 +3,7 @@ import { CalendarDays, CreditCard, Mail, Sparkles, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { platformServerServices } from '@/services/platform.server.services';
 import { getUserInfo } from '@/services/auth.services';
+import UserDashboardCharts from './UserDashboardCharts';
 
 const asRecord = (value: unknown): Record<string, unknown> => {
   return value && typeof value === 'object'
@@ -65,7 +66,8 @@ export default async function UserDashboardPage() {
 
   try {
     const response = await platformServerServices.getDashboardSummary();
-    const payload = asRecord(response.data);
+    const envelope = asRecord(response.data);
+    const payload = asRecord(envelope.data ?? envelope);
 
     summary = {
       myEventsCount: pickNumber(payload.myEventsCount),
@@ -129,6 +131,14 @@ export default async function UserDashboardPage() {
         ))}
       </section>
 
+      <UserDashboardCharts
+        myEventsCount={summary.myEventsCount}
+        myRequestsCount={summary.myRequestsCount}
+        pendingInvitationsCount={summary.pendingInvitationsCount}
+        myReviewsCount={summary.myReviewsCount}
+        pendingApprovalsCount={summary.pendingApprovalsCount}
+      />
+
       <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
         Pending approvals on your events: {summary.pendingApprovalsCount}
       </section>
@@ -155,7 +165,9 @@ export default async function UserDashboardPage() {
                     {action.title}
                   </h3>
                 </div>
-                <p className="text-sm text-muted-foreground">{action.description}</p>
+                <p className="text-sm text-muted-foreground">
+                  {action.description}
+                </p>
                 <Button
                   asChild
                   size="sm"
