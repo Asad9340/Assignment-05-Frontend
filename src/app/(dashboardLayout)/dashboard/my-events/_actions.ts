@@ -10,6 +10,7 @@ export type MyEventPayload = {
   eventTime: string;
   venue?: string;
   eventLink?: string;
+  image?: string;
   visibility: 'PUBLIC' | 'PRIVATE';
   registrationFee?: number;
 };
@@ -69,6 +70,7 @@ const normalizePayload = (payload: MyEventPayload) => {
     description: payload.description.trim(),
     eventDate: payload.eventDate,
     eventTime: payload.eventTime,
+    image: payload.image,
     venue: normalizedVenue,
     eventLink,
     visibility: payload.visibility,
@@ -103,8 +105,23 @@ const getErrorMessage = (error: unknown, fallback: string) => {
 };
 
 export const createMyEventAction = async (
-  payload: MyEventPayload,
+  formData: FormData,
 ): Promise<ActionResult> => {
+  const payload: MyEventPayload = {
+    title: String(formData.get('title') || ''),
+    description: String(formData.get('description') || ''),
+    eventDate: String(formData.get('eventDate') || ''),
+    eventTime: String(formData.get('eventTime') || ''),
+    venue: String(formData.get('venue') || ''),
+    eventLink: String(formData.get('eventLink') || ''),
+    visibility:
+      String(formData.get('visibility') || 'PUBLIC') === 'PRIVATE'
+        ? 'PRIVATE'
+        : 'PUBLIC',
+    registrationFee: Number(String(formData.get('registrationFee') || '0')),
+  };
+
+  const imageFile = formData.get('image');
   const body = normalizePayload(payload);
 
   if (!body.title || body.title.length < 3) {
@@ -147,9 +164,21 @@ export const createMyEventAction = async (
   }
 
   try {
+    const requestBody = new FormData();
+    requestBody.append('data', JSON.stringify(body));
+
+    if (imageFile instanceof File && imageFile.size > 0) {
+      requestBody.append('image', imageFile);
+    }
+
     const response = await serverHttpClient.post<{ id: string }>(
       '/events',
-      body,
+      requestBody,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
     );
 
     revalidatePath('/dashboard/my-events');
@@ -169,8 +198,23 @@ export const createMyEventAction = async (
 
 export const updateMyEventAction = async (
   eventId: string,
-  payload: MyEventPayload,
+  formData: FormData,
 ): Promise<ActionResult> => {
+  const payload: MyEventPayload = {
+    title: String(formData.get('title') || ''),
+    description: String(formData.get('description') || ''),
+    eventDate: String(formData.get('eventDate') || ''),
+    eventTime: String(formData.get('eventTime') || ''),
+    venue: String(formData.get('venue') || ''),
+    eventLink: String(formData.get('eventLink') || ''),
+    visibility:
+      String(formData.get('visibility') || 'PUBLIC') === 'PRIVATE'
+        ? 'PRIVATE'
+        : 'PUBLIC',
+    registrationFee: Number(String(formData.get('registrationFee') || '0')),
+  };
+
+  const imageFile = formData.get('image');
   const body = normalizePayload(payload);
 
   if (!body.title || body.title.length < 3) {
@@ -213,7 +257,18 @@ export const updateMyEventAction = async (
   }
 
   try {
-    await serverHttpClient.patch(`/events/${eventId}`, body);
+    const requestBody = new FormData();
+    requestBody.append('data', JSON.stringify(body));
+
+    if (imageFile instanceof File && imageFile.size > 0) {
+      requestBody.append('image', imageFile);
+    }
+
+    await serverHttpClient.patch(`/events/${eventId}`, requestBody, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
     revalidatePath('/dashboard/my-events');
     revalidatePath(`/dashboard/my-events/${eventId}`);

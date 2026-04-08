@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { CalendarDays, Clock3, MapPin, UserRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -43,6 +44,18 @@ const HomeUpcomingEventsSection = ({
               key={event.id}
               className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
+              {event.image ? (
+                <div className="mb-4 overflow-hidden rounded-xl border border-border">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    width={640}
+                    height={320}
+                    className="h-40 w-full object-cover"
+                  />
+                </div>
+              ) : null}
+
               <div className="mb-4 flex flex-wrap items-center gap-2">
                 <Badge
                   className={

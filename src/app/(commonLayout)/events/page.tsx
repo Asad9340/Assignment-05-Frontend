@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { CalendarDays, UserRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -6,7 +7,7 @@ import { extractArrayPayload, mapEvent } from '@/lib/apiMappers';
 import { platformServerServices } from '@/services/platform.server.services';
 import { getUserInfo } from '@/services/auth.services';
 import EventBookingButton from '@/components/modules/Event/EventBookingButton';
-import AiEventSearchInput from '@/components/modules/Event/AiEventSearchInput';
+import EventFiltersForm from './EventFiltersForm';
 
 const asRecord = (value: unknown): Record<string, unknown> => {
   return value && typeof value === 'object'
@@ -61,12 +62,6 @@ const getDateTimestamp = (value: string): number => {
   const ts = Date.parse(value);
   return Number.isFinite(ts) ? ts : 0;
 };
-
-const filterSelectClassName =
-  'h-11 rounded-md border border-white/20 bg-background/90 px-3 text-foreground shadow-sm md:col-span-2 dark:border-white/20 dark:bg-slate-900/80 dark:text-slate-100';
-
-const filterOptionClassName =
-  'bg-background text-foreground dark:bg-slate-900 dark:text-slate-100';
 
 const EventsPage = async ({ searchParams }: EventsPageProps) => {
   const resolvedSearchParams = (await searchParams) || {};
@@ -196,8 +191,6 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
     return queryString ? `/events?${queryString}` : '/events';
   };
 
-  const resetHref = '/events';
-
   return (
     <main className="min-h-screen bg-background py-14 sm:py-20">
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -208,108 +201,13 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
             fee type, and status.
           </p>
 
-          <form className="mt-6 space-y-3" method="GET">
-            <input type="hidden" name="page" value="1" />
-            <div className="grid gap-3 md:grid-cols-12">
-              <AiEventSearchInput
-                name="searchTerm"
-                defaultValue={searchTerm}
-                placeholder="Search by title, organizer, or venue"
-              />
-              <select
-                name="visibility"
-                defaultValue={visibilityFilter}
-                aria-label="Filter by visibility"
-                className={filterSelectClassName}
-              >
-                <option value="" className={filterOptionClassName}>
-                  All Visibility
-                </option>
-                <option value="PUBLIC" className={filterOptionClassName}>
-                  Public
-                </option>
-                <option value="PRIVATE" className={filterOptionClassName}>
-                  Private
-                </option>
-              </select>
-              <select
-                name="feeType"
-                defaultValue={feeTypeFilter}
-                aria-label="Filter by fee type"
-                className={filterSelectClassName}
-              >
-                <option value="" className={filterOptionClassName}>
-                  All Fee Types
-                </option>
-                <option value="FREE" className={filterOptionClassName}>
-                  Free
-                </option>
-                <option value="PAID" className={filterOptionClassName}>
-                  Paid
-                </option>
-              </select>
-              <select
-                name="status"
-                defaultValue={statusFilter}
-                aria-label="Filter by status"
-                className={filterSelectClassName}
-              >
-                <option value="" className={filterOptionClassName}>
-                  All Status
-                </option>
-                <option value="ACTIVE" className={filterOptionClassName}>
-                  Active
-                </option>
-                <option value="COMPLETED" className={filterOptionClassName}>
-                  Completed
-                </option>
-                <option value="CANCELLED" className={filterOptionClassName}>
-                  Cancelled
-                </option>
-              </select>
-              <select
-                name="sortBy"
-                defaultValue={sortBy}
-                aria-label="Sort events"
-                className={filterSelectClassName}
-              >
-                <option value="date_desc" className={filterOptionClassName}>
-                  Sort: Newest
-                </option>
-                <option value="date_asc" className={filterOptionClassName}>
-                  Sort: Oldest
-                </option>
-                <option value="fee_asc" className={filterOptionClassName}>
-                  Sort: Fee Low to High
-                </option>
-                <option value="fee_desc" className={filterOptionClassName}>
-                  Sort: Fee High to Low
-                </option>
-                <option value="title_asc" className={filterOptionClassName}>
-                  Sort: Title A-Z
-                </option>
-                <option value="title_desc" className={filterOptionClassName}>
-                  Sort: Title Z-A
-                </option>
-              </select>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              <Button
-                type="submit"
-                className="h-10 min-w-28 bg-orange-500 text-white hover:bg-orange-400"
-              >
-                Apply Filters
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="h-10 min-w-28 border-border bg-transparent text-primary-foreground hover:bg-primary/80 dark:text-foreground dark:hover:bg-muted"
-              >
-                <Link href={resetHref}>Reset</Link>
-              </Button>
-            </div>
-          </form>
+          <EventFiltersForm
+            searchTerm={searchTerm}
+            visibilityFilter={visibilityFilter}
+            feeTypeFilter={feeTypeFilter}
+            statusFilter={statusFilter}
+            sortBy={sortBy}
+          />
 
           {trendingSearches.length > 0 ? (
             <div className="mt-4">
@@ -355,6 +253,18 @@ const EventsPage = async ({ searchParams }: EventsPageProps) => {
               key={event.id}
               className="rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
+              {event.image ? (
+                <div className="mb-4 overflow-hidden rounded-xl border border-border">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    width={640}
+                    height={320}
+                    className="h-44 w-full object-cover"
+                  />
+                </div>
+              ) : null}
+
               <div className="flex items-center justify-between gap-2">
                 <Badge className="bg-primary text-white">{`${event.visibility} ${event.feeType}`}</Badge>
                 <p className="text-sm font-semibold text-orange-600">

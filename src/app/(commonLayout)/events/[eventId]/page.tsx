@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getUserInfo } from '@/services/auth.services';
 import EventParticipationActions from '@/components/modules/Event/EventParticipationActions';
 import { extractArrayPayload, mapEvent, mapReview } from '@/lib/apiMappers';
@@ -81,6 +82,18 @@ const EventDetailsPage = async ({ params }: EventDetailsPageProps) => {
     <main className="min-h-screen bg-background py-14 sm:py-20">
       <section className="mx-auto grid w-full max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
         <article className="rounded-3xl bg-card p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
+          {event.image ? (
+            <div className="mb-6 overflow-hidden rounded-2xl border border-border">
+              <Image
+                src={event.image}
+                alt={event.title}
+                width={1200}
+                height={640}
+                className="h-64 w-full object-cover sm:h-80"
+              />
+            </div>
+          ) : null}
+
           <div className="flex flex-wrap items-center gap-2">
             <Badge className="bg-sky-100 text-sky-700">
               {event.visibility}

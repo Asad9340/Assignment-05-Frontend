@@ -5,6 +5,7 @@ export type EventStatus = 'ACTIVE' | 'COMPLETED' | 'CANCELLED' | string;
 export interface EventViewModel {
   id: string;
   ownerId?: string;
+  image?: string;
   title: string;
   description: string;
   eventDate: string;

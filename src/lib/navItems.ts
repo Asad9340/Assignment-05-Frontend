@@ -112,6 +112,7 @@ export const getNavItemsByRole = (role: UserRole): NavSection[] => {
   const commonNavItems = getCommonNavItems(role);
 
   switch (role) {
+    case 'SUPER_ADMIN':
     case 'ADMIN':
       return [...commonNavItems, ...adminNavItems];
 

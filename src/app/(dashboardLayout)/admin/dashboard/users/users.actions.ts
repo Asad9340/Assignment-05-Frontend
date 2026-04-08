@@ -30,10 +30,20 @@ export async function fetchAdminStatsAction() {
   }
 }
 
+export async function fetchCurrentUserAction() {
+  try {
+    const response = await platformServerServices.getMyProfile();
+    return { success: true, data: response?.data };
+  } catch (error: unknown) {
+    console.error('fetchCurrentUserAction error:', error);
+    return { success: false, error: getErrorMessage(error) };
+  }
+}
+
 export async function updateAdminUserAction(
   userId: string,
   payload: {
-    role?: 'ADMIN' | 'USER';
+    role?: 'SUPER_ADMIN' | 'ADMIN' | 'USER';
     status?: 'ACTIVE' | 'BLOCKED' | 'DELETED';
   },
 ) {

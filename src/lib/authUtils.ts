@@ -1,4 +1,4 @@
-export type UserRole = 'ADMIN' | 'USER';
+export type UserRole = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
 
 export const authRoutes = [
   '/login',
@@ -58,7 +58,7 @@ export const getRouteOwner = (
 };
 
 export const getDefaultDashboardRoute = (role: UserRole) => {
-  if (role === 'ADMIN') {
+  if (role === 'SUPER_ADMIN' || role === 'ADMIN') {
     return '/admin/dashboard';
   }
 
@@ -80,6 +80,10 @@ export const isValidRedirectForRole = (
   }
 
   if (routeOwner === role) {
+    return true;
+  }
+
+  if (routeOwner === 'ADMIN' && role === 'SUPER_ADMIN') {
     return true;
   }
 

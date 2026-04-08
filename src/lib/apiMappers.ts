@@ -91,6 +91,7 @@ export const mapEvent = (input: unknown): EventViewModel => {
   return {
     id: pickString(item.id, pickString(item._id, '')),
     ownerId: pickString(item.ownerId, pickString(owner.id, '')),
+    image: pickString(item.image),
     title: pickString(item.title, 'Untitled event'),
     description: pickString(item.description, 'No description available.'),
     eventDate: dateTimeParts.date,

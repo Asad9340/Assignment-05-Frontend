@@ -37,6 +37,7 @@ type MyEventFormProps = {
 const defaultValues: MyEventPayload = {
   title: '',
   description: '',
+  image: '',
   eventDate: '',
   eventTime: '',
   venue: '',
@@ -61,6 +62,7 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
     type: 'success' | 'error';
     message: string;
   } | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const selectedDate = useMemo(() => {
     if (!form.eventDate) {
       return undefined;
@@ -75,16 +77,32 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
     setFeedback(null);
 
     startTransition(async () => {
+      const payload = {
+        ...form,
+        registrationFee: eventType === 'FREE' ? 0 : form.registrationFee,
+      };
+
+      const eventFormData = new FormData();
+      eventFormData.append('title', payload.title);
+      eventFormData.append('description', payload.description);
+      eventFormData.append('eventDate', payload.eventDate);
+      eventFormData.append('eventTime', payload.eventTime);
+      eventFormData.append('venue', payload.venue || '');
+      eventFormData.append('eventLink', payload.eventLink || '');
+      eventFormData.append('visibility', payload.visibility);
+      eventFormData.append(
+        'registrationFee',
+        String(payload.registrationFee || 0),
+      );
+
+      if (imageFile) {
+        eventFormData.append('image', imageFile);
+      }
+
       const result =
         mode === 'create'
-          ? await createMyEventAction({
-              ...form,
-              registrationFee: eventType === 'FREE' ? 0 : form.registrationFee,
-            })
-          : await updateMyEventAction(eventId as string, {
-              ...form,
-              registrationFee: eventType === 'FREE' ? 0 : form.registrationFee,
-            });
+          ? await createMyEventAction(eventFormData)
+          : await updateMyEventAction(eventId as string, eventFormData);
 
       setFeedback({
         type: result.success ? 'success' : 'error',
@@ -137,6 +155,26 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
             />
           </div>
 
+          <div className="space-y-2 md:col-span-2">
+            <Label htmlFor="event-image">Event Image</Label>
+            <Input
+              id="event-image"
+              type="file"
+              accept="image/*"
+              onChange={event => {
+                const file = event.target.files?.[0] || null;
+                setImageFile(file);
+              }}
+              className="h-11"
+              disabled={isPending}
+            />
+            {form.image ? (
+              <p className="text-xs text-muted-foreground">
+                Current image is set. Upload a new one to replace it.
+              </p>
+            ) : null}
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="event-date">Event Date</Label>
             <Popover>
@@ -172,7 +210,9 @@ const MyEventForm = ({ mode, eventId, initialValues }: MyEventFormProps) => {
               </PopoverContent>
             </Popover>
             {!form.eventDate ? (
-              <p className="text-xs text-muted-foreground">Please choose a date.</p>
+              <p className="text-xs text-muted-foreground">
+                Please choose a date.
+              </p>
             ) : null}
           </div>
 

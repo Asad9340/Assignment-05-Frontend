@@ -17,6 +17,7 @@ const toHomeEvent = (input: ReturnType<typeof mapEvent>): HomeEvent => {
   return {
     id: input.id || `event-${Date.now()}`,
     title: input.title,
+    image: input.image,
     description: input.description,
     date: input.eventDate,
     time: input.eventTime,
@@ -50,7 +51,7 @@ export default async function HomePage() {
       {/* 1 */}
       <HomeHeroSection event={featured} />
       {/* 2 */}
-      <HomeEventStatsSection events={upcoming} />
+      <HomeEventStatsSection events={dynamicEvents} />
       {/* 3 */}
       <HomeHighlightsSection />
       {/* 4 */}

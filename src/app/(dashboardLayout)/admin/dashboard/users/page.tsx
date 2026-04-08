@@ -5,7 +5,11 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import AdminUserRowActions from '@/components/modules/Dashboard/AdminUserRowActions';
 import { extractArrayPayload } from '@/lib/apiMappers';
-import { fetchAdminUsersAction, fetchAdminStatsAction } from './users.actions';
+import {
+  fetchAdminUsersAction,
+  fetchAdminStatsAction,
+  fetchCurrentUserAction,
+} from './users.actions';
 
 const asRecord = (value: unknown): Record<string, unknown> => {
   return value && typeof value === 'object'
@@ -37,7 +41,7 @@ type TUserRecord = {
   name: string;
   email: string;
   status: 'ACTIVE' | 'BLOCKED' | 'DELETED' | string;
-  role: 'ADMIN' | 'USER' | string;
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'USER' | string;
   _count?: {
     events?: number;
     eventParticipants?: number;
@@ -58,6 +62,9 @@ const UserManagementPage = () => {
   const [totalUsersOverall, setTotalUsersOverall] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [currentUserRole, setCurrentUserRole] = useState<
+    'SUPER_ADMIN' | 'ADMIN' | 'USER'
+  >('ADMIN');
 
   const fetchUsers = useCallback(async () => {
     setIsLoading(true);
@@ -124,6 +131,24 @@ const UserManagementPage = () => {
     fetchStats();
   }, [fetchStats]);
 
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const result = await fetchCurrentUserAction();
+
+      if (!result.success) {
+        return;
+      }
+
+      const role = pickString(asRecord(result.data).role).toUpperCase();
+
+      if (role === 'SUPER_ADMIN' || role === 'ADMIN' || role === 'USER') {
+        setCurrentUserRole(role);
+      }
+    };
+
+    fetchCurrentUser();
+  }, []);
+
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setPage(1);
@@ -154,7 +179,10 @@ const UserManagementPage = () => {
     );
   };
 
-  const handleRoleUpdated = (userId: string, nextRole: 'ADMIN' | 'USER') => {
+  const handleRoleUpdated = (
+    userId: string,
+    nextRole: 'SUPER_ADMIN' | 'ADMIN' | 'USER',
+  ) => {
     setUsers(prev =>
       prev.map(user =>
         user.id === userId
@@ -250,6 +278,7 @@ const UserManagementPage = () => {
             <option value="">All Roles</option>
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
+            <option value="SUPER_ADMIN">Super Admin</option>
           </select>
           <Button
             type="button"
@@ -309,6 +338,7 @@ const UserManagementPage = () => {
                     userId={userId}
                     status={pickString(user.status)}
                     role={pickString(user.role)}
+                    currentUserRole={currentUserRole}
                     onStatusUpdated={handleStatusUpdated}
                     onRoleUpdated={handleRoleUpdated}
                   />

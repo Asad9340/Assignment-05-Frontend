@@ -64,6 +64,7 @@ const EditMyEventPage = async ({ searchParams }: EditEventPageProps) => {
   let initialValues = {
     title: '',
     description: '',
+    image: '',
     eventDate: '',
     eventTime: '',
     venue: '',
@@ -81,6 +82,7 @@ const EditMyEventPage = async ({ searchParams }: EditEventPageProps) => {
     initialValues = {
       title: pickString(event.title),
       description: pickString(event.description),
+      image: pickString(event.image),
       eventDate:
         parsedDate && !Number.isNaN(parsedDate.getTime())
           ? parsedDate.toISOString().slice(0, 10)

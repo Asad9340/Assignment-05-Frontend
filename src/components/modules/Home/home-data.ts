@@ -4,6 +4,7 @@ export type EventFeeType = 'Free' | 'Paid';
 export type HomeEvent = {
   id: string | number;
   title: string;
+  image?: string;
   description?: string;
   date: string;
   time?: string;

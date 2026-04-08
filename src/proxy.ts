@@ -171,7 +171,11 @@ export async function proxy(request: NextRequest) {
 
     // Rule 7: Role-based route protection
     if (routerOwner === 'ADMIN' || routerOwner === 'USER') {
-      if (routerOwner !== userRole) {
+      const hasAccess =
+        routerOwner === userRole ||
+        (routerOwner === 'ADMIN' && userRole === 'SUPER_ADMIN');
+
+      if (!hasAccess) {
         return NextResponse.redirect(
           new URL(getDefaultDashboardRoute(userRole as UserRole), request.url),
         );

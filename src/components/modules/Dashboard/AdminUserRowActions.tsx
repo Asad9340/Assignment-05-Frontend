@@ -8,14 +8,19 @@ type AdminUserRowActionsProps = {
   userId: string;
   status: string;
   role?: string;
+  currentUserRole?: 'SUPER_ADMIN' | 'ADMIN' | 'USER';
   onStatusUpdated?: (userId: string, nextStatus: 'ACTIVE' | 'BLOCKED') => void;
-  onRoleUpdated?: (userId: string, nextRole: 'ADMIN' | 'USER') => void;
+  onRoleUpdated?: (
+    userId: string,
+    nextRole: 'SUPER_ADMIN' | 'ADMIN' | 'USER',
+  ) => void;
 };
 
 const AdminUserRowActions = ({
   userId,
   status,
   role,
+  currentUserRole,
   onStatusUpdated,
   onRoleUpdated,
 }: AdminUserRowActionsProps) => {
@@ -24,7 +29,11 @@ const AdminUserRowActions = ({
     status.toUpperCase() === 'BLOCKED' ? 'BLOCKED' : 'ACTIVE',
   );
   const [selectedRole, setSelectedRole] = useState(
-    role?.toUpperCase() === 'ADMIN' ? 'ADMIN' : 'USER',
+    role?.toUpperCase() === 'SUPER_ADMIN'
+      ? 'SUPER_ADMIN'
+      : role?.toUpperCase() === 'ADMIN'
+        ? 'ADMIN'
+        : 'USER',
   );
   const [feedback, setFeedback] = useState<{
     type: 'success' | 'error';
@@ -33,16 +42,31 @@ const AdminUserRowActions = ({
 
   const normalizedStatus = status.toUpperCase();
   const normalizedRole = (role || '').toUpperCase();
+  const normalizedCurrentUserRole = (currentUserRole || '').toUpperCase();
+  const isSuperAdminActor = normalizedCurrentUserRole === 'SUPER_ADMIN';
   const isAdminUser = normalizedRole === 'ADMIN';
+  const isSuperAdminUser = normalizedRole === 'SUPER_ADMIN';
 
   const runAction = () => {
     setFeedback(null);
 
     startTransition(async () => {
       try {
+        const payload: {
+          status?: 'ACTIVE' | 'BLOCKED';
+          role?: 'SUPER_ADMIN' | 'ADMIN' | 'USER';
+        } = {};
+
+        if (selectedStatus !== normalizedStatus) {
+          payload.status = selectedStatus as 'ACTIVE' | 'BLOCKED';
+        }
+
+        if (selectedRole !== (normalizedRole || 'USER')) {
+          payload.role = selectedRole as 'SUPER_ADMIN' | 'ADMIN' | 'USER';
+        }
+
         const response = await updateAdminUserAction(userId, {
-          status: selectedStatus as 'ACTIVE' | 'BLOCKED',
-          role: selectedRole as 'ADMIN' | 'USER',
+          ...payload,
         });
 
         if (!response.success) {
@@ -54,7 +78,10 @@ const AdminUserRowActions = ({
           message: 'User role and status updated successfully.',
         });
         onStatusUpdated?.(userId, selectedStatus as 'ACTIVE' | 'BLOCKED');
-        onRoleUpdated?.(userId, selectedRole as 'ADMIN' | 'USER');
+        onRoleUpdated?.(
+          userId,
+          selectedRole as 'SUPER_ADMIN' | 'ADMIN' | 'USER',
+        );
       } catch {
         setFeedback({
           type: 'error',
@@ -64,12 +91,29 @@ const AdminUserRowActions = ({
     });
   };
 
-  if (isAdminUser) {
+  if (isSuperAdminUser) {
     return (
       <div className="space-y-2">
         <p className="text-xs font-semibold text-rose-500">
-          Admin accounts cannot have their role or status modified by another
-          admin.
+          Super admin accounts cannot be modified from this panel.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <p className="flex h-9 items-center rounded-md border border-border bg-muted px-2 text-xs font-semibold text-muted-foreground">
+            Role: SUPER_ADMIN
+          </p>
+          <p className="flex h-9 items-center rounded-md border border-border bg-muted px-2 text-xs font-semibold text-muted-foreground">
+            Status: {normalizedStatus}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAdminUser && !isSuperAdminActor) {
+    return (
+      <div className="space-y-2">
+        <p className="text-xs font-semibold text-rose-500">
+          Only super admin can demote admin accounts to user.
         </p>
         <div className="flex flex-wrap gap-2">
           <p className="flex h-9 items-center rounded-md border border-border bg-muted px-2 text-xs font-semibold text-muted-foreground">
@@ -108,7 +152,7 @@ const AdminUserRowActions = ({
           onChange={event => setSelectedRole(event.target.value)}
         >
           <option value="USER">USER</option>
-          <option value="ADMIN">ADMIN</option>
+          {!isAdminUser ? <option value="ADMIN">ADMIN</option> : null}
         </select>
         <Button
           type="button"

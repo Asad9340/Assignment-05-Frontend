@@ -44,7 +44,7 @@ export const platformServerServices = {
   updateAdminUser: async (
     userId: string,
     payload: {
-      role?: 'ADMIN' | 'USER';
+      role?: 'SUPER_ADMIN' | 'ADMIN' | 'USER';
       status?: 'ACTIVE' | 'BLOCKED' | 'DELETED';
     },
   ) => {
