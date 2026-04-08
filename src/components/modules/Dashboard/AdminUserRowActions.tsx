@@ -152,7 +152,9 @@ const AdminUserRowActions = ({
           onChange={event => setSelectedRole(event.target.value)}
         >
           <option value="USER">USER</option>
-          {!isAdminUser ? <option value="ADMIN">ADMIN</option> : null}
+          {!isAdminUser || isSuperAdminActor ? (
+            <option value="ADMIN">ADMIN</option>
+          ) : null}
         </select>
         <Button
           type="button"
