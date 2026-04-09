@@ -6,6 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import QueryProviders from '@/providers/QueryProvider';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeProvider from '@/providers/ThemeProvider';
+import GlobalChatbot from '@/components/shared/GlobalChatbot';
 
 const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           >
             <TooltipProvider>
               {children}
+              <GlobalChatbot />
               <Toaster richColors position="top-right" />
             </TooltipProvider>
           </ThemeProvider>

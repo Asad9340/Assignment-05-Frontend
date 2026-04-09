@@ -87,6 +87,9 @@ pnpm install
 NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api/v1
 ```
 
+> Chatbot note: the floating assistant calls backend endpoint
+> `/api/v1/chatbot/message`, so configure DeepSeek variables in backend `.env`.
+
 ### 3. Run development server
 
 ```bash

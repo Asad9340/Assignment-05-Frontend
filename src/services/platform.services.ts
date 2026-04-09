@@ -107,4 +107,14 @@ export const platformServices = {
       {},
     );
   },
+
+  chatWithAssistant: async (payload: {
+    message: string;
+    history?: Array<{
+      role: 'user' | 'assistant';
+      content: string;
+    }>;
+  }) => {
+    return httpClient.post<unknown>('/chatbot/message', payload);
+  },
 };
